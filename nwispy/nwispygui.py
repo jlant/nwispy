@@ -6,7 +6,8 @@
  
 :Email: jlant@usgs.gov
 
-:Purpose: Script that creates an interactive plot of an NWIS data file. User can 
+:Purpose: 
+Script that creates an interactive plot of an NWIS data file. User can 
 interact with the plot via a SpanSelector mouse widget. A toggle key event handler 
 exists for the matplotlib SpanSelector widget. A keypress of 'A' or 'a' actives the 
 slider and a keypress of 'Q' or 'q' de-activates the slider.
@@ -83,11 +84,11 @@ if nwis_file:
     
     try:
         # process file    
-        nwis_data = nwis.read_nwis(nwis_file)
+        nwis_data = nwispy.read_nwis(nwis_file)
         
         # print relevant information
         print '** USGS NWIS File Information **'
-        nwis.print_nwis(nwis_data = nwis_data)
+        nwispy.print_nwis(nwis_data = nwis_data)
     
         dates = nwis_data['dates']
         parameter = nwis_data['parameters'][0]
