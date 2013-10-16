@@ -373,7 +373,7 @@ def plot_nwis(nwis_data, is_visible = True, save_path = None):
             # set the size of the figure to be saved
             curr_fig = plt.gcf()
             curr_fig.set_size_inches(12, 10)
-            plt.savefig(save_path + '/' + parameter['description'] + '.png', dpi = 100)
+            plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + parameter['description']  + '.png', dpi = 100)
             
         # show plots
         if is_visible:
