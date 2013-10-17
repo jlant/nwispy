@@ -27,6 +27,9 @@ nwispy
 	
 			http://waterdata.usgs.gov/nwis/rt
 
+	This software is provisional. The intended use of the software is to analyze and process USGS 
+	NWIS data files.
+			
 **AUTHORS**
 
 	Jeremiah Lant

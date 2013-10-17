@@ -8,6 +8,9 @@ i.e. discharge, gage height, temperature, sediement concentration, etc. **nwispy
 contains a gui that allows users to interact and query a timeseries of a particular hydrologic 
 parameter from a USGS NWIS.
 
+This software is provisional. The intended use of the software is to analyze and process USGS 
+NWIS data files.
+
 Details
 -------
 
