@@ -20,11 +20,15 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import logging
 
-def read_nwis(filename):
+# my modules
+import helpers
+
+
+def read_file(filename):
     """    
-    Open NWIS file, create a file object for read_nwis_in(filestream) to process.
+    Open NWIS file, create a file object for read_file_in(filestream) to process.
     This function is responsible to opening the file, removing the file opening  
-    responsibility from read_nwis_in(filestream) so that read_nwis_in(filestream)  
+    responsibility from read_file_in(filestream) so that read_file_in(filestream)  
     can be unit tested.
     
     *Parameters:*
@@ -36,12 +40,12 @@ def read_nwis(filename):
     """
     
     filestream = open(filename, 'r')
-    data = read_nwis_in(filestream)
+    data = read_file_in(filestream)
     filestream.close()
     
     return data
 
-def read_nwis_in(filestream):
+def read_file_in(filestream):
     """    
     Read and process a USGS NWIS file. Finds any parameter and its respective data. 
     Relevant data is put into a dictionary (see Return section).  Missing data values
@@ -160,7 +164,7 @@ def read_nwis_in(filestream):
             for parameter in data['parameters']:
                 value = match_data_row.group(0).split('\t')[parameter['index']]
                 
-                if not is_float(value):
+                if not helpers.is_float(value):
                     if value == "":
                         error_str = '**Missing value on ' + str(date) + ' *Filling with Not A Number (NAN)'
                         print error_str
@@ -278,30 +282,10 @@ def get_date(daily, instantaneous):
     
     return date
 
-def is_float(value):
-    """   
-    Determine if string value can be converted to a float. Return True if
-    value can be converted to a float and False otherwise.
-    
-    *Parameters*:
-        value: string
-        
-    *Return*:
-        boolean
-        
-    """
-    
-    try:
-        float(value)
-        return True
-        
-    except ValueError:
-        return False
 
-
-def print_nwis(nwis_data):
+def print_info(nwis_data):
     """   
-    Print relevant information and contained in the nwis data 
+    Print relevant information and contained in the nwis data file. 
     
     *Parameters*:
         nwis_data: dictionary holding data from NWIS file
@@ -320,7 +304,7 @@ def print_nwis(nwis_data):
     for parameter in nwis_data['parameters']:
         print parameter['description']
 
-def plot_nwis(nwis_data, is_visible = True, save_path = None):
+def plot_data(nwis_data, is_visible = True, save_path = None):
     """   
     Plot each parameter contained in the nwis data. Save plots to a particular
     path.
@@ -416,19 +400,19 @@ def main():
             print ''
             print '** Processing **'
             print nwis_file
-            nwis_data = read_nwis(nwis_file)
+            nwis_data = read_file(nwis_file)
             
             
             # print nwis information
             print ''
             print '** USGS NWIS File Information **'
-            print_nwis(nwis_data = nwis_data)
+            print_info(nwis_data = nwis_data)
             
             # plot nwis parameters
             print ''
             print '** Plotting **'
             print 'Plots are being saved to same directory as NWIS data file.'
-            plot_nwis(nwis_data, is_visible = True, save_path = figs_path)
+            plot_data(nwis_data, is_visible = True, save_path = figs_path)
 
             # shutdown the logging system
             logging.shutdown()

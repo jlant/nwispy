@@ -84,11 +84,11 @@ if nwis_file:
     
     try:
         # process file    
-        nwis_data = nwispy.read_nwis(nwis_file)
+        nwis_data = nwispy.read_file(nwis_file)
         
         # print relevant information
         print '** USGS NWIS File Information **'
-        nwispy.print_nwis(nwis_data = nwis_data)
+        nwispy.print_info(nwis_data = nwis_data)
     
         dates = nwis_data['dates']
         parameter = nwis_data['parameters'][0]
