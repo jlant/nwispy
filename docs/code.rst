@@ -10,3 +10,8 @@ nwispygui
 ---------
 .. automodule:: nwispygui
    :members:   
+
+helpers
+---------
+.. automodule:: helpers
+   :members:
