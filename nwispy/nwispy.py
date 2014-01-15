@@ -23,7 +23,166 @@ import logging
 # my modules
 import helpers
 
+def get_parameter_code(match):
+    """   
+    Get code and description from existing parameters.
+    
+    *Parameters*:
+        match: regular expression match object
+        
+    *Return*:
+        (code, description): tuple of code and description
+    
+    *Example*:
+        string:  '#    06   00060     00003     Discharge, cubic feet per second (Mean)'
+        
+        match.groups(0):  ('#', '06', '00060', '00003', '     Discharge, cubic feet per second (Mean)')
+        
+        match.group(1) = '#'
+        
+        match.group(2) = '06'
+        
+        match.group(3) = '00060'
+        
+        match.group(4) = '00003'
+        
+        match.group(5) = 'Discharge, cubic feet per second (Mean)'
+        
+    """ 
+    
+    # get the proper information from each group
+    dd = match.group(2)
+    param = match.group(3)
+    
+    # concatenate dd and param using '_' as in the column names
+    code = '_'.join((dd, param))            
+    
+    # get parameter description
+    description = match.group(5).strip()    
+    
+    # if statistic exists, then add that to the string
+    if match.group(4):
+        statistic =  match.group(4).strip()
+        
+        code = '_'.join((code, statistic)) 
+   
+    return (code, description)
 
+
+def get_date(daily, instantaneous):
+    """   
+    Parse the date strings from a data row.
+    
+    *Parameters*:
+        daily: string of daily format; i.e. 2013-06-25
+        
+        intantaneous: string of intantaneous format; i.e. 00:15\tEDT
+    
+    *Return*:
+        date: datetime object   
+        
+    """
+    
+    # get date from the data row
+    year = daily.split('-')[0]
+    month = daily.split('-')[1]
+    day = daily.split('-')[2]
+    hour = 0
+    minute = 0
+    
+    # if data row has a date in instantaneous format, then get hour and minute after removing the 'EDT'
+    if instantaneous:
+        instantaneous = instantaneous.split('\t')[0]
+        hour = instantaneous.split(':')[0]
+        minute = instantaneous.split(':')[1]
+                
+    date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
+    
+    return date
+
+def print_info(nwis_data):
+    """   
+    Print relevant information and contained in the nwis data file. 
+    
+    *Parameters*:
+        nwis_data: dictionary holding data from NWIS file
+        
+    *Return*:
+        no return
+        
+    """   
+    
+    # print relevant information
+    print 'Date retrieved: ', nwis_data['date_retrieved']
+    print 'Gage name: ', nwis_data['gage_name']
+    print 'Timestep: ', nwis_data['timestep']
+    
+    print 'The following are the parameters avaiable in the file:'
+    for parameter in nwis_data['parameters']:
+        print parameter['description']
+
+def plot_data(nwis_data, is_visible = True, save_path = None):
+    """   
+    Plot each parameter contained in the nwis data. Save plots to a particular
+    path.
+    
+    *Parameters*:
+        nwis_data: dictionary holding data from NWIS file
+        
+        save_path: string path to save plot(s) 
+        
+    *Return*:
+        no return
+        
+    """
+    
+    for parameter in nwis_data['parameters']:
+        
+        fig = plt.figure(figsize=(12,10))
+        ax = fig.add_subplot(111)
+        ax.grid(True)
+        ax.set_title(nwis_data['gage_name'] + ' (' + nwis_data['timestep'] + ')')
+        ax.set_xlabel('Date')
+        ax.set_ylabel(parameter['description'])
+        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', label = parameter['description'])
+    
+        # rotate and align the tick labels so they look better
+        fig.autofmt_xdate()
+        
+        # use a more precise date string for the x axis locations in the
+        # toolbar
+        ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
+     
+        # legend; make it transparent    
+        handles, labels = ax.get_legend_handles_labels()
+        legend = ax.legend(handles, labels, fancybox = True)
+        legend.get_frame().set_alpha(0.5)
+        legend.draggable(state=True)
+        
+        # show text of mean, max, min values on graph; use matplotlib.patch.Patch properies and bbox
+        text = 'mean = %.2f\nmax = %.2f\nmin = %.2f' % (parameter['mean'], parameter['max'], parameter['min'])
+        patch_properties = {'boxstyle': 'round',
+                            'facecolor': 'wheat',
+                            'alpha': 0.5
+                            }
+                       
+        ax.text(0.05, 0.95, text, transform = ax.transAxes, fontsize = 14, 
+                verticalalignment = 'top', horizontalalignment = 'left', bbox = patch_properties)
+        
+        # save plots
+        if save_path:        
+            # set the size of the figure to be saved
+            curr_fig = plt.gcf()
+            curr_fig.set_size_inches(12, 10)
+            plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + parameter['description']  + '.png', dpi = 100)
+            
+        # show plots
+        if is_visible:
+            plt.show()
+        else:
+            plt.close()
+ 
+        
 def read_file(filename):
     """    
     Open NWIS file, create a file object for read_file_in(filestream) to process.
@@ -204,168 +363,7 @@ def read_file_in(filestream):
         
     return data 
 
-    
-def get_parameter_code(match):
-    """   
-    Get code and description from existing parameters.
-    
-    *Parameters*:
-        match: regular expression match object
-        
-    *Return*:
-        (code, description): tuple of code and description
-    
-    *Example*:
-        string:  '#    06   00060     00003     Discharge, cubic feet per second (Mean)'
-        
-        match.groups(0):  ('#', '06', '00060', '00003', '     Discharge, cubic feet per second (Mean)')
-        
-        match.group(1) = '#'
-        
-        match.group(2) = '06'
-        
-        match.group(3) = '00060'
-        
-        match.group(4) = '00003'
-        
-        match.group(5) = 'Discharge, cubic feet per second (Mean)'
-        
-    """ 
-    
-    # get the proper information from each group
-    dd = match.group(2)
-    param = match.group(3)
-    
-    # concatenate dd and param using '_' as in the column names
-    code = '_'.join((dd, param))            
-    
-    # get parameter description
-    description = match.group(5).strip()    
-    
-    # if statistic exists, then add that to the string
-    if match.group(4):
-        statistic =  match.group(4).strip()
-        
-        code = '_'.join((code, statistic)) 
-   
-    return (code, description)
 
-
-def get_date(daily, instantaneous):
-    """   
-    Parse the date strings from a data row.
-    
-    *Parameters*:
-        daily: string of daily format; i.e. 2013-06-25
-        
-        intantaneous: string of intantaneous format; i.e. 00:15\tEDT
-    
-    *Return*:
-        date: datetime object   
-        
-    """
-    
-    # get date from the data row
-    year = daily.split('-')[0]
-    month = daily.split('-')[1]
-    day = daily.split('-')[2]
-    hour = 0
-    minute = 0
-    
-    # if data row has a date in instantaneous format, then get hour and minute after removing the 'EDT'
-    if instantaneous:
-        instantaneous = instantaneous.split('\t')[0]
-        hour = instantaneous.split(':')[0]
-        minute = instantaneous.split(':')[1]
-                
-    date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
-    
-    return date
-
-
-def print_info(nwis_data):
-    """   
-    Print relevant information and contained in the nwis data file. 
-    
-    *Parameters*:
-        nwis_data: dictionary holding data from NWIS file
-        
-    *Return*:
-        no return
-        
-    """   
-    
-    # print relevant information
-    print 'Date retrieved: ', nwis_data['date_retrieved']
-    print 'Gage name: ', nwis_data['gage_name']
-    print 'Timestep: ', nwis_data['timestep']
-    
-    print 'The following are the parameters avaiable in the file:'
-    for parameter in nwis_data['parameters']:
-        print parameter['description']
-
-def plot_data(nwis_data, is_visible = True, save_path = None):
-    """   
-    Plot each parameter contained in the nwis data. Save plots to a particular
-    path.
-    
-    *Parameters*:
-        nwis_data: dictionary holding data from NWIS file
-        
-        save_path: string path to save plot(s) 
-        
-    *Return*:
-        no return
-        
-    """
-    
-    for parameter in nwis_data['parameters']:
-        
-        fig = plt.figure(figsize=(12,10))
-        ax = fig.add_subplot(111)
-        ax.grid(True)
-        ax.set_title(nwis_data['gage_name'] + ' (' + nwis_data['timestep'] + ')')
-        ax.set_xlabel('Date')
-        ax.set_ylabel(parameter['description'])
-        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', label = parameter['description'])
-    
-        # rotate and align the tick labels so they look better
-        fig.autofmt_xdate()
-        
-        # use a more precise date string for the x axis locations in the
-        # toolbar
-        ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
-     
-        # legend; make it transparent    
-        handles, labels = ax.get_legend_handles_labels()
-        legend = ax.legend(handles, labels, fancybox = True)
-        legend.get_frame().set_alpha(0.5)
-        legend.draggable(state=True)
-        
-        # show text of mean, max, min values on graph; use matplotlib.patch.Patch properies and bbox
-        text = 'mean = %.2f\nmax = %.2f\nmin = %.2f' % (parameter['mean'], parameter['max'], parameter['min'])
-        patch_properties = {'boxstyle': 'round',
-                            'facecolor': 'wheat',
-                            'alpha': 0.5
-                            }
-                       
-        ax.text(0.05, 0.95, text, transform = ax.transAxes, fontsize = 14, 
-                verticalalignment = 'top', horizontalalignment = 'left', bbox = patch_properties)
-        
-        # save plots
-        if save_path:        
-            # set the size of the figure to be saved
-            curr_fig = plt.gcf()
-            curr_fig.set_size_inches(12, 10)
-            plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + parameter['description']  + '.png', dpi = 100)
-            
-        # show plots
-        if is_visible:
-            plt.show()
-        else:
-            plt.close()
-    
-    
 def main():  
     """
     Run as a script. Prompt user for NWIS file, process the file, print information, 
@@ -430,7 +428,7 @@ def main():
             
     else:
         print '** Canceled **'
-    
+
 
 if __name__ == "__main__":
     
