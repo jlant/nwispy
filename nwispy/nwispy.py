@@ -19,6 +19,7 @@ import Tkinter, tkFileDialog
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import logging
+from scipy.stats import nanmean 
 
 # my modules
 import helpers
@@ -355,11 +356,12 @@ def read_file_in(filestream):
     
     # convert each parameter data list in data['parameter'] convert to a numpy array and
     # compute mean, max, and min as well.
+    
     for parameter in data['parameters']:
-        parameter['data'] = np.array(parameter['data'])
-        parameter['mean'] = np.mean(parameter['data'])
-        parameter['max'] = np.max(parameter['data'])
-        parameter['min'] = np.min(parameter['data'])
+        parameter['data'] = np.array(parameter['data'])       
+        parameter['mean'] = nanmean(parameter['data'])
+        parameter['max'] = np.nanmax(parameter['data'])
+        parameter['min'] = np.nanmin(parameter['data'])
         
     return data 
 
