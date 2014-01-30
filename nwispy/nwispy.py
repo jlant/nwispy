@@ -6,12 +6,16 @@
  
 :Email: jlant@usgs.gov
 
-:Purpose: Read, process, print, and plot information from NWIS data files.
+:Purpose: 
+
+Read, process, print, and plot information from USGS National
+Water Information System (NWIS) data files.
 
 """
 
 import os
 import sys
+import argparse
 import re
 import numpy as np
 import datetime
@@ -184,7 +188,7 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             plt.close()
  
         
-def read_file(filename):
+def read_file(filepath):
     """    
     Open NWIS file, create a file object for read_file_in(filestream) to process.
     This function is responsible to opening the file, removing the file opening  
@@ -192,16 +196,19 @@ def read_file(filename):
     can be unit tested.
     
     *Parameters:*
-		filename : string path to nwis file
+		filepath : string path to NWIS file
     
     *Return:*
         data : dictionary holding data found in NWIS data file  
         
     """
     
-    filestream = open(filename, 'r')
-    data = read_file_in(filestream)
-    filestream.close()
+    with open(filepath, 'r') as f:
+        data = read_file_in(f)
+        
+#    filestream = open(filename, 'r')
+#    data = read_file_in(filestream)
+#    filestream.close()
     
     return data
 
@@ -252,8 +259,7 @@ def read_file_in(filestream):
         }        
         
     """  
-    
-    # read all the lines in the filestream
+
     data_file = filestream.readlines()
     
     # regular expression patterns in data file 
@@ -278,9 +284,8 @@ def read_file_in(filestream):
         'timestep': None
     }      
     
-    # process file
+    # process file; find matches and add to data dictionary
     for line in data_file: 
-        # find match
         match_date_retrieved = re.search(pattern = patterns['date_retrieved'], string = line)
         match_gage_name = re.search(pattern = patterns['gage_name'], string = line)
         match_parameters = re.search(pattern = patterns['parameters'], string = line)
@@ -365,71 +370,85 @@ def read_file_in(filestream):
         
     return data 
 
-
+    
 def main():  
-    """
+    '''
     Run as a script. Prompt user for NWIS file, process the file, print information, 
     and plot data. Information is printed to the screen.  Plots are saved to a directory 
     called 'figs' which is created in the same directory as the data file. A
     log file called 'nwis_error.log' is created if any errors are found in the 
     data file.
     
-    """ 
+    Make nwispy a unix friendly tool.
+    '''    
     
-    # open a file dialog to get file     
-    root = Tkinter.Tk() 
-    file_format = [('Text file','*.txt')]  
-    nwis_file = tkFileDialog.askopenfilename(title = 'Select USGS NWIS File', filetypes = file_format)
-    root.destroy()
+    # parse arguments from command line
+    parser = argparse.ArgumentParser(description = 'Read, process, print, and plot information from USGS \
+                                                    National Water Information System (NWIS) data files.') 
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-f', '--files', nargs = '+', 
+                        help = 'Input NWIS file(s) to be processed')
+    group.add_argument('-fd', '--filedialog', action = 'store_true', 
+                        help = 'Open a file dialog menu to select datafiles.')
+    parser.add_argument('-o', '--outputdir', action = 'store_true', default = 'output', 
+                        help = 'Output directory name to hold plots (and error log if errors are found)')
+    parser.add_argument('-v', '--verbose', action = 'store_true',  
+                        help = 'Print general information about NWIS file(s)')
+    parser.add_argument('-p', '--plot', action = 'store_true',  
+                        help = 'Show plots of data contained in NWIS file(s)')
+    args = parser.parse_args()  
     
-    if nwis_file:
+    try:
+        # process file(s) using standard input
+        if len(sys.argv[1:]) == 0:
+            data = read_file_in(sys.stdin) # read file(s) using standard input
+            outputdirpath = helpers.make_directory(path = os.getcwd(), directory_name = args.outputdir) # create output directory
+            plot_data(data, is_visible = args.plot, save_path = outputdirpath) # plot data
         
-        try:
-            # get directory and filename from data file
-            dirname, filename = os.path.split(os.path.abspath(nwis_file))
+            if args.verbose: # print file information if requested
+                print_info(data)
+                    
+        # process file(s) written as arguments
+        elif args.files: 
+            for f in args.files:
+                filedir, filename = os.path.split(f) # split the file path
+                outputdirpath = helpers.make_directory(path = filedir, directory_name = '-'.join([filename, args.outputdir])) # create output directory                             
+                
+                data = read_file(f)  # read file(s)                              
+                plot_data(data, is_visible = args.plot, save_path = outputdirpath) # plot data              
+                
+                if args.verbose: # print file information if requested
+                    print_info(data)
+        
+        # process file(s) from a Tkinter file dialog
+        elif args.filedialog:
+            root = Tkinter.Tk() 
+            file_format = [('Text file','*.txt')]  
+            files = tkFileDialog.askopenfilenames(title = 'Select USGS NWIS File(s)', filetypes = file_format) # list of file paths
+            root.destroy()
+            for f in files:
+                filedir, filename = os.path.split(f) # split the file path
+                outputdirpath = helpers.make_directory(path = filedir, directory_name = '-'.join([filename, args.outputdir])) # create output directory                             
+                logging.basicConfig(filename = '/'.join(outputdirpath, 'error.log'), filemode = 'w', level=logging.DEBUG)  # create an error log file
+                
+                data = read_file(f) # read file(s)                
+                plot_data(data, is_visible = args.plot, save_path = outputdirpath)
+                
+                if args.verbose: # print file information if requested
+                    print_info(data)                
+                
+                logging.shutdown()
             
-            # make a directory called figs to hold the plots            
-            figs_path = dirname + '/figs'
-            if not os.path.exists(figs_path):
-                os.makedirs(figs_path)            
-            
-            # log any errors or warnings found in file; save to data file directory
-            logging.basicConfig(filename = dirname + '/nwis_error.log', filemode = 'w', level=logging.DEBUG)
-            
-            # process file
-            print ''
-            print '** Processing **'
-            print nwis_file
-            nwis_data = read_file(nwis_file)
-            
-            
-            # print nwis information
-            print ''
-            print '** USGS NWIS File Information **'
-            print_info(nwis_data = nwis_data)
-            
-            # plot nwis parameters
-            print ''
-            print '** Plotting **'
-            print 'Plots are being saved to same directory as NWIS data file.'
-            plot_data(nwis_data, is_visible = True, save_path = figs_path)
-
-            # shutdown the logging system
-            logging.shutdown()
-
-        except IOError as error:
-            print 'Cannot read file!' + error.filename
-            print error.message
-            
-        except IndexError as error:
-            print 'Cannot read file! Bad file!'
-            print error.message
-            
-        except ValueError as error:
-            print error.message
-            
-    else:
-        print '** Canceled **'
+        else:
+            sys.exit('No files to process')
+              
+    except IOError as error:
+        print(error.message)
+        sys.exit('Cannot open file: ' + error.filename)
+        
+    except ValueError as error:
+        print( error.message)
+        sys.exit(0)
 
 
 if __name__ == "__main__":
