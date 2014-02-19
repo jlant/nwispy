@@ -356,21 +356,12 @@ def read_file_in(filestream):
     
     # convert each parameter data list in data['parameter'] convert to a numpy array and
     # compute mean, max, and min as well.
-    
     for parameter in data['parameters']:
-<<<<<<< HEAD
         parameter['data'] = np.array(parameter['data'])       
         parameter['mean'] = nanmean(parameter['data'])
         parameter['max'] = np.nanmax(parameter['data'])
         parameter['min'] = np.nanmin(parameter['data'])
         
-=======
-        parameter['data'] = np.array(parameter['data'])
-        parameter['mean'] = np.mean(parameter['data'])
-        parameter['max'] = np.max(parameter['data'])
-        parameter['min'] = np.min(parameter['data'])
-    
->>>>>>> have a working unix friendly program; still working on logging errors properly
     return data 
 
 def process_files(file_list, arguments):
@@ -427,7 +418,7 @@ def main():
     data file.
     
     '''    
-    
+
     # parse arguments from command line
     parser = argparse.ArgumentParser(description = 'Read, process, print, and plot information from USGS \
                                                     National Water Information System (NWIS) data files.') 
@@ -469,8 +460,6 @@ def main():
 
 
 if __name__ == "__main__":
-    
     # read file, print results, and plot 
     main()
   
-    
