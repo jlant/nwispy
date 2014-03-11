@@ -22,6 +22,7 @@ from matplotlib.widgets import SpanSelector
 import Tkinter, tkFileDialog
 import matplotlib.dates as mdates
 import datetime
+from scipy.stats import nanmean 
 
 # my module
 import nwispy
@@ -47,9 +48,9 @@ def onselect(xmin, xmax):
     plot2.set_data(dates[indices], parameter['data'][indices])
     
     # calculate new mean, max, min
-    param_mean = np.mean(parameter['data'][indices])    
-    param_max = np.max(parameter['data'][indices])  
-    param_min = np.min(parameter['data'][indices])  
+    param_mean = nanmean(parameter['data'][indices])    
+    param_max = np.nanmax(parameter['data'][indices])  
+    param_min = np.nanmin(parameter['data'][indices])  
     
     ax2.set_xlim(dates[indices][0], dates[indices][-1])
     ax2.set_ylim(param_min, param_max)
