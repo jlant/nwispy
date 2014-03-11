@@ -272,7 +272,7 @@ def read_file_in(filestream):
         'gage_name': '(#.+)(USGS.+)',
         'parameters': '(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)',
         'column_names': '(agency_cd)\t(site_no)\t(datetime)\t(tz_cd)?(.+)',
-        'data_row': '(USGS)\t([0-9]{8})\t([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s?([0-9]{2}:[0-9]{2}\t[A-Z]{3})?(.+)'
+        'data_row': '(USGS)\t([0-9]+)\t([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s?([0-9]{2}:[0-9]{2}\t[A-Z]{3})?(.+)'
     }    
     
     # initialize a dictionary to hold all the data of interest
@@ -352,7 +352,7 @@ def read_file_in(filestream):
     
     # convert the date list to a numpy array
     data['dates'] = np.array(data['dates'])    
-    
+
     # find timestep of the data
     timestep = data['dates'][1] - data['dates'][0]
     if timestep.days == 1:
@@ -395,13 +395,7 @@ def process_files(file_list, arguments):
             
         # create output directory     
         outputdirpath = helpers.make_directory(path = filedir, directory_name = '-'.join([arguments.outputdir, filename]))      
-          
-#        logger = logging.getLogger(__name__)
-#        logger.setLevel(logging.INFO)
-#        handler = logging.FileHandler('/'.join([outputdirpath, 'error.log']))
-#        handler.setLevel(logging.INFO)
-#        logger.addHandler(handler)
-        
+                  
         logging.basicConfig(filename = '/'.join([outputdirpath, 'error.log']), filemode = 'w', level = logging.INFO)  
         
         # read and plot data
