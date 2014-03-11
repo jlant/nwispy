@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import logging
 from scipy.stats import nanmean 
+from textwrap import wrap
 
 # my modules
 import helpers
@@ -148,8 +149,9 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         ax.grid(True)
         ax.set_title(nwis_data['gage_name'] + ' (' + nwis_data['timestep'] + ')')
         ax.set_xlabel('Date')
-        ax.set_ylabel(parameter['description'])
-        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', label = parameter['description'])
+        ylabel = '\n'.join(wrap(parameter['description'], 60))
+        ax.set_ylabel(ylabel)
+        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', label = ylabel)
     
         # rotate and align the tick labels so they look better
         fig.autofmt_xdate()
@@ -179,7 +181,11 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             # set the size of the figure to be saved
             curr_fig = plt.gcf()
             curr_fig.set_size_inches(12, 10)
-            plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + parameter['description']  + '.png', dpi = 100)
+            if parameter['description'].split(',')[0] == "Turbidity":
+                short_description = parameter['description'].split(',')[0] 
+                plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + short_description  + '.png', dpi = 100)
+            else:
+                plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + parameter['description']  + '.png', dpi = 100)
             
         # show plots
         if is_visible:
