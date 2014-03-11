@@ -1,15 +1,17 @@
-1. [ x ] Add ability to use nwispy.py in along any part of a Unix pipeline.
+[ x ] Add ability to use nwispy.py in along any part of a Unix pipeline.
 			cat nwisfile.txt | python nwispy.py
 							AND
 			python nwispy.py nwisfile1.txt nwisfile2.txt nwisfile3.txt
 			
-2. [ x ] Use the argparse library to add a clean command line interface to use nwispy.py.
+[ x ] Use the argparse library to add a clean command line interface to use nwispy.py.
 			python nwispy.py -fd                                            # spawn a file dialog for user to choose a nwis file(s)
 			python nwispy.py -f nwisfile1.txt nwisfile2.txt nwisfile3.txt   # process any number of nwis files
 			python nwispy.py -f nwisfile1.txt nwisfile2.txt -p              # process any number of nwis files and show plots
 
-3. [ x ] Add ability to have variable length site numbers.
+[ x ] Add ability to have variable length site numbers.
 
-4. [  ] Fix the error logging to write different error log files if processing many nwis files.
+[  ] Update README to describe how nwispy can be used in a Unix pipeline
 
-5. [  ] Create object-oriented version of nwispy in order to use model-view design for a more fully functional GUI.
+[  ] Fix the error logging to write different error log files if processing many nwis files.
+
+[  ] Create object-oriented version of nwispy in order to use model-view design for a more fully functional GUI.
