@@ -151,7 +151,7 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         ax.set_xlabel('Date')
         ylabel = '\n'.join(wrap(parameter['description'], 60))
         ax.set_ylabel(ylabel)
-        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', label = ylabel)
+        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', markersize = 6, label = ylabel)
     
         # rotate and align the tick labels so they look better
         fig.autofmt_xdate()
