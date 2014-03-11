@@ -328,13 +328,13 @@ def read_file_in(filestream):
                     if value == "":
                         error_str = '**Missing value on ' + str(date) + ' *Filling with Not A Number (NAN)'
                         print(error_str)
-                        logger.info(error_str)
+                        logging.info(error_str)
                         value = np.nan
                     
                     elif '_' in value:
                         error_str = '**Bad value with float on ' + str(date) + ' *Splitting on _ character'
                         print(error_str)
-                        logger.info(error_str)
+                        logging.info(error_str)
                         value = value.split('_')[0]
                     
                     else:
