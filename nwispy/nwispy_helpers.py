@@ -13,6 +13,26 @@ Helper functions for the various modules.
 import os
 import numpy as np
 
+def get_filedir_filename(path):
+    """    
+    Get file directory and name from a file path.
+    
+    *Parameters:*
+        path: string path name
+      
+    *Return:*
+        filedir : string file directory path
+        filename : string file name
+        
+    """ 
+    filedir, filename = os.path.split(path)
+    
+    # filedir is an empty string when file f is in current directory 
+    if not filedir: 
+        filedir = os.getcwd()
+
+    return filedir, filename
+
 def make_directory(path, directory_name):
     """    
     Make an output directory.
