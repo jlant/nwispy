@@ -1,0 +1,3 @@
+# data_type	gage_num	start_date	end_date	parameters
+dv	03284000	2014-02-12	2014-02-19	discharge	stage  
+iv	03284000	2014-02-12	2014-02-19	discharge	stage  
