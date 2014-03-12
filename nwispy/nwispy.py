@@ -18,7 +18,6 @@ import os
 import sys
 import argparse
 import Tkinter, tkFileDialog
-import logging
 
 # my modules
 import nwispy_helpers
@@ -38,30 +37,19 @@ def process_files(file_list, arguments):
         No return  
         
     """
-
     for f in file_list:
-
-        filedir, filename = os.path.split(f)
-        
-        # filedir is an empty string when file f is in current directory 
-        if not filedir: 
-            filedir = os.getcwd()
-            
+        filedir, filename = nwispy_helpers.get_filedir_filename(f)
+          
         # create output directory     
         outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([arguments.outputdir, filename]))      
-                  
-        logging.basicConfig(filename = '/'.join([outputdirpath, 'error.log']), filemode = 'w', level = logging.INFO)  
         
         # read and plot data
-        data = nwispy_filereader.read_file(f)                              
+        data = nwispy_filereader.read_file(f, error_path = outputdirpath)                              
         nwispy_viewer.plot_data(data, is_visible = arguments.showplot, save_path = outputdirpath)             
                 
         # print file information if requested
         if arguments.verbose: 
-            nwispy_viewer.print_info(data)
-    
-    # shutdown the error logger
-    logging.shutdown()    
+            nwispy_viewer.print_info(data)  
     
 def main():  
     '''
@@ -72,7 +60,6 @@ def main():
     data file.
     
     '''    
-
     # parse arguments from command line
     parser = argparse.ArgumentParser(description = 'Read, process, print, and plot information from USGS \
                                                     National Water Information System (NWIS) data files.') 
@@ -107,12 +94,14 @@ def main():
                 nwispy_viewer.print_info(data)
             
     except IOError as error:
-        sys.exit('Cannot open file: {0}'.format(error.filename))
+        sys.exit('IO error: {0}'.format(error.message))
         
-    except ValueError as error:
-        sys.exit('Value error. {0}'.format(error.message))
+#    except ValueError as error:
+#        sys.exit('Value error. {0}'.format(error.message))
 
-
+    except IndexError as error:
+        sys.exit('Index error: {0}'.format(error.message))
+        
 if __name__ == "__main__":
     # read file, print results, and plot 
     main()
