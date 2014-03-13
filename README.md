@@ -1,78 +1,145 @@
 nwispy
 ======
 
-**Version**
+Version
+-------
 1.0.0
 
-![](images/nwispygui.png)
+DESCRIPTION
+-----------
+*nwispy* is a command line tool for analysing U.S. Geological Survey (USGS) water resource data 
+collected nationwide on rivers and streams by USGS gages and instruments. The National Water
+Information System (NWIS) is the Nation's principal repository of water resources data.  Most NWIS
+data can be accessed directly at:
 
-**DESCRIPTION**	
+http://waterdata.usgs.gov/nwis/
 
-	nwispy is a repository for code that reads, processes, plots, and allows query capability 
-	for USGS NWIS data files.
+and for real-time data for surface water, ground water, or water-quality data:
 
-	*nwispy.py* is a module that contains functions to read, print, and plot data from an USGS 
-	NWIS data file. The NWIS data file can be either a daily or instantaneous data file. The 
-	data file can contain any number of parameters; i.e. discharge, gage height, temperature, 
-	sediement concentration, etc.
+http://waterdata.usgs.gov/nwis/rt
+
+*nwispy* can read, process, plot, and print data and information from NWIS daily, instantaneous (real-time), 
+and/or site data files. The NWIS data files can come from any USGS site nationwide and can contain any
+number of parameters (discharge, gage height, temperature, precipitation, sediment concentration, 
+turbidity, depth to water level, etc.).  Time-series plots are automatically created and saved for all 
+parameters displaying relevant statistics (mean, maximum, and minimum) with detailed axes and title descriptions.  
+
+*nwispy* is written in Python and has been built to be a "Unix friendly" tool, meaning it can be placed anywhere 
+along a Unix pipeline (see General Instructions). *nwispy* has a help menu that lists the current command line 
+arguments/options that can be passed to *nwispy*. To use *nwispy*, users will use a shell to execute *nwispy*
+with the appropriate flags to process files stored on the user's machine. To be implemented soon is a web service
+to NWIS. Please see *IN THE WORKS**. The command line interface is shown below. 
+
+*nwispy* command line interface
+-------------------------------
+![command line interface](images/nwispy-interface.png)
+
+Sample output images
+--------------------
+![discharge plot](images/discharge.png)
+![gage height plot](images/gage-height.png)
+![temperature plot](images/temperature.png)
+![turbidity plot](images/turbidity.png)
+
+GENERAL INSTRUCTIONS
+--------------------
+To use *nwispy*, users will use a shell to execute *nwispy* with the appropriate flags to process files 
+stored on the user's machine. To be implemented soon is a web service to NWIS. Please see *IN THE WORKS**.
+Plots are automatically generated and saved to an directory named *output-filename*.  An error log called
+*error.log* that logs any errors found in the data file, such as missing data values, is automatically 
+generated and saved to the same directory that the plots are saved in.
+
+**-f flag**
+The -f flag specifies a file or files to process.
+
+To process a single NWIS data file the general syntax is:
+	$ python nwispy.py -f path/to/file
+The above commands will create an output directory with the following contents:
+	output-filename/
+					error.log	# logs any errors found in data file, such as missing data values
+					*.png		# plots of each parameter in the data file
+					...
+					*.png
 	
-	In the *nwispy.py* module, *main()* prompts a user for an NWIS file, processes the file, 
-	prints NWIS file information to the console, and plots each parameter found within the 
-	data file. Plots are saved to a directory called 'figs' which is created in the same directory 
-	as the data file. A log file called 'nwis_error.log' is created if any errors are found in the 
-	data file, and is saved in the same directory as the data file. The 'nwis_error.log' file 
-	logs errors such as missing data and any erroneous parameter values contained in the file. 
+For example, using data contained in this repositories data directory:
+	$ python nwispy.py -f ../data/datafiles/03290500_dv.txt
+will produce the following output directory: 
+	output-03290500_dv.txt/
+					error.log	
+					USGS 03290500 KENTUCKY RIVER AT LOCK 2 AT LOCKPORT, KY - Discharge, cubic feet per second (MEAN).png		
+
+To process a multiple NWIS data files the general syntax is:
+	$ python nwispy.py -f file1 file2 file3
+
+**-fd flag**
+The -fd flag spawns a file dialog box for users to choose files: 
+	$ python nwispy.py -fd
+The above commands will create an output directory in the same manner as the -f flag.
+
+**-p flag**
+The -p flag shows plots to the screen for the user to analyse and query. 
+	$ python nwispy.py -fd -p
+OR
+	$ python nwispy.py -f file.txt -p
+The above commands will create an output directory in the same manner as the -f flag.
+		
+REQUIREMENTS
+------------
+Please see REQUIREMENTS.txt
 	
-	*nwispygui.py* creates an interactive plot of an NWIS data file. User can interact with the plot
-	via a SpanSelector mouse widget. A toggle key event handler exists for the matplotlib SpanSelector 
-	widget. A keypress of 'A' or 'a' actives the slider and a keypress of 'Q' or 'q' de-activates the 
-	slider.
-	
-	USGS NWIS data files can be found at: 
-	
-			http://waterdata.usgs.gov/nwis/rt
+INSTALLATION INSTRUCTIONS
+-------------------------
 
-	This software is provisional. The intended use of the software is to analyze and process USGS 
-	NWIS data files.
+REPOSITORY LAYOUT
+-----------------
 
-**REQUIREMENTS**
-
-	Please see requirements.txt
-	
-**INSTALLATION INSTRUCTIONS**
-
-**DIRECTORY LAYOUT**
-
-	bin/					# directory containing executables
-	data/					# directory containing sample data files to use with software and associated information
-		datafiles/			# directory containing sample data to use with software
+	bin/						# directory containing executables
+	data/						# directory containing sample data files to use with software and associated information
+		datafiles/				# directory containing sample data to use with software
 			...
-		README.txt			# file describing sample data in datafiles/
-	docs/					# directory containing code documentation
+		README.txt				# file describing sample data in datafiles/
+	docs/						# directory containing code documentation
 		...
-		html/				# html code documentation
+		html/					# html code documentation
 		...
-	nwispy/					# directory containing code package(s) or module(s)
+	images/						# directory with sample images and screenshots
 		...
-	tests/					# directory containing unit tests using *nose* library (https://nose.readthedocs.org/en/latest/)
+	nwispy/						# directory containing code modules
+		nwispy.py				# main controller
+		nwispy_views.py			# module that handles views; plotting and printing
+		nwispy_filereader.py	# module that handles file reading and processing
+		nwispy_helpers.py		# module that contains helper functions
+		nwispy_webservice.py	# module that contains web service capabilities
 		...
-	LICENSE.txt				# USGS Software User Rights Notice
-	README.md				# README file
-	requirements.txt		# list of requirements/dependencies 
-	setup.py				# code for building, distributing, and installing modules
+	tests/						# directory containing unit tests using nose library (https://nose.readthedocs.org/en/latest/)
+		...
+	Makefile					# makefile to help clean directories
+		LICENSE.txt				# USGS Software User Rights Notice
+	README.md					# README file
+	requirements.txt			# list of requirements/dependencies 
+	setup.py					# code for building, distributing, and installing modules
 	
-**GENERAL INSTRUCTIONS**
-	
-**AUTHORS**
+AUTHOR
+------
+Jeremiah Lant
+Hydrologist 
+U.S. Geological Survey
+Kentucky Water Science Center
+Louisville, Kentucky 40299
+(502) 493-1949
+jlant@ugs.gov
 
-	Jeremiah Lant
-	Hydrologist 
-	U.S. Geological Survey
-	Kentucky Water Science Center
-	Louisville, Kentucky 40299
-	jlant@ugs.gov
+IN THE WORKS
+------------
+
+	* Web service capability to automatically get NWIS data files based on a user request file. 
 	
-**DISCLAIMER and NOTICE**
+	* Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
+	*SpanSelector* mouse widget.A key press of 'A' or 'a' would active the slider and a key press of 
+	'Q' or 'q' de-activates the slider.
+	
+DISCLAIMER and NOTICE
+---------------------
 
 	Please refer to the USGS Software User Rights Notice (LICENSE.txt or http://water.usgs.gov/software/help/notice/)
 	for complete use, copyright, and distribution information. The USGS provides no warranty, expressed or implied, as to the
@@ -86,3 +153,4 @@ nwispy
 	Although this program has been used by the USGS, no warranty, expressed or implied, is made by the USGS or the United
 	States Government as to the accuracy and functioning of the program and related program material nor shall the fact of
 	distribution constitute any such warranty, and no responsibility is assumed by the USGS in connection therewith.
+

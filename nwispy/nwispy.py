@@ -66,7 +66,7 @@ def main():
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-f', '--files', nargs = '+', help = 'Input NWIS file(s) to be processed')
     group.add_argument('-fd', '--filedialog', action = 'store_true', help = 'Open a file dialog menu to select datafiles.')
-    parser.add_argument('-o', '--outputdir', default = 'output', help = 'Output directory name to hold plots (and error log if errors are found)')
+    parser.add_argument('-o', '--outputdir', default = 'output', help = 'Output directory name to hold plots and error log')
     parser.add_argument('-v', '--verbose', action = 'store_true',  help = 'Print general information about NWIS file(s)')
     parser.add_argument('-p', '--showplot', action = 'store_true',  help = 'Show plots of data contained in NWIS file(s)')
     args = parser.parse_args()  
