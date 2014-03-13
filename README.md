@@ -32,7 +32,7 @@ to NWIS. Please see *IN THE WORKS**. The command line interface is shown below.
 
 *nwispy* command line interface
 -------------------------------
-![](images/nwispy-interface.png)
+![nwispy interface](images/nwispy-interface.jpg)
 
 Sample output images
 --------------------
