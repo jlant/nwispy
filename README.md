@@ -32,7 +32,7 @@ to NWIS. Please see *IN THE WORKS**. The command line interface is shown below.
 
 *nwispy* command line interface
 -------------------------------
-![discharge plot](images/discharge.png)
+![](images/nwispy-interface.png)
 
 Sample output images
 --------------------
