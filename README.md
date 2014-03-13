@@ -158,13 +158,13 @@ REPOSITORY LAYOUT
 AUTHOR
 ------
 
-Jeremiah Lant
-Hydrologist 
-U.S. Geological Survey
-Kentucky Water Science Center
-Louisville, Kentucky 40299
-(502) 493-1949
-jlant@ugs.gov
+	Jeremiah Lant
+	Hydrologist 
+	U.S. Geological Survey
+	Kentucky Water Science Center
+	Louisville, Kentucky 40299
+	(502) 493-1949
+	jlant@ugs.gov
 
 IN THE WORKS
 ------------
