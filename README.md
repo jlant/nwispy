@@ -43,18 +43,27 @@ Sample output images
 
 GENERAL INSTRUCTIONS
 --------------------
+
 To use *nwispy*, users will use a shell to execute *nwispy* with the appropriate flags to process files 
 stored on the user's machine. To be implemented soon is a web service to NWIS. Please see *IN THE WORKS**.
 Plots are automatically generated and saved to an directory named *output-filename*.  An error log called
 *error.log* that logs any errors found in the data file, such as missing data values, is automatically 
 generated and saved to the same directory that the plots are saved in.
 
+**-h flag**
+
+The -h flag spawns a help menu with all the flag options.
+
 **-f flag**
+
 The -f flag specifies a file or files to process.
 
 To process a single NWIS data file the general syntax is:
+
 	$ python nwispy.py -f path/to/file
+	
 The above commands will create an output directory with the following contents:
+
 	output-filename/
 					error.log	# logs any errors found in data file, such as missing data values
 					*.png		# plots of each parameter in the data file
@@ -62,25 +71,52 @@ The above commands will create an output directory with the following contents:
 					*.png
 	
 For example, using data contained in this repositories data directory:
+
 	$ python nwispy.py -f ../data/datafiles/03290500_dv.txt
+	
 will produce the following output directory: 
+
 	output-03290500_dv.txt/
 					error.log	
 					USGS 03290500 KENTUCKY RIVER AT LOCK 2 AT LOCKPORT, KY - Discharge, cubic feet per second (MEAN).png		
 
 To process a multiple NWIS data files the general syntax is:
+
 	$ python nwispy.py -f file1 file2 file3
 
 **-fd flag**
+
 The -fd flag spawns a file dialog box for users to choose files: 
+
 	$ python nwispy.py -fd
+	
 The above commands will create an output directory in the same manner as the -f flag.
 
 **-p flag**
+
 The -p flag shows plots to the screen for the user to analyse and query. 
+
 	$ python nwispy.py -fd -p
 OR
+
 	$ python nwispy.py -f file.txt -p
+	
+The above commands will create an output directory in the same manner as the -f flag.
+
+**-v flag**
+
+The -v flag prints data file information, such as the type of parameters found, to the screen for the user. 
+
+	$ python nwispy.py -f file.txt -v
+	
+The above commands will create an output directory in the same manner as the -f flag.
+
+**-o flag**
+
+The -o flag is used to allow users to name the root of the output directory.  By default the output root name is *output*. 
+
+	$ python nwispy.py -f file.txt my_output_dirname
+	
 The above commands will create an output directory in the same manner as the -f flag.
 		
 REQUIREMENTS
@@ -121,6 +157,7 @@ REPOSITORY LAYOUT
 	
 AUTHOR
 ------
+
 Jeremiah Lant
 Hydrologist 
 U.S. Geological Survey
@@ -132,11 +169,11 @@ jlant@ugs.gov
 IN THE WORKS
 ------------
 
-	* Web service capability to automatically get NWIS data files based on a user request file. 
-	
-	* Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
-	*SpanSelector* mouse widget.A key press of 'A' or 'a' would active the slider and a key press of 
-	'Q' or 'q' de-activates the slider.
+* Web service capability to automatically get NWIS data files based on a user request file. 
+
+* Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
+*SpanSelector* mouse widget.A key press of 'A' or 'a' would active the slider and a key press of 
+'Q' or 'q' de-activates the slider.
 	
 DISCLAIMER and NOTICE
 ---------------------
