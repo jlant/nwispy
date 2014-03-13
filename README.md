@@ -4,6 +4,8 @@ nwispy
 **Version**
 1.0.0
 
+[Alt text](https://github.com/jlant-usgs/nwispy/tree/master/docs/_static/nwispygui.png)
+
 **DESCRIPTION**	
 
 	nwispy is a repository for code that reads, processes, plots, and allows query capability 
