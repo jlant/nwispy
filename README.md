@@ -4,7 +4,7 @@ nwispy
 **Version**
 1.0.0
 
-![](https://github.com/jlant-usgs/nwispy/tree/master/docs/_static/nwispygui.png?raw=true)
+![](https://github.com/jlant-usgs/nwispy/tree/develop/images/nwispygui.png?raw=true)
 
 **DESCRIPTION**	
 
