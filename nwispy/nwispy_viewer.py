@@ -61,8 +61,24 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         ax.set_xlabel('Date')
         ylabel = '\n'.join(wrap(parameter['description'], 60))
         ax.set_ylabel(ylabel)
-        plt.plot(nwis_data['dates'], parameter['data'], color = 'b', marker = 'o', markersize = 6, label = ylabel)
-    
+
+        if "Discharge" in parameter['description']:
+            plt.plot(nwis_data['dates'], parameter['data'], color = 'b', label = ylabel)
+            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'b', alpha = 0.5)
+        elif "Gage height" in parameter['description']:
+            plt.plot(nwis_data['dates'], parameter['data'], color = 'g', label = ylabel)
+            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'g', alpha = 0.5)
+        elif "Precipitation" in parameter['description']:
+            plt.plot(nwis_data['dates'], parameter['data'], color = "#9999FF", label = ylabel)  # light blue
+            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = "#9999FF", alpha = 0.5)
+        elif "Temperature" in parameter['description']:
+            plt.plot(nwis_data['dates'], parameter['data'], color = 'orange', label = ylabel) 
+            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'orange', alpha = 0.5)
+        else:
+            plt.plot(nwis_data['dates'], parameter['data'], color = 'k', label = ylabel) 
+            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'k', alpha = 0.5)
+            
+
         # rotate and align the tick labels so they look better
         fig.autofmt_xdate()
         

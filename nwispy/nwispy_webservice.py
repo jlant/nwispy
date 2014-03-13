@@ -34,6 +34,7 @@ nwis_data = f.readlines()
 open("test-urloutput-ivall.txt", "wb").writelines(nwis_data)
 """
 
+"""
 # read usgs-webservice-request.txt
 with open("usgs-webservice-request.txt", "r") as f:    
     data_file = f.readlines()
@@ -52,7 +53,7 @@ with open("usgs-webservice-request.txt", "r") as f:
             
         if match_data_row:        
             print(match_data_row.group(0).strip().split("\t"))
-            
+"""            
 def main():
     """ Test functionality of webservice """
 
