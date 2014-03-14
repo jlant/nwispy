@@ -18,6 +18,7 @@ import os
 import sys
 import argparse
 import Tkinter, tkFileDialog
+from urllib2 import URLError
 
 # my modules
 import nwispy_helpers
@@ -69,6 +70,7 @@ def main():
     parser.add_argument('-o', '--outputdir', default = 'output', help = 'Output directory name to hold plots and error log')
     parser.add_argument('-v', '--verbose', action = 'store_true',  help = 'Print general information about NWIS file(s)')
     parser.add_argument('-p', '--showplot', action = 'store_true',  help = 'Show plots of data contained in NWIS file(s)')
+    parser.add_argument('-web', '--getwebdata', action = 'store_true',  help = 'Get data from the web')
     args = parser.parse_args()  
 
     try:
@@ -96,11 +98,14 @@ def main():
     except IOError as error:
         sys.exit('IO error: {0}'.format(error.message))
         
-#    except ValueError as error:
-#        sys.exit('Value error. {0}'.format(error.message))
+    except ValueError as error:
+        sys.exit('Value error. {0}'.format(error.message))
 
     except IndexError as error:
         sys.exit('Index error: {0}'.format(error.message))
+
+    except URLError as error:
+        sys.exit('Url error: {0}'.format(error.message))
         
 if __name__ == "__main__":
     # read file, print results, and plot 
