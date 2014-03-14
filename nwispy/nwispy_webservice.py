@@ -17,7 +17,6 @@ import urllib
 import urllib2
 from StringIO import StringIO
 
-
 # my modules
 import nwispy_helpers
 
@@ -108,11 +107,11 @@ def encode_url(data_request):
         "parameterCD": ",".join(data_request["parameters"])
     }
     
-    request_url = urllib.urlencode(user_parameters)
+    user_parameters_url = urllib.urlencode(user_parameters)
     
-    return request_url
+    return user_parameters_url
     
-def download_file(request_url, data_type, filename, file_destination):
+def download_file(user_parameters_url, data_type, filename, file_destination):
     """    
     Get data from the web and save files to local machine.
     
@@ -120,20 +119,19 @@ def download_file(request_url, data_type, filename, file_destination):
         base_url = "http://waterservices.usgs.gov/nwis/
     
     *Parameters:*
-        request_url: encoded url based on users request
+        user_parameters_url: encoded url based on users request
     
     *Return:*
         data_file: 
     """    
-    base_url = "http://waterservices.usgs.gov/nwis/"    
+    base_url = "http://waterservices.usgs.gov/nwis/" + data_type + "/?"    
 
-    full_url = base_url + data_type + "/?" + request_url
-
-    web_data = urllib2.urlopen(full_url).read()    
+    request = urllib2.Request(base_url, user_parameters_url)
+    response = urllib2.urlopen(request)  
 
     outputfile = os.path.join(file_destination, filename)        
     with open(outputfile, 'wb') as f:
-        f.write(web_data)        
+        f.write(response.read())        
         
 def test_read_webrequest_in():
     """ Test functionality of read_webrequest_in"""

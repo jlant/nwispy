@@ -18,7 +18,7 @@ import os
 import sys
 import argparse
 import Tkinter, tkFileDialog
-from urllib2 import URLError
+from urllib2 import URLError, HTTPError
 
 # my modules
 import nwispy_helpers
@@ -70,7 +70,7 @@ def main():
     parser.add_argument('-o', '--outputdir', default = 'output', help = 'Output directory name to hold plots and error log')
     parser.add_argument('-v', '--verbose', action = 'store_true',  help = 'Print general information about NWIS file(s)')
     parser.add_argument('-p', '--showplot', action = 'store_true',  help = 'Show plots of data contained in NWIS file(s)')
-    parser.add_argument('-web', '--getwebdata', action = 'store_true',  help = 'Get data from the web')
+    parser.add_argument('-web', '--webservice', nargs = '+',  help = 'Get data file from the web using request file')
     args = parser.parse_args()  
 
     try:
@@ -85,6 +85,28 @@ def main():
             files = tkFileDialog.askopenfilenames(title = 'Select USGS NWIS File(s)', filetypes = [('Text file','*.txt'), ('All files', '.*')])
             root.destroy()          
             process_files(file_list = root.tk.splitlist(files), arguments = args)
+            
+        # process file(s) from a webservice
+        elif args.webservice:
+            # real download
+            user_request_data = nwispy_webservice.read_webrequest(args.webservice[0])  
+
+            web_filepath = nwispy_helpers.get_filedir_filename(args.webservice[0])                
+            web_filedestination = nwispy_helpers.make_directory(path = web_filepath, directory_name = "web-datafiles")            
+            
+            for user_request in user_request_data["requests"]:    
+                user_parameters_url = nwispy_webservice.encode_url(user_request)
+                
+                web_filename = "_".join([nwispy_helpers.get_current_date_time(), user_request["site number"], user_request["data type"]]) + ".txt"
+                
+                nwispy_webservice.download_file(user_parameters_url = user_parameters_url, 
+                                                data_type = user_request["data type"], 
+                                                filename = web_filename,
+                                                file_destination = web_filedestination)
+
+            file_list = nwispy_helpers.get_filepaths(directory = web_filedestination, file_ext = ".txt")
+
+            process_files(file_list = file_list, arguments = args)            
             
         # process file(s) using standard input
         else:
@@ -105,7 +127,10 @@ def main():
         sys.exit('Index error: {0}'.format(error.message))
 
     except URLError as error:
-        sys.exit('Url error: {0}'.format(error.message))
+        sys.exit('Url error: {0}'.format(error.code))
+
+    except HTTPError as error:
+        sys.exit('Url error: {0}'.format(error.code))
         
 if __name__ == "__main__":
     # read file, print results, and plot 
