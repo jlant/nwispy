@@ -70,7 +70,7 @@ The above commands will create an output directory with the following contents:
 					...
 					*.png
 	
-For example, using data contained in this repositories data directory:
+For example, using data contained in this repository's data directory:
 
 	$ python nwispy.py -f ../data/datafiles/03290500_dv.txt
 	
@@ -119,7 +119,7 @@ The -o flag is used to allow users to name the root of the output directory.  By
 	
 The above commands will create an output directory in the same manner as the -f flag.
 
-***Unix Friendly**
+**Unix Friendly**
 
 Users can place *nwispy* along a Unix pipeline.  For example, *nwispy* can accept standard input.
 
@@ -127,11 +127,18 @@ Users can place *nwispy* along a Unix pipeline.  For example, *nwispy* can accep
 
 OR
 
-	$ cat file.txt | nwispy.py -p -v -o my_output_dirname
+	$ cat file.txt | nwispy.py -p -v 
+
+	OR
+
+	$ cat file.txt | nwispy.py -o my_output_dirname
 	
 By default, the output directory name created is *output* when using standard input, unless users specify the -o flag
 to name the output directory.
 
+For code documentation, please visit:
+
+http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 	
 REQUIREMENTS
 ------------
@@ -166,7 +173,7 @@ REPOSITORY LAYOUT
 	Makefile					# makefile to help clean directories
 		LICENSE.txt				# USGS Software User Rights Notice
 	README.md					# README file
-	requirements.txt			# list of requirements/dependencies 
+	REQUIREMENTS.txt			# list of requirements/dependencies 
 	setup.py					# code for building, distributing, and installing modules
 	
 AUTHOR
