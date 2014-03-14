@@ -50,11 +50,11 @@ Plots are automatically generated and saved to an directory named *output-filena
 *error.log* that logs any errors found in the data file, such as missing data values, is automatically 
 generated and saved to the same directory that the plots are saved in.
 
-**-h flag**
+**Help -h flag**
 
 The -h flag spawns a help menu with all the flag options.
 
-**-f flag**
+**File(s) -f flag**
 
 The -f flag specifies a file or files to process.
 
@@ -84,7 +84,7 @@ To process a multiple NWIS data files the general syntax is:
 
 	$ python nwispy.py -f file1 file2 file3
 
-**-fd flag**
+**File Dialog -fd flag**
 
 The -fd flag spawns a file dialog box for users to choose files: 
 
@@ -92,7 +92,7 @@ The -fd flag spawns a file dialog box for users to choose files:
 	
 The above commands will create an output directory in the same manner as the -f flag.
 
-**-p flag**
+**Plot -p flag**
 
 The -p flag shows plots to the screen for the user to analyse and query. 
 
@@ -103,7 +103,7 @@ OR
 	
 The above commands will create an output directory in the same manner as the -f flag.
 
-**-v flag**
+**Verbose -v flag**
 
 The -v flag prints data file information, such as the type of parameters found, to the screen for the user. 
 
@@ -111,14 +111,28 @@ The -v flag prints data file information, such as the type of parameters found, 
 	
 The above commands will create an output directory in the same manner as the -f flag.
 
-**-o flag**
+**Output directory -o flag**
 
 The -o flag is used to allow users to name the root of the output directory.  By default the output root name is *output*. 
 
 	$ python nwispy.py -f file.txt my_output_dirname
 	
 The above commands will create an output directory in the same manner as the -f flag.
-		
+
+***Unix Friendly**
+
+Users can place *nwispy* along a Unix pipeline.  For example, *nwispy* can accept standard input.
+
+	$ cat file.txt | nwispy.py 
+
+OR
+
+	$ cat file.txt | nwispy.py -p -v -o my_output_dirname
+	
+By default, the output directory name created is *output* when using standard input, unless users specify the -o flag
+to name the output directory.
+
+	
 REQUIREMENTS
 ------------
 Please see REQUIREMENTS.txt
@@ -172,7 +186,7 @@ IN THE WORKS
 * Web service capability to automatically get NWIS data files based on a user request file. 
 
 * Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
-*SpanSelector* mouse widget.A key press of 'A' or 'a' would active the slider and a key press of 
+*SpanSelector* mouse widget. A key press of 'A' or 'a' would active the slider and a key press of 
 'Q' or 'q' de-activates the slider.
 	
 DISCLAIMER and NOTICE
