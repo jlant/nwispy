@@ -12,6 +12,74 @@ Helper functions for the various modules.
 """
 import os
 import numpy as np
+import datetime
+import re
+
+def get_filepaths(directory, file_ext = None):
+    """    
+    Return a list of full file paths from a directory including its subdirectories.
+        
+    *Parameters:*
+        directory : string path 
+      
+    *Return:*
+        file_paths : list of full file paths from a directory
+        
+    """     
+    file_paths = []  
+
+    # Walk the tree.
+    for root, directories, files in os.walk(directory):
+        for filename in files:
+            # Join the two strings in order to form the full filepath.
+            filepath = os.path.join(root, filename)
+            file_paths.append(filepath) 
+
+    # if user wants on certain file extentions then only include those paths by removing unwanted paths
+    if file_ext:
+        for f in file_paths:
+            if not f.endswith(file_ext):
+                file_paths.remove(f)
+
+    return file_paths
+
+# Run the above function and store its results in a variable.   
+full_file_paths = get_filepaths("/Users/johnny/Desktop/TEST")
+
+
+
+def get_current_date_time():
+    """    
+    Return current date and time in a format that can be used as a file name.
+    
+    Example:
+        str(datetiem.datetime.today()) = "2014-03-14 16:46:14.079000"
+    
+        date_time = "2014-03-14_16.46.14"
+        
+    *Parameters:*
+        none
+      
+    *Return:*
+        date_time : string of date and time
+        
+    """  
+    pattern = "([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s([0-9]{1,2}):([0-9]{1,2}):([0-9].+)"    
+    
+    today_str = str(datetime.datetime.today())
+    
+    match = re.search(pattern, today_str)
+
+    year_month_day = match.group(1)
+    hour = match.group(2)    
+    minute = match.group(3)
+    second = match.group(4)
+
+    hour_minute_second = ".".join([hour, minute, second])
+
+    date_time = "_".join([year_month_day, hour_minute_second])
+
+    return date_time
 
 def get_filedir_filename(path):
     """    
