@@ -88,23 +88,32 @@ def main():
             
         # process file(s) from a webservice
         elif args.webservice:
-            # real download
-            user_request_data = nwispy_webservice.read_webrequest(args.webservice[0])  
-
-            web_filepath = nwispy_helpers.get_filedir_filename(args.webservice[0])                
-            web_filedestination = nwispy_helpers.make_directory(path = web_filepath, directory_name = "web-datafiles")            
+            # get user supplied web request file and its location
+            request_file = args.webservice[0]
+            request_filedir, request_filename = nwispy_helpers.get_filedir_filename(path = request_file)            
             
-            for user_request in user_request_data["requests"]:    
-                user_parameters_url = nwispy_webservice.encode_url(user_request)
+            # make a directory to hold download files in the same directory as the request file
+            web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "web-datafiles")
+            
+            # read the request data file
+            request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
+                      
+            for request in request_data["requests"]:    
+                # encode a url based on request
+                request_url = nwispy_webservice.encode_url(request) 
                 
-                web_filename = "_".join([nwispy_helpers.get_current_date_time(), user_request["site number"], user_request["data type"]]) + ".txt"
+                # name each file by date tagging it to current date and time and its site number
+                date_time_str = nwispy_helpers.get_current_date_time()
+                web_filename = "_".join([date_time_str, request["site number"], request["data type"]]) + ".txt"
                 
-                nwispy_webservice.download_file(user_parameters_url = user_parameters_url, 
-                                                data_type = user_request["data type"], 
+                # download the files
+                nwispy_webservice.download_file(user_parameters_url = request_url, 
+                                                data_type = request["data type"], 
                                                 filename = web_filename,
-                                                file_destination = web_filedestination)
+                                                file_destination = web_filedir)
 
-            file_list = nwispy_helpers.get_filepaths(directory = web_filedestination, file_ext = ".txt")
+            # process the downloaded file
+            file_list = nwispy_helpers.get_filepaths(directory = web_filedir, file_ext = ".txt")
 
             process_files(file_list = file_list, arguments = args)            
             
