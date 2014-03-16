@@ -68,7 +68,7 @@ def read_file(filepath, error_path):
         start_logging_errors(error_path = error_path)
 
         data = read_file_in(f)
-    
+        
         stop_logging_errors()
         
     return data
