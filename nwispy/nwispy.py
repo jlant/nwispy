@@ -26,6 +26,7 @@ import nwispy_filereader
 import nwispy_viewer
 import nwispy_webservice
 
+
 def process_files(file_list, arguments):
     """    
     Process a list of files according to options contained in arguments.

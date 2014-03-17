@@ -10,44 +10,24 @@
 Read USGS National Water Information System (NWIS) data files.
 
 """
+
+import pdb
 import sys
 import os
 import re
 import numpy as np
 from scipy.stats import nanmean 
 import datetime
-import logging
-import pdb
+
+
 # my modules
 import nwispy_helpers
 
+import logging
 
 
-def start_logging_errors(error_path):
-    """ 
-    Start error logging object
-    
-    *Parameters:*
-        outputdir : string path
-    
-    *Return:*
-        no return  
-        
-    """     
-    logging.basicConfig(filename = '/'.join([error_path, "file-errors.log"]), filemode = "w", level = logging.INFO)
-        
-def stop_logging_errors():
-    """ 
-    Stop error logging object
-    
-    *Parameters:*
-        no input parameters
-    
-    *Return:*
-        no return  
-        
-    """ 
-    logging.shutdown()
+log = logging.getLogger("nwispy_filereader")
+
 
 def read_file(filepath, error_path):
     """    
@@ -65,11 +45,8 @@ def read_file(filepath, error_path):
     """    
     with open(filepath, "r") as f:
         filedir, filename = nwispy_helpers.get_filedir_filename(filepath)
-        start_logging_errors(error_path = error_path)
 
         data = read_file_in(f)
-        
-        stop_logging_errors()
         
     return data
 
@@ -202,7 +179,7 @@ def read_file_in(filestream):
                         value = value.split('_')[0]
                     
                     else:
-                        error_str = '**ERROR on ' + str(date) +' Value can not be converted to a float: ' + value + ' *Filling with Not A Number (NAN)'
+                        error_str = '**Bad value with float on ' + str(date) +' Value can not be converted to a float: ' + value + ' *Filling with Not A Number (NAN)'
                         print(error_str)
                         logging.info(error_str)
                         value = np.nan
