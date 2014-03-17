@@ -69,8 +69,8 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             plt.plot(nwis_data['dates'], parameter['data'], color = 'g', label = ylabel)
             plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'g', alpha = 0.5)
         elif "Precipitation" in parameter['description']:
-            plt.plot(nwis_data['dates'], parameter['data'], color = "#9999FF", label = ylabel)  # light blue
-            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = "#9999FF", alpha = 0.5)
+            plt.plot(nwis_data['dates'], parameter['data'], color = "DarkBlue", label = ylabel)  
+            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = "DarkBlue", alpha = 0.5)
         elif "Temperature" in parameter['description']:
             plt.plot(nwis_data['dates'], parameter['data'], color = 'orange', label = ylabel) 
             plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'orange', alpha = 0.5)

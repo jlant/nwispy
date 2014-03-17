@@ -42,7 +42,7 @@ def process_files(file_list, arguments):
         filedir, filename = nwispy_helpers.get_filedir_filename(f)
           
         # create output directory     
-        outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([arguments.outputdir, filename]))      
+        outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename.split(".")[0], "output"]))      
         
         # read and plot data
         data = nwispy_filereader.read_file(f, error_path = outputdirpath)                              
@@ -67,10 +67,9 @@ def main():
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-f', '--files', nargs = '+', help = 'Input NWIS file(s) to be processed')
     group.add_argument('-fd', '--filedialog', action = 'store_true', help = 'Open a file dialog menu to select datafiles.')
-    parser.add_argument('-o', '--outputdir', default = 'output', help = 'Output directory name to hold plots and error log')
     parser.add_argument('-v', '--verbose', action = 'store_true',  help = 'Print general information about NWIS file(s)')
     parser.add_argument('-p', '--showplot', action = 'store_true',  help = 'Show plots of data contained in NWIS file(s)')
-    parser.add_argument('-web', '--webservice', nargs = '+',  help = 'Get data file from the web using request file')
+    parser.add_argument('-web', '--webservice', nargs = '+',  help = 'Get data file(s) from the web using a web service request file')
     args = parser.parse_args()  
 
     try:
