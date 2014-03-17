@@ -42,7 +42,7 @@ def process_files(file_list, arguments):
         filedir, filename = nwispy_helpers.get_filedir_filename(f)
           
         # create output directory     
-        outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename.split(".")[0], "output"]))      
+        outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename, "output"]))      
         
         # read and plot data
         data = nwispy_filereader.read_file(f, error_path = outputdirpath)                              
@@ -92,7 +92,7 @@ def main():
             request_filedir, request_filename = nwispy_helpers.get_filedir_filename(path = request_file)            
             
             # make a directory to hold download files in the same directory as the request file
-            web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "web-datafiles")
+            web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename, "datafiles"]))
             
             # read the request data file
             request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
@@ -125,8 +125,8 @@ def main():
             if args.verbose: 
                 nwispy_viewer.print_info(data)
             
-    except IOError as error:
-        sys.exit('IO error: {0}'.format(error.message))
+#    except IOError as error:
+#        sys.exit('IO error: {0}'.format(error.message))
         
     except ValueError as error:
         sys.exit('Value error. {0}'.format(error.message))

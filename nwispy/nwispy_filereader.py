@@ -127,7 +127,7 @@ def read_file_in(filestream):
     # then data file is daily, otherwise it is an instanteous file.
     patterns = {
         'date_retrieved': '(.+): (.{4}-.{2}-.{2}) (.{2}:.{2}:.{2}) (.+)', 
-        'gage_name': '(#.+)(USGS.+)',
+        'gage_name': '(#.+)(USGS [0-9]+.+)',
         'parameters': '(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)',
         'column_names': '(agency_cd)\t(site_no)\t(datetime)\t(tz_cd)?(.+)',
         'data_row': '(USGS)\t([0-9]+)\t([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s?([0-9]{2}:[0-9]{2}\t[A-Z]{3})?(.+)'
@@ -202,9 +202,10 @@ def read_file_in(filestream):
                         value = value.split('_')[0]
                     
                     else:
-                        error_str = '**ERROR on ' + str(date) +' Value can not be converted to a float: ' + value + '**Exiting. Bad data in file!'
-                        raise ValueError(error_str)
-                        sys.exit('**Exiting. Bad data in file!')
+                        error_str = '**ERROR on ' + str(date) +' Value can not be converted to a float: ' + value + ' *Filling with Not A Number (NAN)'
+                        print(error_str)
+                        logging.info(error_str)
+                        value = np.nan
                         
                 parameter['data'].append(float(value))    
     
@@ -225,7 +226,7 @@ def read_file_in(filestream):
         parameter['mean'] = nanmean(parameter['data'])
         parameter['max'] = np.nanmax(parameter['data'])
         parameter['min'] = np.nanmin(parameter['data'])
-        
+
     return data
 
 def get_parameter_code(match):
