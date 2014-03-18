@@ -25,7 +25,7 @@ import nwispy_helpers
 import nwispy_filereader
 import nwispy_viewer
 import nwispy_webservice
-
+import nwispy_logging
 
 def process_files(file_list, arguments):
     """    
@@ -45,13 +45,21 @@ def process_files(file_list, arguments):
         # create output directory     
         outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename, "output"]))      
         
-        # read and plot data
-        data = nwispy_filereader.read_file(f, error_path = outputdirpath)                              
+        # initialize error logging
+        nwispy_logging.initialize_loggers(output_dir = outputdirpath)        
+        
+        # read data
+        data = nwispy_filereader.read_file(f)  
+
+        # plot data                            
         nwispy_viewer.plot_data(data, is_visible = arguments.showplot, save_path = outputdirpath)             
                 
-        # print file information if requested
+        # print data
         if arguments.verbose: 
             nwispy_viewer.print_info(data)  
+
+        # close error logging
+        nwispy_logging.remove_loggers()
     
 def main():  
     '''

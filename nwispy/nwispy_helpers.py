@@ -43,10 +43,6 @@ def get_filepaths(directory, file_ext = None):
 
     return file_paths
 
-# Run the above function and store its results in a variable.   
-full_file_paths = get_filepaths("/Users/johnny/Desktop/TEST")
-
-
 
 def get_current_date_time():
     """    

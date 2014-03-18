@@ -18,18 +18,12 @@ import re
 import numpy as np
 from scipy.stats import nanmean 
 import datetime
-
+import logging
 
 # my modules
 import nwispy_helpers
 
-import logging
-
-
-log = logging.getLogger("nwispy_filereader")
-
-
-def read_file(filepath, error_path):
+def read_file(filepath):
     """    
     Open NWIS file, create a file object for read_file_in(filestream) to process.
     This function is responsible to opening the file, removing the file opening  
@@ -44,8 +38,6 @@ def read_file(filepath, error_path):
         
     """    
     with open(filepath, "r") as f:
-        filedir, filename = nwispy_helpers.get_filedir_filename(filepath)
-
         data = read_file_in(f)
         
     return data
@@ -168,20 +160,17 @@ def read_file_in(filestream):
                 if not nwispy_helpers.is_float(value):
                     if value == "":
                         error_str = '**Missing value on ' + str(date) + ' *Filling with Not A Number (NAN)'
-                        print(error_str)
-                        logging.info(error_str)
+                        logging.warn(error_str)
                         value = np.nan
                     
                     elif '_' in value:
                         error_str = '**Bad value with float on ' + str(date) + ' *Splitting on _ character'
-                        print(error_str)
-                        logging.info(error_str)
+                        logging.warn(error_str)
                         value = value.split('_')[0]
                     
                     else:
                         error_str = '**Bad value with float on ' + str(date) +' Value can not be converted to a float: ' + value + ' *Filling with Not A Number (NAN)'
-                        print(error_str)
-                        logging.info(error_str)
+                        logging.warn(error_str)
                         value = np.nan
                         
                 parameter['data'].append(float(value))    
