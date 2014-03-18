@@ -20,7 +20,7 @@ def initialize_loggers(output_dir):
     formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-        
+       
 def remove_loggers():
     
     logger = logging.getLogger()

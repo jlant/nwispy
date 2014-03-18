@@ -62,16 +62,13 @@ def process_files(file_list, arguments):
         nwispy_logging.remove_loggers()
     
 def main():  
-    '''
-    Run as a script. Prompt user for NWIS file, process the file, print information, 
-    and plot data. Information is printed to the screen.  Plots are saved to a directory 
-    called 'figs' which is created in the same directory as the data file. A
-    log file called 'nwis_error.log' is created if any errors are found in the 
-    data file.
-    
-    '''    
+    """
+    Run program based on user input arguments. Program will automatically process file(s) supplied or downloaded,
+    log any errors found in the data file, and will save plots of every parameter. Error log and plots are saved to 
+    a directory (tagged with 'output') at the same level as the supplied or downloaded data files.
+    """    
     # parse arguments from command line
-    parser = argparse.ArgumentParser(description = 'Read, process, print, and plot information from USGS \
+    parser = argparse.ArgumentParser(description = 'Read, process, log errors, print, and plot information from USGS \
                                                     National Water Information System (NWIS) data files.') 
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-f', '--files', nargs = '+', help = 'Input NWIS file(s) to be processed')
@@ -111,9 +108,9 @@ def main():
                 request_url = nwispy_webservice.encode_url(request) 
                 
                 # name each file by date tagging it to current date and time and its site number
-                date_time_str = nwispy_helpers.get_current_date_time()
-                web_filename = "_".join([date_time_str, request["site number"], request["data type"]]) + ".txt"
-                
+                date_time_str = nwispy_helpers.now()
+#                web_filename = "_".join([date_time_str, request["site number"], request["data type"]]) + ".txt"
+                web_filename = "_".join([request["site number"], request["data type"]]) + ".txt"
                 # download the files
                 nwispy_webservice.download_file(user_parameters_url = request_url, 
                                                 data_type = request["data type"], 
@@ -134,8 +131,8 @@ def main():
             if args.verbose: 
                 nwispy_viewer.print_info(data)
             
-#    except IOError as error:
-#        sys.exit('IO error: {0}'.format(error.message))
+    except IOError as error:
+        sys.exit('IO error: {0}'.format(error.message))
         
     except ValueError as error:
         sys.exit('Value error. {0}'.format(error.message))
@@ -150,7 +147,6 @@ def main():
         sys.exit('Url error: {0}'.format(error.code))
         
 if __name__ == "__main__":
-    # read file, print results, and plot 
     main()
     
 

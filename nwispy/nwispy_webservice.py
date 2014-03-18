@@ -17,9 +17,6 @@ import urllib
 import urllib2
 from StringIO import StringIO
 
-# my modules
-import nwispy_helpers
-
 def read_webrequest(filepath):
     """    
     Open web request file, create a file object for read_webrequest_in(filestream) 

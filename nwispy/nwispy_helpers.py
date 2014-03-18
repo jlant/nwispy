@@ -13,7 +13,6 @@ Helper functions for the various modules.
 import os
 import numpy as np
 import datetime
-import re
 
 def get_filepaths(directory, file_ext = None):
     """    
@@ -44,38 +43,22 @@ def get_filepaths(directory, file_ext = None):
     return file_paths
 
 
-def get_current_date_time():
+def now():
     """    
-    Return current date and time in a format that can be used as a file name.
-    
-    Example:
-        str(datetiem.datetime.today()) = "2014-03-14 16:46:14.079000"
-    
-        date_time = "2014-03-14_16.46.14"
+    Return current date and time in a format that can be used as a file name. 
+    Format: year-month-day_hour.minute.second.microsecond (microsecond is sliced to display 3 digits instead of 6)
+    Example 2014-03-18_15.51.46.252
         
     *Parameters:*
         none
       
     *Return:*
-        date_time : string of date and time
+        date_time_str : string of date and time
         
     """  
-    pattern = "([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s([0-9]{1,2}):([0-9]{1,2}):([0-9].+)"    
+    date_time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S.%f")[:-3]
     
-    today_str = str(datetime.datetime.today())
-    
-    match = re.search(pattern, today_str)
-
-    year_month_day = match.group(1)
-    hour = match.group(2)    
-    minute = match.group(3)
-    second = match.group(4)
-
-    hour_minute_second = ".".join([hour, minute, second])
-
-    date_time = "_".join([year_month_day, hour_minute_second])
-
-    return date_time
+    return date_time_str
 
 def get_filedir_filename(path):
     """    
