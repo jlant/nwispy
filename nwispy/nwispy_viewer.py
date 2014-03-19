@@ -107,11 +107,14 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             # set the size of the figure to be saved
             curr_fig = plt.gcf()
             curr_fig.set_size_inches(12, 10)
-            if parameter['description'].split(',')[0] == "Turbidity":
+            
+            # keep filename string short enough to be saved properly; keep only usgs gage number, description shortened if it exceeds 50 characters 
+            short_gage_name = " ".join(nwis_data['gage_name'].split()[0:2])            
+            if len(parameter['description']) > 50:
                 short_description = parameter['description'].split(',')[0] 
-                plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + short_description  + '.png', dpi = 100)
+                plt.savefig(save_path + '/' + short_gage_name + ' - ' + short_description  + '.png', dpi = 100)
             else:
-                plt.savefig(save_path + '/' + nwis_data['gage_name'] + ' - ' + parameter['description']  + '.png', dpi = 100)
+                plt.savefig(save_path + '/' + short_gage_name + ' - ' + parameter['description']  + '.png', dpi = 100)
             
         # show plots
         if is_visible:

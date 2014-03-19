@@ -19,6 +19,7 @@ import sys
 import argparse
 import Tkinter, tkFileDialog
 from urllib2 import URLError, HTTPError
+import logging
 
 # my modules
 import nwispy_helpers
@@ -43,7 +44,7 @@ def process_files(file_list, arguments):
         filedir, filename = nwispy_helpers.get_filedir_filename(f)
           
         # create output directory     
-        outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename, "output"]))      
+        outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename.split(".txt")[0], "output"]))      
         
         # initialize error logging
         nwispy_logging.initialize_loggers(output_dir = outputdirpath)        
@@ -98,7 +99,10 @@ def main():
             request_filedir, request_filename = nwispy_helpers.get_filedir_filename(path = request_file)            
             
             # make a directory to hold download files in the same directory as the request file
-            web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename, "datafiles"]))
+            web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename.split(".txt")[0], "datafiles"]))
+            
+            # initialize error logging
+            nwispy_logging.initialize_loggers(output_dir = web_filedir, logging_type = "exception")                        
             
             # read the request data file
             request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
@@ -109,13 +113,16 @@ def main():
                 
                 # name each file by date tagging it to current date and time and its site number
                 date_time_str = nwispy_helpers.now()
-#                web_filename = "_".join([date_time_str, request["site number"], request["data type"]]) + ".txt"
-                web_filename = "_".join([request["site number"], request["data type"]]) + ".txt"
+                web_filename = "_".join([request["site number"], request["data type"], date_time_str]) + ".txt"
+                
                 # download the files
                 nwispy_webservice.download_file(user_parameters_url = request_url, 
                                                 data_type = request["data type"], 
                                                 filename = web_filename,
                                                 file_destination = web_filedir)
+
+            # close error logging
+            nwispy_logging.remove_loggers()
 
             # process the downloaded file
             file_list = nwispy_helpers.get_filepaths(directory = web_filedir, file_ext = ".txt")
@@ -132,19 +139,24 @@ def main():
                 nwispy_viewer.print_info(data)
             
     except IOError as error:
-        sys.exit('IO error: {0}'.format(error.message))
+        logging.exception("IO error: {0}".format(error.message))
+        sys.exit(1)
         
     except ValueError as error:
-        sys.exit('Value error. {0}'.format(error.message))
+        logging.exception("Value error: {0}".format(error.message))
+        sys.exit(1)
 
     except IndexError as error:
-        sys.exit('Index error: {0}'.format(error.message))
+        logging.exception("Index: {0}".format(error.message))
+        sys.exit(1)
 
     except URLError as error:
-        sys.exit('Url error: {0}'.format(error.code))
+        logging.exception("URLError error: {0}".format(error.code))
+        sys.exit(1)
 
     except HTTPError as error:
-        sys.exit('Url error: {0}'.format(error.code))
+        logging.exception("HTTP error: {0}".format(error.code))
+        sys.exit(1)
         
 if __name__ == "__main__":
     main()

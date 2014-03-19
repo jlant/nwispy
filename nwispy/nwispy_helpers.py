@@ -56,7 +56,7 @@ def now():
         date_time_str : string of date and time
         
     """  
-    date_time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S.%f")[:-3]
+    date_time_str = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S.%f")[:-4]
     
     return date_time_str
 
