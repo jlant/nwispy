@@ -2,7 +2,16 @@ import logging
 import os.path
 
 def initialize_loggers(output_dir, logging_type = "warn"):
+    """    
+    Initialize the error logging objects.
     
+    *Parameters:*
+        output_dir : string directory path
+    
+    *Return:*
+        loggin_type : string flag to specify a particular kind of log file  
+        
+    """ 
     # create main logger and set global log level to debug
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
@@ -32,7 +41,16 @@ def initialize_loggers(output_dir, logging_type = "warn"):
 
       
 def remove_loggers():
+    """    
+    Remove all the error logging objects that exist in the application.
     
+    *Parameters:*
+        no parameters
+    
+    *Return:*
+        no return  
+        
+    """     
     logger = logging.getLogger()
     handlers_list = list(logger.handlers)
     for i in handlers_list:
