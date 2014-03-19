@@ -24,11 +24,26 @@ number of parameters (discharge, gage height, temperature, precipitation, sedime
 turbidity, depth to water level, etc.).  Time-series plots are automatically created and saved for all 
 parameters displaying relevant statistics (mean, maximum, and minimum) with detailed axes and title descriptions.  
 
+*nwispy* has web service capability to automatically retrieve and process NWIS data files based on a user request 
+file. Please see *General Instructions* for details on how to use the web service capability.
+
+*nwispy* automatically tracks, notifies user about, and creates a log file called *warn.log* that specifies for
+the user missing or erroneous data values contained in NWIS data file(s).  The *warn.log* file is only created if
+missing or erroneous data values are found.  In addition, if a web service error or any other application wide 
+error occurs, a file called *exception.log* is created containing the details of the error.  To help solve the error
+the *exception.log* can be emailed to the author.  Please see *General Instructions* for details on error logging. 
+
 *nwispy* is written in Python and has been built to be a "Unix friendly" tool, meaning it can be placed anywhere 
-along a Unix pipeline (see General Instructions). *nwispy* has a help menu that lists the current command line 
-arguments/options that can be passed to *nwispy*. To use *nwispy*, users will use a shell to execute *nwispy*
-with the appropriate flags to process files stored on the user's machine. To be implemented soon is a web service
-to NWIS. Please see *IN THE WORKS**. The command line interface is shown below. 
+along a Unix pipeline. *nwispy* has a help menu that lists the current command line arguments/options that can be 
+passed to *nwispy*. At this time, users can run *nwispy* using a shell with the appropriate flags to process NWIS 
+files either stored locally on a user's machine or *nwispy* can retrieve and process files from the web based on 
+a user request file.Please see *General Instructions* for details on how to use nwispy. 
+
+For full code documentation and tutorial on how to use *nwispy*, please visit:
+
+http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
+
+For upcoming developments, please see *IN THE WORKS*.
 
 *nwispy* command line interface
 -------------------------------
@@ -65,22 +80,39 @@ To process a single NWIS data file the general syntax is:
 The above commands will create an output directory with the following contents:
 
 	output-filename/
-					error.log	# logs any errors found in data file, such as missing data values
 					*.png		# plots of each parameter in the data file
 					...
 					*.png
-	
+
+If the data file processed contains any missing or erroneous data values, then a file
+called *warn.log* is created and placed in the output-filename directory for the user
+to review.  The *warn.log* file specifies what issues were found in the file. 
+					
+
+					
 For example, using data contained in this repository's data directory:
 
 	$ python nwispy.py -f ../data/datafiles/03290500_dv.txt
 	
 will produce the following output directory: 
 
-	output-03290500_dv.txt/
-					error.log	
-					USGS 03290500 KENTUCKY RIVER AT LOCK 2 AT LOCKPORT, KY - Discharge, cubic feet per second (MEAN).png		
+	output-03290500_dv/
+					USGS 03290500 - Discharge, cubic feet per second (MEAN).png		
 
-To process a multiple NWIS data files the general syntax is:
+and
+					
+	$ python nwispy.py -f ../data/datafiles/03287500_dv.txt
+	
+will produce the following output directory: 
+
+	output-03287500_uv/
+					USGS 03287500 - Discharge, cubic feet per second (MEAN).png	
+					USGS 03287500 - Gage height, feet.png	
+					USGS 03287500 - Precipitation, total, inches.png
+					USGS 03287500 - Temperature, water, degrees Celsius.png
+					warn.log
+					
+To process a multiple NWIS data files the general command syntax is:
 
 	$ python nwispy.py -f file1 file2 file3
 
@@ -90,7 +122,7 @@ The -fd flag spawns a file dialog box for users to choose files:
 
 	$ python nwispy.py -fd
 	
-The above commands will create an output directory in the same manner as the -f flag.
+The above command syntax will create an output directory in the same manner as the -f flag.
 
 **Plot -p flag**
 
@@ -101,7 +133,7 @@ OR
 
 	$ python nwispy.py -f file.txt -p
 	
-The above commands will create an output directory in the same manner as the -f flag.
+The above command syntax will create an output directory in the same manner as the -f flag.
 
 **Verbose -v flag**
 
@@ -109,16 +141,8 @@ The -v flag prints data file information, such as the type of parameters found, 
 
 	$ python nwispy.py -f file.txt -v
 	
-The above commands will create an output directory in the same manner as the -f flag.
-
-**Output directory -o flag**
-
-The -o flag is used to allow users to name the root of the output directory.  By default the output root name is *output*. 
-
-	$ python nwispy.py -f file.txt my_output_dirname
+The above command syntax will create an output directory in the same manner as the -f flag.
 	
-The above commands will create an output directory in the same manner as the -f flag.
-
 **Unix Friendly**
 
 Users can place *nwispy* along a Unix pipeline.  For example, *nwispy* can accept standard input.
@@ -129,23 +153,38 @@ OR
 
 	$ cat file.txt | nwispy.py -p -v 
 
-	OR
 
-	$ cat file.txt | nwispy.py -o my_output_dirname
+**Web Service -web flag**
+
+The -web flag retrieves data files through the USGS NWIS web service based upon a user created *requests.txt* file.  
+
+	$ python nwispy.py -web path/to/requests-file.txt 
+
+The above commands will create an output directory called *requests-file-datafiles* which will contain timestamped downloaded
+NWIS data file(s) and an output directory for each downloaded file containing the plots of each parameter requested and a 
+*warn.log* if erroneous data values are found.
 	
-By default, the output directory name created is *output* when using standard input, unless users specify the -o flag
-to name the output directory.
+Example *requests.txt* files are shown below:
+	
+*request_single_gage.txt*
 
-For code documentation, please visit:
+![request file plot](images/request_single_gage.png)
 
-http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
+*request_multiple_gages.txt*
+
+![request file plot](images/request_multiple_gages.png)
+
 	
 REQUIREMENTS
 ------------
-Please see REQUIREMENTS.txt
+	python == 2.7.5
+	numpy == 1.7.1
+	matplotlib == 1.2.1
+	nose == 1.3.0
 	
 INSTALLATION INSTRUCTIONS
 -------------------------
+Instructions coming soon.
 
 REPOSITORY LAYOUT
 -----------------
@@ -153,6 +192,8 @@ REPOSITORY LAYOUT
 	bin/						# directory containing executables
 	data/						# directory containing sample data files to use with software and associated information
 		datafiles/				# directory containing sample data to use with software
+			...
+		webservice-requests/	# directory containing sample web service request files
 			...
 		README.txt				# file describing sample data in datafiles/
 	docs/						# directory containing code documentation
@@ -189,8 +230,6 @@ AUTHOR
 
 IN THE WORKS
 ------------
-
-* Web service capability to automatically get NWIS data files based on a user request file. 
 
 * Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
 *SpanSelector* mouse widget. A key press of 'A' or 'a' would active the slider and a key press of 

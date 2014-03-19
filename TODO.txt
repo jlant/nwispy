@@ -2,6 +2,8 @@
 
 [  ] Add functionality to get a webservice request file through a file dialog
 
+[  ] Update README.md to show new functionality
+
 [  ] Add a simple gui to nwispy that shows all the plots in a single window; use new style subplots from matplotlib
 
 [  ] Create object-oriented version of nwispy in order to use model-view design for a more fully functional GUI.

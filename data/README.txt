@@ -6,7 +6,10 @@ The USGS NWIS data files were retrieved from:
 	http://waterdata.usgs.gov/nwis/rt
 
 
-AUTHORS
+data/webservice-requests/ is a directory that contains sample web service request files 
+to test or use nwispy.py.
+
+AUTHOR
 -------
 Jeremiah Lant
 jlant@ugs.gov
