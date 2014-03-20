@@ -2,7 +2,6 @@ nwispy
 ======
 
 Version
--------
 1.0.0
 
 Description
@@ -50,7 +49,7 @@ the *exception.log* can be emailed to the author.  Please see [General Instructi
 along a Unix pipeline. *nwispy* has a help menu that lists the current command line arguments/options that can be 
 passed to *nwispy*. At this time, users can run *nwispy* using a shell with the appropriate flags to process NWIS 
 files either stored locally on a user's machine or *nwispy* can retrieve and process files from the web based on 
-a user request file.Please see [General Instructions](#general-instructions) for details on how to use nwispy. 
+a user request file.  Please see [General Instructions](#general-instructions) for details on how to use nwispy. 
 
 For full code documentation and tutorial on how to use *nwispy*, please visit:
 
