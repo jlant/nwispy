@@ -1,3 +1,17 @@
+"""
+:Module: nwispy_logging.py
+
+:Author: Jeremiah Lant
+ 
+:Email: jlant@usgs.gov
+
+:Purpose: 
+
+Log erroneous data values found in USGS NWIS files.
+
+"""
+
+
 import logging
 import os.path
 

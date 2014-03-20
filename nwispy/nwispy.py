@@ -8,8 +8,7 @@
 
 :Purpose: 
 
-Read, process, print, and plot information from USGS National
-Water Information System (NWIS) data files.
+Main controller that controls user input options and calls the appropriate modules.
 
 """
 

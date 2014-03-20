@@ -17,7 +17,11 @@ and for real-time data for surface water, ground water, or water-quality data:
 
 http://waterdata.usgs.gov/nwis/rt
 
-Some sample highlights include:
+.. image:: _static/discharge-small.png
+.. image:: _static/gage-height-small.png
+.. image:: _static/temperature-small.png
+
+Some sample highlights include:																		
 
 * Processes USGS NWIS data files
 * Generates and saves plots of all parameters found in USGS NWIS data files
@@ -25,7 +29,7 @@ Some sample highlights include:
 * Logs erroneous data found in NWIS data files 
 * Unix friendly
 
-.. image:: _static/discharge.png 
+ 
 
 Overview
 ========
@@ -43,14 +47,17 @@ Documentation
 
    code.rst
 
+Gallery  
+=======
+
+.. toctree::
+   :maxdepth: 1
+   
+   images.rst
+   
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-
-Screenshot of nwisgui.py
-------------------------
-.. image:: _static/nwispygui.png
