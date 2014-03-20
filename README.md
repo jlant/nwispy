@@ -37,7 +37,7 @@ user request file. Details of the USGS web services can be accessed at:
 
 http://waterservices.usgs.gov
 
-Please see [General Instructions](#General Instructions) for details on *nwispy*'s web service capability.
+Please see (#general-instructions) for details on *nwispy*'s web service capability.
 
 *nwispy* automatically tracks, notifies user about, and creates a log file called *warn.log* that specifies for
 the user missing or erroneous data values contained in NWIS data file(s).  The *warn.log* file is only created if
@@ -71,6 +71,8 @@ Sample Images
 ![gage height plot](docs/_static/gage-height.png)
 ![temperature plot](docs/_static/temperature.png)
 ![turbidity plot](docs/_static/turbidity.png)
+
+[General Instructions](#general-instructions)
 
 General Instructions
 --------------------
