@@ -28,3 +28,7 @@ Turbidity
 Depth to Water Level
 --------------------
 .. image:: _static/depth-to-water.png
+
+Simple UML diagram
+----------------------
+.. image:: _static/nwispy-uml-diagram.png
