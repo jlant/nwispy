@@ -63,14 +63,14 @@ For upcoming developments, please see **In the Works**.
 
 *nwispy* Simple UML Diagram
 -------------------------------
-![nwispy uml](images/nwispy-uml-diagram.png)
+![nwispy uml](docs/_static/nwispy-uml-diagram.png)
 
 Sample Images
 --------------------
-![discharge plot](images/discharge.png)
-![gage height plot](images/gage-height.png)
-![temperature plot](images/temperature.png)
-![turbidity plot](images/turbidity.png)
+![discharge plot](docs/_static/discharge.png)
+![gage height plot](docs/_static/gage-height.png)
+![temperature plot](docs/_static/temperature.png)
+![turbidity plot](docs/_static/turbidity.png)
 
 General Instructions
 --------------------
@@ -184,11 +184,11 @@ Example tab-delimited *requests.txt* files are shown below:
 	
 *request_single_gage.txt*
 
-![request file plot](images/request_single_gage.png)
+![request file plot](docs/_static/request_single_gage.png)
 
 *request_multiple_gages.txt*
 
-![request file plot](images/request_multiple_gages.png)
+![request file plot](docs/_static/request_multiple_gages.png)
 
 	
 Requirements
