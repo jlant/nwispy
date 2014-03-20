@@ -1,6 +1,18 @@
 Overview
 =========
 
+Author
+------
+::
+
+	Jeremiah Lant
+	Hydrologist 
+	U.S. Geological Survey
+	Kentucky Water Science Center
+	Louisville, Kentucky 40299
+	502-493-1949
+	jlant@usgs.gov
+
 Version
 -------
 1.0.0
@@ -57,9 +69,10 @@ http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
 For upcoming developments, please see **In the Works**.
 
-Please visit the Gallery_. for some sample images.
+.. _gallery:
 
-.. _Gallery:
+For sample images, please visit the :doc:`gallery`. 
+
 
 General Instructions
 --------------------
@@ -181,37 +194,28 @@ Example tab-delimited *requests.txt* files are shown below:
 	
 Requirements
 ------------
+::
 
-	python == 2.7.5
-	
-	numpy == 1.7.1
-	
-	matplotlib == 1.2.1
-	
+	python == 2.7.5	
+	numpy == 1.7.1	
+	matplotlib == 1.2.1	
 	nose == 1.3.0
+
+Download
+--------
+
+https://github.com/jlant-usgs/nwispy
+
 	
 Installation Instructions
 -------------------------
 
 Instructions coming soon.
 
-Author
-------
-
-Jeremiah Lant
-Hydrologist 
-U.S. Geological Survey
-Kentucky Water Science Center
-Louisville, Kentucky 40299
-(502) 493-1949
-jlant@ugs.gov
-
 In the Works
 ------------
 
-* Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
-*SpanSelector* mouse widget. A key press of 'A' or 'a' would active the slider and a key press of 
-'Q' or 'q' de-activates the slider.
+* Improvement to the *nwispygui.py* code to allow users to interact and query plots.
 	
 Disclaimer and Notice
 ---------------------

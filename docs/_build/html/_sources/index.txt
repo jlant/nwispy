@@ -29,7 +29,6 @@ Some sample highlights include:
 * Logs erroneous data found in NWIS data files 
 * Unix friendly
 
- 
 
 Overview
 ========
@@ -38,6 +37,7 @@ Overview
    :maxdepth: 2
    
    overview.rst
+
    
 Documentation
 =============
@@ -47,14 +47,22 @@ Documentation
 
    code.rst
 
+   
+Download
+========
+
+https://github.com/jlant-usgs/nwispy
+ 
+ 
 Gallery  
 =======
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
-   images.rst
-   
+   gallery.rst
+ 
+ 
 Indices and tables
 ==================
 
