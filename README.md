@@ -61,6 +61,10 @@ For upcoming developments, please see **In the Works**.
 -------------------------------
 ![nwispy interface](images/nwispy-interface.png)
 
+*nwispy* Simple UML Diagram
+-------------------------------
+![nwispy uml](images/nwispy-uml-diagram.png)
+
 Sample Images
 --------------------
 ![discharge plot](images/discharge.png)
