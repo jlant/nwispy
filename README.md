@@ -59,7 +59,7 @@ For upcoming developments, please see **IN THE WORKS**.
 
 *nwispy* command line interface
 -------------------------------
-![nwispy interface](images/nwispy-interface.jpg)
+![nwispy interface](images/nwispy-interface.png)
 
 Sample output images
 --------------------

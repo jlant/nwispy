@@ -4,24 +4,43 @@
    contain the root `toctree` directive.
 
 Welcome to nwispy's documentation!
-================================
+==================================
 
-**nwispy** is a project that contains a python module that reads, processes, plots, 
-and allows query capability for USGS NWIS data files. The NWIS data file can be either 
-a daily or instantaneous data file. The data file can contain any number of parameters; 
-i.e. discharge, gage height, temperature, sediement concentration, etc. **nwispy** also 
-contains a gui that allows users to interact and query a timeseries of a particular hydrologic 
-parameter from a USGS NWIS.
+*nwispy* is a command line tool for analysing U.S. Geological Survey (USGS) water resource data 
+collected nationwide on rivers and streams by USGS gages and instruments. The National Water
+Information System (NWIS) is the Nation's principal repository of water resources data.  Most NWIS
+data can be accessed directly at:
 
-This software is provisional.  The intended use of the software is to analyze and process USGS 
-NWIS data files.
+http://waterdata.usgs.gov/nwis/
 
-Contents:
+and for real-time data for surface water, ground water, or water-quality data:
+
+http://waterdata.usgs.gov/nwis/rt
+
+Some sample highlights include:
+
+* Processes USGS NWIS data files
+* Generates and saves plots of all parameters found in USGS NWIS data files
+* Retrieves and processes NWIS data files using USGS web services
+* Logs erroneous data found in NWIS data files 
+* Unix friendly
+
+.. image:: _static/discharge.png 
+
+Overview
+========
+
+.. toctree::
+   :maxdepth: 2
+   
+   overview.rst
+   
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 2
 
-   overview.rst
    code.rst
 
 Indices and tables
