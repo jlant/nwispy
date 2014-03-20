@@ -1,9 +1,7 @@
 nwispy
 ======
 
-Version
--------
-1.0.0
+**Version:** 1.0.0
 
 Description
 -----------
@@ -31,31 +29,32 @@ and/or site data files. The NWIS data files can come from any USGS site nationwi
 number of parameters (discharge, gage height, temperature, precipitation, sediment concentration, 
 turbidity, depth to water level, etc.).  Time-series plots are automatically created and saved for all 
 parameters displaying relevant statistics (mean, maximum, and minimum) with detailed axes and title descriptions.  
+For sample images, please see [Sample Images](#sample-images).
 
 *nwispy* has web service capability to automatically retrieve and process NWIS data files based on a tab-delimited
 user request file. Details of the USGS web services can be accessed at:
 
 http://waterservices.usgs.gov
 
-Please see **General Instructions** for details on *nwispy*'s web service capability.
+Please see [General Instructions](#general-instructions) for details on *nwispy*'s web service capability.
 
 *nwispy* automatically tracks, notifies user about, and creates a log file called *warn.log* that specifies for
 the user missing or erroneous data values contained in NWIS data file(s).  The *warn.log* file is only created if
 missing or erroneous data values are found.  In addition, if a web service error or any other application wide 
 error occurs, a file called *exception.log* is created containing the details of the error.  To help solve the error
-the *exception.log* can be emailed to the author.  Please see **General Instructions** for details on error logging. 
+the *exception.log* can be emailed to the author.  Please see [General Instructions](#general-instructions) for details on error logging. 
 
 *nwispy* is written in Python and has been built to be a "Unix friendly" tool, meaning it can be placed anywhere 
 along a Unix pipeline. *nwispy* has a help menu that lists the current command line arguments/options that can be 
 passed to *nwispy*. At this time, users can run *nwispy* using a shell with the appropriate flags to process NWIS 
 files either stored locally on a user's machine or *nwispy* can retrieve and process files from the web based on 
-a user request file.Please see **General Instructions** for details on how to use nwispy. 
+a user request file.  Please see [General Instructions](#general-instructions) for details on how to use nwispy. 
 
 For full code documentation and tutorial on how to use *nwispy*, please visit:
 
 http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
-For upcoming developments, please see **In the Works**.
+For upcoming developments, please see [In the Works](#in-the-works).
 
 *nwispy* Command Line Interface
 -------------------------------
@@ -66,11 +65,12 @@ For upcoming developments, please see **In the Works**.
 ![nwispy uml](docs/_static/nwispy-uml-diagram.png)
 
 Sample Images
---------------------
+-------------
 ![discharge plot](docs/_static/discharge.png)
 ![gage height plot](docs/_static/gage-height.png)
 ![temperature plot](docs/_static/temperature.png)
 ![turbidity plot](docs/_static/turbidity.png)
+![depth plot](docs/_static/depth-to-water.png)
 
 General Instructions
 --------------------
