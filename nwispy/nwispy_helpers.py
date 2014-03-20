@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:Module: helpers.py
+:Module: nwispy_helpers.py
 
 :Author: Jeremiah Lant
  

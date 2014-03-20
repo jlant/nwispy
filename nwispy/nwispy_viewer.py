@@ -1,5 +1,5 @@
 """
-:Module: nwis_plotter.py
+:Module: nwis_viewer.py
 
 :Author: Jeremiah Lant
  

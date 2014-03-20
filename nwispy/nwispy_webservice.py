@@ -1,5 +1,5 @@
 """
-:Module: nwis_webservice.py
+:Module: nwispy_webservice.py
 
 :Author: Jeremiah Lant
  

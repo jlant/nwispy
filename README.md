@@ -5,7 +5,7 @@ Version
 -------
 1.0.0
 
-DESCRIPTION
+Description
 -----------
 *nwispy* is a command line tool for analysing U.S. Geological Survey (USGS) water resource data 
 collected nationwide on rivers and streams by USGS gages and instruments. The National Water
@@ -32,8 +32,8 @@ number of parameters (discharge, gage height, temperature, precipitation, sedime
 turbidity, depth to water level, etc.).  Time-series plots are automatically created and saved for all 
 parameters displaying relevant statistics (mean, maximum, and minimum) with detailed axes and title descriptions.  
 
-*nwispy* has web service capability to automatically retrieve and process NWIS data files based on a user request 
-file. Details of the USGS web services can be accessed at:
+*nwispy* has web service capability to automatically retrieve and process NWIS data files based on a tab-delimited
+user request file. Details of the USGS web services can be accessed at:
 
 http://waterservices.usgs.gov
 
@@ -55,20 +55,20 @@ For full code documentation and tutorial on how to use *nwispy*, please visit:
 
 http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
-For upcoming developments, please see **IN THE WORKS**.
+For upcoming developments, please see **In the Works**.
 
-*nwispy* command line interface
+*nwispy* Command Line Interface
 -------------------------------
 ![nwispy interface](images/nwispy-interface.png)
 
-Sample output images
+Sample Images
 --------------------
 ![discharge plot](images/discharge.png)
 ![gage height plot](images/gage-height.png)
 ![temperature plot](images/temperature.png)
 ![turbidity plot](images/turbidity.png)
 
-GENERAL INSTRUCTIONS
+General Instructions
 --------------------
 
 To use *nwispy*, users will use a shell to execute *nwispy* with the appropriate flags to process files 
@@ -168,7 +168,7 @@ OR
 
 **Web Service -web flag**
 
-The -web flag retrieves data files through the USGS NWIS web service based upon a user created *requests.txt* file.  
+The -web flag retrieves data files through the USGS NWIS web service based upon a user created tab-delimited *requests.txt* file.  
 
 	$ python nwispy.py -web path/to/requests-file.txt 
 
@@ -176,7 +176,7 @@ The above commands will create an output directory called *requests-file-datafil
 NWIS data file(s) and an output directory for each downloaded file containing the plots of each parameter requested and a 
 *warn.log* if erroneous data values are found.
 	
-Example *requests.txt* files are shown below:
+Example tab-delimited *requests.txt* files are shown below:
 	
 *request_single_gage.txt*
 
@@ -187,18 +187,18 @@ Example *requests.txt* files are shown below:
 ![request file plot](images/request_multiple_gages.png)
 
 	
-REQUIREMENTS
+Requirements
 ------------
 	python == 2.7.5
 	numpy == 1.7.1
 	matplotlib == 1.2.1
 	nose == 1.3.0
 	
-INSTALLATION INSTRUCTIONS
+Installation Instructions
 -------------------------
 Instructions coming soon.
 
-REPOSITORY LAYOUT
+Repository Layout
 -----------------
 
 	bin/						# directory containing executables
@@ -229,7 +229,7 @@ REPOSITORY LAYOUT
 	REQUIREMENTS.txt			# list of requirements/dependencies 
 	setup.py					# code for building, distributing, and installing modules
 	
-AUTHOR
+Author
 ------
 
 	Jeremiah Lant
@@ -240,14 +240,14 @@ AUTHOR
 	(502) 493-1949
 	jlant@ugs.gov
 
-IN THE WORKS
+In the Works
 ------------
 
 * Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
 *SpanSelector* mouse widget. A key press of 'A' or 'a' would active the slider and a key press of 
 'Q' or 'q' de-activates the slider.
 	
-DISCLAIMER and NOTICE
+Disclaimer and Notice
 ---------------------
 
 	Please refer to the USGS Software User Rights Notice (LICENSE.txt or http://water.usgs.gov/software/help/notice/)
