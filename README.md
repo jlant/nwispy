@@ -72,8 +72,6 @@ Sample Images
 ![temperature plot](docs/_static/temperature.png)
 ![turbidity plot](docs/_static/turbidity.png)
 
-(#general-instructions)
-
 General Instructions
 --------------------
 
