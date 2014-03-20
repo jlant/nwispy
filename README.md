@@ -18,6 +18,14 @@ and for real-time data for surface water, ground water, or water-quality data:
 
 http://waterdata.usgs.gov/nwis/rt
 
+Some sample highlights include:
+
+* Processes USGS NWIS data files
+* Generates and saves plots of all parameters found in USGS NWIS data files
+* Retrieves and processes NWIS data files using USGS Web Service
+* Logs erroneous data in NWIS data files 
+* Unix friendly
+
 *nwispy* can read, process, plot, and print data and information from NWIS daily, instantaneous (real-time), 
 and/or site data files. The NWIS data files can come from any USGS site nationwide and can contain any
 number of parameters (discharge, gage height, temperature, precipitation, sediment concentration, 
