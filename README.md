@@ -59,7 +59,7 @@ For upcoming developments, please see **In the Works**.
 
 *nwispy* Command Line Interface
 -------------------------------
-![nwispy interface](images/nwispy-interface.png)
+![nwispy interface](docs/_static/nwispy-interface.png)
 
 *nwispy* Simple UML Diagram
 -------------------------------
