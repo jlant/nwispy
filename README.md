@@ -31,6 +31,7 @@ and/or site data files. The NWIS data files can come from any USGS site nationwi
 number of parameters (discharge, gage height, temperature, precipitation, sediment concentration, 
 turbidity, depth to water level, etc.).  Time-series plots are automatically created and saved for all 
 parameters displaying relevant statistics (mean, maximum, and minimum) with detailed axes and title descriptions.  
+For sample images, please see [Sample Images](#sample-images).
 
 *nwispy* has web service capability to automatically retrieve and process NWIS data files based on a tab-delimited
 user request file. Details of the USGS web services can be accessed at:
@@ -56,8 +57,6 @@ For full code documentation and tutorial on how to use *nwispy*, please visit:
 http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
 For upcoming developments, please see [In the Works](#in-the-works).
-
-For sample images, please see [Sample Images](#sample-images).
 
 *nwispy* Command Line Interface
 -------------------------------
