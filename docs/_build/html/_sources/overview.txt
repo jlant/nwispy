@@ -49,30 +49,36 @@ user request file. Details of the USGS web services can be accessed at:
 
 http://waterservices.usgs.gov
 
-Please see **General Instructions** for details on *nwispy*'s web service capability.
+Please see :ref:`general-instructions` for details on *nwispy*'s web service capability.
 
 *nwispy* automatically tracks, notifies user about, and creates a log file called *warn.log* that specifies for
 the user missing or erroneous data values contained in NWIS data file(s).  The *warn.log* file is only created if
 missing or erroneous data values are found.  In addition, if a web service error or any other application wide 
 error occurs, a file called *exception.log* is created containing the details of the error.  To help solve the error
-the *exception.log* can be emailed to the author.  Please see **General Instructions** for details on error logging. 
+the *exception.log* can be emailed to the author.  Please see :ref:`general-instructions` for details on error logging. 
 
 *nwispy* is written in Python and has been built to be a "Unix friendly" tool, meaning it can be placed anywhere 
 along a Unix pipeline. *nwispy* has a help menu that lists the current command line arguments/options that can be 
 passed to *nwispy*. At this time, users can run *nwispy* using a shell with the appropriate flags to process NWIS 
 files either stored locally on a user's machine or *nwispy* can retrieve and process files from the web based on 
-a user request file.Please see **General Instructions** for details on how to use nwispy. 
-
-For full code documentation and tutorial on how to use *nwispy*, please visit:
-
-http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
-
-For upcoming developments, please see **In the Works**.
+a user request file.Please see :ref:`general-instructions` for details on how to use nwispy. 
 
 .. _gallery:
 
 For sample images, please visit the :doc:`gallery`. 
 
+For upcoming developments, please see :ref:`in-the-works`.
+
+
+Command line interface
+----------------------
+.. image:: _static/nwispy-interface.png
+
+Simple UML diagram
+----------------------
+.. image:: _static/nwispy-uml-diagram.png
+
+.. _general-instructions:
 
 General Instructions
 --------------------
@@ -211,6 +217,8 @@ Installation Instructions
 -------------------------
 
 Instructions coming soon.
+
+.. _in-the-works:
 
 In the Works
 ------------
