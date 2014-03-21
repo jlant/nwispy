@@ -97,6 +97,8 @@ http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
 For upcoming developments, please see [In the Works](#in-the-works).
 
+Return to [Contents](#contents).
+
 *nwispy* Command Line Interface
 -------------------------------
 ![nwispy interface](docs/_static/nwispy-interface.png)
@@ -238,6 +240,8 @@ Example tab-delimited *requests.txt* files are shown below:
 
 ![request file plot](docs/_static/request_multiple_gages.png)
 
+
+Return to [Contents](#contents).
 	
 Requirements
 ------------
@@ -304,3 +308,4 @@ Disclaimer and Notice
 	States Government as to the accuracy and functioning of the program and related program material nor shall the fact of
 	distribution constitute any such warranty, and no responsibility is assumed by the USGS in connection therewith.
 
+Return to [Contents](#contents).
