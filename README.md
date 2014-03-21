@@ -10,6 +10,10 @@ Contents
 
 [Description](#description)
 
+[*nwispy* Command Line Interface](#nwispy-command-line-interface)
+
+[*nwispy* Simple UML Diagram](#nwispy-simple-uml-diagram)
+
 [Sample Images](#sample-images)
 
 [General Instructions](#general-instructions)
