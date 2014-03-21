@@ -3,15 +3,25 @@ nwispy
 
 Contents
 --------
+
 [Version](#version)
+
 [Author](#author)
+
 [Description](#description)
+
 [Sample Images](#sample-images)
+
 [General Instructions](#general-instructions)
+
 [Requirements](#requirements)
+
 [Installation Instructions](#installation-instructions)
+
 [Repository Layout](#repository-layout)
+
 [In the Works](#in-the-works)
+
 [Disclaimer and Notice](#disclaimer-and-notice)
 
 Version
