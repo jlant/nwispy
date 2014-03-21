@@ -60,7 +60,51 @@ def process_files(file_list, arguments):
 
         # close error logging
         nwispy_logging.remove_loggers()
+
+def process_webrequest(request_file, arguments):
+    """    
+    Process a web request file and process.
     
+    *Parameters:*
+        request_file : string path to request file
+        arguments : argparse object; created by parser.parse_args()          
+    
+    *Return:*
+        No return  
+    """            
+    request_filedir, request_filename = nwispy_helpers.get_filedir_filename(path = request_file)            
+    
+    # make a directory to hold download files in the same directory as the request file
+    web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename.split(".txt")[0], "datafiles"]))
+    
+    # initialize error logging
+    nwispy_logging.initialize_loggers(output_dir = web_filedir, logging_type = "exception")                        
+    
+    # read the request data file
+    request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
+              
+    for request in request_data["requests"]:    
+        # encode a url based on request
+        request_url = nwispy_webservice.encode_url(request) 
+        
+        # name each file by date tagging it to current date and time and its site number
+        date_time_str = nwispy_helpers.now()
+        web_filename = "_".join([request["site number"], request["data type"], date_time_str]) + ".txt"
+        
+        # download the files
+        nwispy_webservice.download_file(user_parameters_url = request_url, 
+                                        data_type = request["data type"], 
+                                        filename = web_filename,
+                                        file_destination = web_filedir)
+
+    # close error logging
+    nwispy_logging.remove_loggers()
+
+    # process the downloaded file(s)
+    file_list = nwispy_helpers.get_filepaths(directory = web_filedir, file_ext = ".txt")
+
+    process_files(file_list = file_list, arguments = arguments)   
+
 def main():  
     """
     Run program based on user input arguments. Program will automatically process file(s) supplied or downloaded,
@@ -68,65 +112,42 @@ def main():
     a directory (tagged with 'output') at the same level as the supplied or downloaded data files.
     """    
     # parse arguments from command line
-    parser = argparse.ArgumentParser(description = 'Read, process, log errors, print, and plot information from USGS \
-                                                    National Water Information System (NWIS) data files.') 
+    parser = argparse.ArgumentParser(description = "Read, process, log errors, print, and plot information from USGS \
+                                                    National Water Information System (NWIS) data files.") 
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('-f', '--files', nargs = '+', help = 'Input NWIS file(s) to be processed')
-    group.add_argument('-fd', '--filedialog', action = 'store_true', help = 'Open a file dialog menu to select datafiles.')
-    parser.add_argument('-v', '--verbose', action = 'store_true',  help = 'Print general information about NWIS file(s)')
-    parser.add_argument('-p', '--showplot', action = 'store_true',  help = 'Show plots of data contained in NWIS file(s)')
-    parser.add_argument('-web', '--webservice', nargs = '+',  help = 'Get data file(s) from the web using a web service request file')
+    group.add_argument('-f', '--files', nargs = '+', help = 'List data file(s) to be processed')
+    group.add_argument('-fd', '--filedialog', action = 'store_true', help = 'Open a file dialog window to select data file(s).')
+    parser.add_argument('-v', '--verbose', action = 'store_true',  help = 'Print general information about data file(s)')
+    parser.add_argument('-p', '--showplot', action = 'store_true',  help = 'Show plots of parameters contained in data file(s)')
+    parser.add_argument('-web', '--webservice', nargs = '+',  help = 'List a web service request file to be processed')
+    parser.add_argument('-webfd', '--webservice_dialog', action = 'store_true',  help = 'Open a file dialog window to select a web service request file')
     args = parser.parse_args()  
 
     try:
         
-        # process file(s) written as arguments
+        # get files from command line arguments and process
         if args.files:
             process_files(file_list = args.files, arguments = args)
             
-        # process file(s) from a Tkinter file dialog
+        # get files from file dialog and process
         elif args.filedialog:
             root = Tkinter.Tk() 
             files = tkFileDialog.askopenfilenames(title = 'Select USGS NWIS File(s)', filetypes = [('Text file','*.txt'), ('All files', '.*')])
             root.destroy()          
             process_files(file_list = root.tk.splitlist(files), arguments = args)
+
+        # get web service request file from file dialog and process
+        elif args.webservice_dialog:
+            root = Tkinter.Tk() 
+            request_file = tkFileDialog.askopenfilename(title = 'Select web request file', filetypes = [('Text file','*.txt'), ('All files', '.*')])
+            root.destroy()
+            if request_file:
+                process_webrequest(request_file = request_file, arguments = args)
             
-        # process file(s) from a webservice
+        # get web service request file from file dialog and process
         elif args.webservice:
-            # get user supplied web request file and its location
             request_file = args.webservice[0]
-            request_filedir, request_filename = nwispy_helpers.get_filedir_filename(path = request_file)            
-            
-            # make a directory to hold download files in the same directory as the request file
-            web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename.split(".txt")[0], "datafiles"]))
-            
-            # initialize error logging
-            nwispy_logging.initialize_loggers(output_dir = web_filedir, logging_type = "exception")                        
-            
-            # read the request data file
-            request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
-                      
-            for request in request_data["requests"]:    
-                # encode a url based on request
-                request_url = nwispy_webservice.encode_url(request) 
-                
-                # name each file by date tagging it to current date and time and its site number
-                date_time_str = nwispy_helpers.now()
-                web_filename = "_".join([request["site number"], request["data type"], date_time_str]) + ".txt"
-                
-                # download the files
-                nwispy_webservice.download_file(user_parameters_url = request_url, 
-                                                data_type = request["data type"], 
-                                                filename = web_filename,
-                                                file_destination = web_filedir)
-
-            # close error logging
-            nwispy_logging.remove_loggers()
-
-            # process the downloaded file
-            file_list = nwispy_helpers.get_filepaths(directory = web_filedir, file_ext = ".txt")
-
-            process_files(file_list = file_list, arguments = args)            
+            process_webrequest(request_file = request_file, arguments = args)
             
         # process file(s) using standard input
         else:

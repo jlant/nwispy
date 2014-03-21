@@ -134,7 +134,7 @@ To process a multiple NWIS data files the general command syntax is:
 
 **File Dialog -fd flag**
 
-The -fd flag spawns a file dialog box for users to choose files: 
+The -fd flag opens a file dialog box for users to choose files: 
 
 	$ python nwispy.py -fd
 	
@@ -172,9 +172,16 @@ OR
 
 **Web Service -web flag**
 
-The -web flag retrieves data files through the USGS NWIS web service based upon a user created tab-delimited *requests.txt* file.  
+The -web flag retrieves data files through the USGS NWIS web services based upon a user created tab-delimited *requests.txt* file.  
 
 	$ python nwispy.py -web path/to/requests-file.txt 
+
+**Web Service File Dialog -webfd flag**
+
+The -webfd flag opens a file dialog box for users to choose a tab-delimited *requests.txt* file retrieves data files through USGS NWIS
+web services.  
+
+	$ python nwispy.py -web path/to/requests-file.txt 	
 
 The above commands will create an output directory called *requests-file-datafiles* which will contain timestamped downloaded
 NWIS data file(s) and an output directory for each downloaded file containing the plots of each parameter requested and a 
