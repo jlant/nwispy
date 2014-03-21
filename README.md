@@ -1,8 +1,35 @@
 nwispy
 ======
 
-**Version:** 1.0.0
+Contents
+--------
+[Version](#version)
+[Author](#author)
+[Description](#description)
+[Sample Images](#sample-images)
+[General Instructions](#general-instructions)
+[Requirements](#requirements)
+[Installation Instructions](#installation-instructions)
+[Repository Layout](#repository-layout)
+[In the Works](#in-the-works)
+[Disclaimer and Notice](#disclaimer-and-notice)
 
+Version
+-------
+
+1.0.0
+
+Author
+------
+
+	Jeremiah Lant
+	Hydrologist 
+	U.S. Geological Survey
+	Kentucky Water Science Center
+	Louisville, Kentucky 40299
+	(502) 493-1949
+	jlant@ugs.gov
+	
 Description
 -----------
 *nwispy* is a command line tool for analysing U.S. Geological Survey (USGS) water resource data 
@@ -239,17 +266,6 @@ Repository Layout
 	README.md					# README file
 	REQUIREMENTS.txt			# list of requirements/dependencies 
 	setup.py					# code for building, distributing, and installing modules
-	
-Author
-------
-
-	Jeremiah Lant
-	Hydrologist 
-	U.S. Geological Survey
-	Kentucky Water Science Center
-	Louisville, Kentucky 40299
-	(502) 493-1949
-	jlant@ugs.gov
 
 In the Works
 ------------
