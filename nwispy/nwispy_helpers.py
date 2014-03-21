@@ -7,7 +7,8 @@
 :Email: jlant@usgs.gov
 
 :Purpose: 
-Helper functions for the various modules. 
+
+Collection of helper functions. 
 
 """
 import os

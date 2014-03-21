@@ -20,7 +20,8 @@ from StringIO import StringIO
 def read_webrequest(filepath):
     """    
     Open web request file, create a file object for read_webrequest_in(filestream) 
-    to process.     
+    to process.    
+    
     *Parameters:*
         filepath : string path to file
     

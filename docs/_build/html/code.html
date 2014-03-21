@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="nwispy 1.0.0 documentation" href="index.html" />
-    <link rel="next" title="Gallery" href="images.html" />
+    <link rel="next" title="Gallery" href="gallery.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
   </head>
   <body>
@@ -43,7 +43,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="images.html" title="Gallery"
+          <a href="gallery.html" title="Gallery"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="overview.html" title="Overview"
@@ -64,7 +64,8 @@
 <li><a class="reference internal" href="#module-nwispy_webservice">nwispy_webservice</a></li>
 <li><a class="reference internal" href="#module-nwispy_viewer">nwispy_viewer</a></li>
 <li><a class="reference internal" href="#module-nwispy_logging">nwispy_logging</a></li>
-<li><a class="reference internal" href="#nwispy-helpers">nwispy_helpers</a></li>
+<li><a class="reference internal" href="#module-nwispy_helpers">nwispy_helpers</a></li>
+<li><a class="reference internal" href="#module-nwispygui">nwispygui</a></li>
 </ul>
 </li>
 </ul>
@@ -73,7 +74,7 @@
   <p class="topless"><a href="overview.html"
                         title="previous chapter">Overview</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="images.html"
+  <p class="topless"><a href="gallery.html"
                         title="next chapter">Gallery</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
@@ -135,6 +136,19 @@ a directory (tagged with &#8216;output&#8217;) at the same level as the supplied
 <dl class="docutils">
 <dt><em>Parameters:</em></dt>
 <dd>file_list : list of files to process
+arguments : argparse object; created by parser.parse_args()</dd>
+<dt><em>Return:</em></dt>
+<dd>No return</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy.process_webrequest">
+<tt class="descclassname">nwispy.</tt><tt class="descname">process_webrequest</tt><big>(</big><em>request_file</em>, <em>arguments</em><big>)</big><a class="headerlink" href="#nwispy.process_webrequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process a web request file and process.</p>
+<dl class="docutils">
+<dt><em>Parameters:</em></dt>
+<dd>request_file : string path to request file
 arguments : argparse object; created by parser.parse_args()</dd>
 <dt><em>Return:</em></dt>
 <dd>No return</dd>
@@ -226,30 +240,28 @@ are replaced with a NAN value.</p>
 <dd>filestream: file object</dd>
 <dt><em>Return:</em></dt>
 <dd><p class="first">data: dictionary holding data found in NWIS data file</p>
-<dl class="docutils">
-<dt>data = {</dt>
-<dd><p class="first">&#8216;date_retrieved&#8217;: None,</p>
+<p>data = {</p>
+<blockquote>
+<div><p>&#8216;date_retrieved&#8217;: None,</p>
 <p>&#8216;gage_name&#8217;: None,</p>
 <p>&#8216;column_names&#8217;: None,</p>
 <p>&#8216;parameters&#8217;: [],</p>
 <p>&#8216;dates&#8217;: [],</p>
-<p class="last">&#8216;timestep&#8217;: None</p>
-</dd>
-</dl>
+<p>&#8216;timestep&#8217;: None</p>
+</div></blockquote>
 <p>}</p>
 <p>** Note: The &#8216;parameters&#8217; key contains a list of dictionaries containing
 the parameters found in the data file; i.e.</p>
-<dl class="docutils">
-<dt>parameters[0] = {</dt>
-<dd><p class="first">&#8216;code&#8217;: string of NWIS code,</p>
+<p>parameters[0] = {</p>
+<blockquote>
+<div><p>&#8216;code&#8217;: string of NWIS code,</p>
 <p>&#8216;description&#8217;: string of NWIS description,</p>
 <p>&#8216;index&#8217;: integer of column index data is located,</p>
 <p>&#8216;data&#8217;: numpy array of data values,</p>
 <p>&#8216;mean&#8217;: mean of data values,</p>
 <p>&#8216;max&#8217;: max of data values,</p>
-<p class="last">&#8216;min&#8217;: min of data values</p>
-</dd>
-</dl>
+<p>&#8216;min&#8217;: min of data values</p>
+</div></blockquote>
 <p class="last">}</p>
 </dd>
 </dl>
@@ -321,11 +333,10 @@ the parameters found in the data file; i.e.</p>
 <dt id="nwispy_webservice.read_webrequest">
 <tt class="descclassname">nwispy_webservice.</tt><tt class="descname">read_webrequest</tt><big>(</big><em>filepath</em><big>)</big><a class="headerlink" href="#nwispy_webservice.read_webrequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open web request file, create a file object for read_webrequest_in(filestream) 
-to process.     
-<em>Parameters:</em></p>
-<blockquote>
-<div>filepath : string path to file</div></blockquote>
+to process.</p>
 <dl class="docutils">
+<dt><em>Parameters:</em></dt>
+<dd>filepath : string path to file</dd>
 <dt><em>Return:</em></dt>
 <dd>data : dictionary holding data found in file</dd>
 </dl>
@@ -449,8 +460,157 @@ path.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="nwispy-helpers">
-<h2>nwispy_helpers<a class="headerlink" href="#nwispy-helpers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-nwispy_helpers">
+<span id="nwispy-helpers"></span><h2>nwispy_helpers<a class="headerlink" href="#module-nwispy_helpers" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispy_helpers.py</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Collection of helper functions.</p>
+<dl class="function">
+<dt id="nwispy_helpers.find_start_end_dates">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">find_start_end_dates</tt><big>(</big><em>model_dates</em>, <em>observed_dates</em><big>)</big><a class="headerlink" href="#nwispy_helpers.find_start_end_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find start and end dates between two different sized arrays of datetime
+objects.</p>
+<dl class="docutils">
+<dt><em>Parameters:</em>  </dt>
+<dd><p class="first">model_dates : array of datetime objects</p>
+<p class="last">observed_dates : array of datetime objects</p>
+</dd>
+<dt><em>Return:</em></dt>
+<dd>overlap_dates : array of datetime objects</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.get_filedir_filename">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">get_filedir_filename</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#nwispy_helpers.get_filedir_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get file directory and name from a file path.</p>
+<dl class="docutils">
+<dt><em>Parameters:</em></dt>
+<dd>path: string path name</dd>
+<dt><em>Return:</em></dt>
+<dd>filedir : string file directory path
+filename : string file name</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.get_filepaths">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">get_filepaths</tt><big>(</big><em>directory</em>, <em>file_ext=None</em><big>)</big><a class="headerlink" href="#nwispy_helpers.get_filepaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of full file paths from a directory including its subdirectories.</p>
+<dl class="docutils">
+<dt><em>Parameters:</em></dt>
+<dd>directory : string path</dd>
+<dt><em>Return:</em></dt>
+<dd>file_paths : list of full file paths from a directory</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.is_float">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">is_float</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#nwispy_helpers.is_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if string value can be converted to a float. Return True if
+value can be converted to a float and False otherwise.</p>
+<dl class="docutils">
+<dt><em>Parameters</em>:</dt>
+<dd>value: string</dd>
+<dt><em>Return</em>:</dt>
+<dd>boolean</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.make_directory">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">make_directory</tt><big>(</big><em>path</em>, <em>directory_name</em><big>)</big><a class="headerlink" href="#nwispy_helpers.make_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an output directory.</p>
+<dl class="docutils">
+<dt><em>Parameters:</em></dt>
+<dd>path: string path name
+directory_name : string directory name</dd>
+<dt><em>Return:</em></dt>
+<dd>directory_path : string path to directory</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.now">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">now</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current date and time in a format that can be used as a file name. 
+Format: year-month-day_hour.minute.second.microsecond (microsecond is sliced to display 3 digits instead of 6)
+Example 2014-03-18_15.51.46.252</p>
+<dl class="docutils">
+<dt><em>Parameters:</em></dt>
+<dd>none</dd>
+<dt><em>Return:</em></dt>
+<dd>date_time_str : string of date and time</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.subset_data">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">subset_data</tt><big>(</big><em>dates</em>, <em>data</em>, <em>start_date</em>, <em>end_date</em><big>)</big><a class="headerlink" href="#nwispy_helpers.subset_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subset the <em>dates</em> and <em>data</em> arrays to match the range of the <em>start_date</em>
+and <em>end_date</em>. If <em>start_date</em> and <em>end_date</em> are not within the range of dates
+specified in <em>dates</em>, then the <em>start_date</em> and <em>end_date</em> are set to the
+first and last dates in the array <em>dates</em>.</p>
+<dl class="docutils">
+<dt><em>Parameters:</em>  </dt>
+<dd><p class="first">dates :  array of dates as datetime objects</p>
+<p>data : array of data</p>
+<p>start_date : datetime object</p>
+<p class="last">end_date : datetime object</p>
+</dd>
+<dt><em>Return:</em></dt>
+<dd>data : dictionary holding arrays of date and data subset</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-nwispygui">
+<span id="nwispygui"></span><h2>nwispygui<a class="headerlink" href="#module-nwispygui" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispygui.py</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Script that creates an interactive plot of an NWIS data file. User can 
+interact with the plot via a SpanSelector mouse widget. A toggle key event handler 
+exists for the matplotlib SpanSelector widget. A keypress of &#8216;A&#8217; or &#8216;a&#8217; actives the 
+slider and a keypress of &#8216;Q&#8217; or &#8216;q&#8217; de-activates the slider.</p>
+<dl class="function">
+<dt id="nwispygui.onselect">
+<tt class="descclassname">nwispygui.</tt><tt class="descname">onselect</tt><big>(</big><em>xmin</em>, <em>xmax</em><big>)</big><a class="headerlink" href="#nwispygui.onselect" title="Permalink to this definition">¶</a></dt>
+<dd><p>A select event handler for the matplotlib SpanSelector widget.
+Selects a min/max range of the x or y axes for a matplotlib Axes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispygui.toggle_selector">
+<tt class="descclassname">nwispygui.</tt><tt class="descname">toggle_selector</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#nwispygui.toggle_selector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A toggle key event handler for the matplotlib SpanSelector widget. Keypress
+of &#8216;A&#8217; or &#8216;a&#8217; actives the slider; &#8216;Q&#8217; or &#8216;q&#8217; de-activates the slider</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -470,7 +630,7 @@ path.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="images.html" title="Gallery"
+          <a href="gallery.html" title="Gallery"
              >next</a> |</li>
         <li class="right" >
           <a href="overview.html" title="Overview"

@@ -31,7 +31,7 @@ def read_file(filepath):
     can be unit tested.
     
     *Parameters:*
-		filepath : string path to NWIS file
+        filepath : string path to NWIS file
     
     *Return:*
         data : dictionary holding data found in NWIS data file  
@@ -55,6 +55,7 @@ def read_file_in(filestream):
         data: dictionary holding data found in NWIS data file
         
         data = {
+        
             'date_retrieved': None,
             
             'gage_name': None,
@@ -72,6 +73,7 @@ def read_file_in(filestream):
         the parameters found in the data file; i.e.
         
         parameters[0] = {
+        
             'code': string of NWIS code,
             
             'description': string of NWIS description,

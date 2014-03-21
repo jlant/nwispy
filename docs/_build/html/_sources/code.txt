@@ -31,7 +31,7 @@ nwispy_helpers
 .. automodule:: nwispy_helpers
    :members:
    
- nwispygui
+nwispygui
 ---------
 .. automodule:: nwispygui
    :members:  
