@@ -1,8 +1,49 @@
 nwispy
 ======
 
-**Version:** 1.0.0
+Contents
+--------
 
+[Version](#version)
+
+[Author](#author)
+
+[Description](#description)
+
+[*nwispy* Command Line Interface](#nwispy-command-line-interface)
+
+[*nwispy* Simple UML Diagram](#nwispy-simple-uml-diagram)
+
+[Sample Images](#sample-images)
+
+[General Instructions](#general-instructions)
+
+[Requirements](#requirements)
+
+[Installation Instructions](#installation-instructions)
+
+[Repository Layout](#repository-layout)
+
+[In the Works](#in-the-works)
+
+[Disclaimer and Notice](#disclaimer-and-notice)
+
+Version
+-------
+
+1.0.0
+
+Author
+------
+
+	Jeremiah Lant
+	Hydrologist 
+	U.S. Geological Survey
+	Kentucky Water Science Center
+	Louisville, Kentucky 40299
+	(502) 493-1949
+	jlant@ugs.gov
+	
 Description
 -----------
 *nwispy* is a command line tool for analysing U.S. Geological Survey (USGS) water resource data 
@@ -56,6 +97,8 @@ http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
 For upcoming developments, please see [In the Works](#in-the-works).
 
+Return to [Contents](#contents).
+
 *nwispy* Command Line Interface
 -------------------------------
 ![nwispy interface](docs/_static/nwispy-interface.png)
@@ -71,6 +114,8 @@ Sample Images
 ![temperature plot](docs/_static/temperature.png)
 ![turbidity plot](docs/_static/turbidity.png)
 ![depth plot](docs/_static/depth-to-water.png)
+
+Return to [Contents](#contents).
 
 General Instructions
 --------------------
@@ -197,6 +242,8 @@ Example tab-delimited *requests.txt* files are shown below:
 
 ![request file plot](docs/_static/request_multiple_gages.png)
 
+
+Return to [Contents](#contents).
 	
 Requirements
 ------------
@@ -239,18 +286,9 @@ Repository Layout
 	README.md					# README file
 	REQUIREMENTS.txt			# list of requirements/dependencies 
 	setup.py					# code for building, distributing, and installing modules
+
+Return to [Contents](#contents).
 	
-Author
-------
-
-	Jeremiah Lant
-	Hydrologist 
-	U.S. Geological Survey
-	Kentucky Water Science Center
-	Louisville, Kentucky 40299
-	(502) 493-1949
-	jlant@ugs.gov
-
 In the Works
 ------------
 
@@ -274,3 +312,4 @@ Disclaimer and Notice
 	States Government as to the accuracy and functioning of the program and related program material nor shall the fact of
 	distribution constitute any such warranty, and no responsibility is assumed by the USGS in connection therewith.
 
+Return to [Contents](#contents).
