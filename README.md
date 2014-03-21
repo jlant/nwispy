@@ -115,6 +115,8 @@ Sample Images
 ![turbidity plot](docs/_static/turbidity.png)
 ![depth plot](docs/_static/depth-to-water.png)
 
+Return to [Contents](#contents).
+
 General Instructions
 --------------------
 
@@ -285,6 +287,8 @@ Repository Layout
 	REQUIREMENTS.txt			# list of requirements/dependencies 
 	setup.py					# code for building, distributing, and installing modules
 
+Return to [Contents](#contents).
+	
 In the Works
 ------------
 
