@@ -11,12 +11,8 @@ Read USGS National Water Information System (NWIS) data files.
 
 """
 
-import pdb
-import sys
-import os
 import re
 import numpy as np
-from scipy.stats import nanmean 
 import datetime
 import logging
 
@@ -191,7 +187,7 @@ def read_file_in(filestream):
     # compute mean, max, and min as well.
     for parameter in data['parameters']:
         parameter['data'] = np.array(parameter['data'])       
-        parameter['mean'] = nanmean(parameter['data'])
+        parameter['mean'] = np.nanmean(parameter['data'])
         parameter['max'] = np.nanmax(parameter['data'])
         parameter['min'] = np.nanmin(parameter['data'])
 
