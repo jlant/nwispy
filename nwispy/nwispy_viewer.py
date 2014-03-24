@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from textwrap import wrap
 
+import datetime
+import numpy as np
+
 def print_info(nwis_data):
     """   
     Print relevant information and contained in the nwis data file. 
@@ -123,9 +126,58 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             plt.close()
 
 
+def _create_testdata():
+    """ create test data for tests """
+    start_date = datetime.datetime(2014, 03, 01, 8, 0)
+    dates = [start_date + datetime.timedelta(i) for i in range(10)]
+    
+    temperature_data = np.array([0 + i for i in range(10)])
+    stage_data = np.array([100 + i for i in range(10)])
+       
+    parameters = [
+        {"code": "00010",
+        "description": "Temperature, water, degrees Celsius",
+        "index": 0,
+        "data": temperature_data,
+        "mean": np.mean(temperature_data),
+        "max": np.max(temperature_data),
+        "min": np.min(temperature_data)},
+
+        {"code": "00065",
+        "description": "Gage height, feet",
+        "index": 1,
+        "data": stage_data,
+        "mean": np.mean(stage_data),
+        "max": np.max(stage_data),
+        "min": np.min(stage_data)}        
+    ]
+    
+    data = {
+        "date_retrieved": "2014-03-20 22:28:47",
+        "gage_name": "USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY",
+        "column_names": ["03_00010", "03_00010_cd", "02_00065", "02_00065_cd"],
+        "parameters": parameters,
+        "dates": dates,
+        "timestep": "instaneous"   
+    } 
+    
+    return data
+    
+def test_print():
+    """ Test print output functionality """
+    data = _create_testdata()
+    print_info(nwis_data = data)
+
+def test_plot():
+    """ Test plotting functionality """
+    data = _create_testdata()
+    plot_data(nwis_data = data, is_visible = True, save_path = None)
+    
 def main():
     """ Test functionality of plotting and printing file information """
-
+    test_print()
+    
+    test_plot()
 
 if __name__ == "__main__":
     main() 
