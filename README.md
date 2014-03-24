@@ -247,9 +247,9 @@ Return to [Contents](#contents).
 	
 Requirements
 ------------
-	python == 2.7.5
-	numpy == 1.7.1
-	matplotlib == 1.2.1
+	python == 2.7.6
+	numpy == 1.8.0
+	matplotlib == 1.3.1
 	nose == 1.3.0
 	
 Installation Instructions
