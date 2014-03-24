@@ -13,17 +13,19 @@ Log erroneous data values found in USGS NWIS files.
 
 
 import logging
-import os.path
+import os
 
 def initialize_loggers(output_dir, logging_type = "warn"):
     """    
     Initialize the error logging objects.
     
-    *Parameters:*
-        output_dir : string directory path
+    Parameters
+    ----------        
+        **output_dir** : string directory path
     
-    *Return:*
-        loggin_type : string flag to specify a particular kind of log file  
+    Return
+    ------
+        **logging_type** : string flag to specify a particular kind of log file  
         
     """ 
     # create main logger and set global log level to debug
@@ -58,11 +60,13 @@ def remove_loggers():
     """    
     Remove all the error logging objects that exist in the application.
     
-    *Parameters:*
-        no parameters
+    Parameters
+    ----------
+        **no parameters**
     
-    *Return:*
-        no return  
+    Return
+    ------
+        **no return**  
         
     """     
     logger = logging.getLogger()
@@ -71,3 +75,35 @@ def remove_loggers():
         logger.removeHandler(i)
         i.flush()
         i.close()
+
+
+def test_logging():
+    """ Test functionality of logging errors """
+    
+    print("** Testing logging **")
+    # initialize error logging
+    initialize_loggers(output_dir = os.getcwd())
+    
+    # creat a warning log
+    logging.warn("my warning log")
+    
+    # try to add info log; info should NOT be added to warn.log since it is not setup for logging.info
+    logging.info("my info log")
+    
+    # try to add debug log; debug should NOT be added to warn.log since it is not setup for logging.debug
+    logging.debug("my debug log")
+
+    # close error logging
+    remove_loggers()
+
+    print("Logging finished. Check current working directory for warn.log")
+    
+    print("")
+
+def main():
+    """ Test functionality of logging errors """
+    
+    test_logging()
+    
+if __name__ == "__main__":
+    main()

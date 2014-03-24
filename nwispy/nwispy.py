@@ -31,16 +31,18 @@ def process_files(file_list, arguments):
     """    
     Process a list of files according to options contained in arguments.
     
-    *Parameters:*
-        file_list : list of files to process
-        arguments : argparse object; created by parser.parse_args()          
+    Parameters
+    ----------
+        **file_list** : list of files to process
+        **arguments** : argparse object; created by parser.parse_args()          
     
-    *Return:*
-        No return  
+    Return
+    ------
+        **no return**
         
     """
     for f in file_list:
-        filedir, filename = nwispy_helpers.get_filedir_filename(f)
+        filedir, filename = nwispy_helpers.get_file_info(f)
           
         # create output directory     
         outputdirpath = nwispy_helpers.make_directory(path = filedir, directory_name = '-'.join([filename.split(".txt")[0], "output"]))      
@@ -65,14 +67,16 @@ def process_webrequest(request_file, arguments):
     """    
     Process a web request file and process.
     
-    *Parameters:*
-        request_file : string path to request file
-        arguments : argparse object; created by parser.parse_args()          
+    Parameters
+    ----------
+        **request_file** : string path to request file
+        **arguments** : argparse object; created by parser.parse_args()          
     
-    *Return:*
-        No return  
+    Return
+    ------
+        **no return**
     """            
-    request_filedir, request_filename = nwispy_helpers.get_filedir_filename(path = request_file)            
+    request_filedir, request_filename = nwispy_helpers.get_file_info(path = request_file)            
     
     # make a directory to hold download files in the same directory as the request file
     web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename.split(".txt")[0], "datafiles"]))
@@ -101,7 +105,7 @@ def process_webrequest(request_file, arguments):
     nwispy_logging.remove_loggers()
 
     # process the downloaded file(s)
-    file_list = nwispy_helpers.get_filepaths(directory = web_filedir, file_ext = ".txt")
+    file_list = nwispy_helpers.get_file_paths(directory = web_filedir, file_ext = ".txt")
 
     process_files(file_list = file_list, arguments = arguments)   
 

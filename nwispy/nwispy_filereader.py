@@ -26,11 +26,13 @@ def read_file(filepath):
     responsibility from read_file_in(filestream) so that read_file_in(filestream)  
     can be unit tested.
     
-    *Parameters:*
-        filepath : string path to NWIS file
+    Parameters
+    ----------   
+        **filepath** : string path to NWIS file
     
-    *Return:*
-        data : dictionary holding data found in NWIS data file  
+    Return
+    ------
+        **data** : dictionary holding data found in NWIS data file  
         
     """    
     with open(filepath, "r") as f:
@@ -44,11 +46,13 @@ def read_file_in(filestream):
     Relevant data is put into a dictionary (see Return section).  Missing data values
     are replaced with a NAN value.  
     
-    *Parameters:*
-        filestream: file object
+    Parameters
+    ----------
+        **filestream** : file object
     
-    *Return:*
-        data: dictionary holding data found in NWIS data file
+    Return
+    ------
+        **data** : dictionary holding data found in NWIS data file
         
         data = {
         
@@ -155,7 +159,7 @@ def read_file_in(filestream):
             for parameter in data['parameters']:
                 value = match_data_row.group(0).split('\t')[parameter['index']]
                 
-                if not nwispy_helpers.is_float(value):
+                if not nwispy_helpers.isfloat(value):
                     if value == "":
                         error_str = '**Missing value on ' + str(date) + ' *Filling with Not A Number (NAN)'
                         logging.warn(error_str)
@@ -197,13 +201,16 @@ def get_parameter_code(match):
     """   
     Get code and description from existing parameters.
     
-    *Parameters*:
-        match: regular expression match object
+    Parameters
+    ----------
+        **match** : regular expression match object
         
-    *Return*:
-        (code, description): tuple of code and description
+    Return
+    ------
+        **(code, description)** : tuple of code and description
     
-    *Example*:
+    Example
+    -------
         string:  '#    06   00060     00003     Discharge, cubic feet per second (Mean)'
         
         match.groups(0):  ('#', '06', '00060', '00003', '     Discharge, cubic feet per second (Mean)')
@@ -241,13 +248,15 @@ def get_date(daily, instantaneous):
     """   
     Parse the date strings from a data row.
     
-    *Parameters*:
-        daily: string of daily format; i.e. 2013-06-25
+    Parameter
+    ---------
+        **daily** : string of daily format; i.e. 2013-06-25
         
-        intantaneous: string of intantaneous format; i.e. 00:15\tEDT
+        **intantaneous** : string of intantaneous format; i.e. 00:15\tEDT
     
-    *Return*:
-        date: datetime object   
+    Return
+    ------
+        **date** : datetime object   
         
     """
     # get date from the data row
@@ -269,7 +278,8 @@ def get_date(daily, instantaneous):
 
 
 def test_get_parameter_code():
-    """ test the get parameter code function """
+    """Test the get parameter code function """
+    
     print("**Testing get_parameter_code() **")
     print("")
     
@@ -286,7 +296,8 @@ def test_get_parameter_code():
 
 
 def test_get_date():
-    """ test the get date function """
+    """ Test the get date function """
+    
     print("**Testing get_date()**")
     print("")
     

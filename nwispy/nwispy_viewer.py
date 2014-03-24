@@ -22,11 +22,13 @@ def print_info(nwis_data):
     """   
     Print relevant information and contained in the nwis data file. 
     
-    *Parameters*:
-        nwis_data: dictionary holding data from NWIS file
+    Parameter
+    ---------
+        **nwis_data** : dictionary holding data from NWIS file
         
-    *Return*:
-        no return
+    Return
+    ------
+        **no return**
         
     """   
     
@@ -45,13 +47,15 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
     Plot each parameter contained in the nwis data. Save plots to a particular
     path.
     
-    *Parameters*:
-        nwis_data: dictionary holding data from NWIS file
+    Parameter
+    ---------
+        **nwis_data** : dictionary holding data from NWIS file
         
-        save_path: string path to save plot(s) 
+        **save_path** : string path to save plot(s) 
         
-    *Return*:
-        no return
+    Return
+    ------
+        **no return**
         
     """
     
@@ -127,7 +131,8 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
 
 
 def _create_testdata():
-    """ create test data for tests """
+    """ Create test data for tests """
+    
     start_date = datetime.datetime(2014, 03, 01, 8, 0)
     dates = [start_date + datetime.timedelta(i) for i in range(10)]
     
@@ -165,16 +170,28 @@ def _create_testdata():
     
 def test_print():
     """ Test print output functionality """
+    
+    print("** Testing print **")
+    
     data = _create_testdata()
     print_info(nwis_data = data)
+    
+    print("")
 
 def test_plot():
     """ Test plotting functionality """
+    
+    print("** Testing plot **")    
+    
     data = _create_testdata()
     plot_data(nwis_data = data, is_visible = True, save_path = None)
     
+    print("Plotting completed")
+    print("")
+    
 def main():
     """ Test functionality of plotting and printing file information """
+    
     test_print()
     
     test_plot()
