@@ -163,6 +163,118 @@ def setup():
         USGS	03401385	2013-06-06 00:45	EDT	4.0	P	20.0	P	0.25	P	3.5	P	-1.0	P	2.5	P
         USGS	03401385	2013-06-06 01:00	EDT	5.0	P	25.0	P	0.25	P	3.0	P	-2.0	P	2.5	P
         """
+
+    # set up fixture with sample data files
+    fixture["bad_data_daily_single_parameter"] = \
+        """
+        # ---------------------------------- WARNING ----------------------------------------
+        # The data you have obtained from this automated U.S. Geological Survey database
+        # have not received Director"s approval and as such are provisional and subject to
+        # revision.  The data are released on the condition that neither the USGS nor the
+        # United States Government may be held liable for any damages resulting from its use.
+        # Additional info: http://waterdata.usgs.gov/nwis/help/?provisional
+        #
+        # File-format description:  http://waterdata.usgs.gov/nwis/?tab_delimited_format_info
+        # Automated-retrieval info: http://waterdata.usgs.gov/nwis/?automated_retrieval_info
+        #
+        # Contact:   gs-w_support_nwisweb@usgs.gov
+        # retrieved: 2013-07-02 22:08:51 EDT       (sdww01)
+        #
+        # Data for the following 1 site(s) are contained in this file
+        #    USGS 03290500 KENTUCKY RIVER AT LOCK 2 AT LOCKPORT, KY
+        # -----------------------------------------------------------------------------------
+        #
+        # Data provided for site 03290500
+        #    DD parameter statistic   Description
+        #    06   00060     00003     Discharge, cubic feet per second (Mean)
+        #
+        # Data-value qualification codes included in this output: 
+        #     A  Approved for publication -- Processing and review completed.  
+        #     P  Provisional data subject to revision.  
+        #     e  Value has been estimated.  
+        # 
+        agency_cd	site_no	datetime	06_00060_00003	06_00060_00003_cd
+        5s	15s	20d	14n	10s
+        USGS	03290500	2012-07-01	171_	A
+        USGS	03290500	2012-07-02	190_	A
+        USGS	03290500	2012-07-03	164_	A
+        USGS	03290500	2012-07-04	150_	A
+        USGS	03290500	2012-07-05	125_	A
+        """
+
+    # set up fixture with sample data files
+    fixture["bad_data_instantaneous_single_parameter1"] = \
+        """
+        # ---------------------------------- WARNING ----------------------------------------
+        # The data you have obtained from this automated U.S. Geological Survey database
+        # have not received Director"s approval and as such are provisional and subject to
+        # revision.  The data are released on the condition that neither the USGS nor the
+        # United States Government may be held liable for any damages resulting from its use.
+        # Additional info: http://nwis.waterdata.usgs.gov/ca/nwis/?provisional
+        #
+        # File-format description:  http://nwis.waterdata.usgs.gov/nwis/?tab_delimited_format_info
+        # Automated-retrieval info: http://nwis.waterdata.usgs.gov/nwis/?automated_retrieval_info
+        #
+        # Contact:   gs-w_support_nwisweb@usgs.gov
+        # retrieved: 2014-03-13 17:19:26 EDT       (nadww01)
+        #
+        # Data for the following 1 site(s) are contained in this file
+        #    USGS 11143000 BIG SUR R NR BIG SUR CA
+        # -----------------------------------------------------------------------------------
+        #
+        # Data provided for site 11143000
+        #    DD parameter   Description
+        #    03   00065     Gage height, feet
+        #
+        # Data-value qualification codes included in this output: 
+        #     A  Approved for publication -- Processing and review completed.  
+        #     P  Provisional data subject to revision.  
+        # 
+        agency_cd	site_no	datetime	tz_cd	03_00065	03_00065_cd
+        5s	15s	20d	6s	14n	10s
+        USGS	11143000	2010-03-01 00:00	PST	5.0	A
+        USGS	11143000	2010-03-01 00:15	PST	10.0	A
+        USGS	11143000	2010-03-01 00:30	PST		A
+        USGS	11143000	2010-03-01 00:45	PST		A
+        USGS	11143000	2010-03-01 01:00	PST	5.5	A
+        """
+
+    fixture["bad_data_instantaneous_single_parameter2"] = \
+        """
+        # ---------------------------------- WARNING ----------------------------------------
+        # The data you have obtained from this automated U.S. Geological Survey database
+        # have not received Director"s approval and as such are provisional and subject to
+        # revision.  The data are released on the condition that neither the USGS nor the
+        # United States Government may be held liable for any damages resulting from its use.
+        # Additional info: http://nwis.waterdata.usgs.gov/ca/nwis/?provisional
+        #
+        # File-format description:  http://nwis.waterdata.usgs.gov/nwis/?tab_delimited_format_info
+        # Automated-retrieval info: http://nwis.waterdata.usgs.gov/nwis/?automated_retrieval_info
+        #
+        # Contact:   gs-w_support_nwisweb@usgs.gov
+        # retrieved: 2014-03-13 17:19:26 EDT       (nadww01)
+        #
+        # Data for the following 1 site(s) are contained in this file
+        #    USGS 11143000 BIG SUR R NR BIG SUR CA
+        # -----------------------------------------------------------------------------------
+        #
+        # Data provided for site 11143000
+        #    DD parameter   Description
+        #    03   00065     Gage height, feet
+        #
+        # Data-value qualification codes included in this output: 
+        #     A  Approved for publication -- Processing and review completed.  
+        #     P  Provisional data subject to revision.  
+        # 
+        agency_cd	site_no	datetime	tz_cd	03_00065	03_00065_cd
+        5s	15s	20d	6s	14n	10s
+        USGS	11143000	2010-03-01 00:00	PST	Ice	A
+        USGS	11143000	2010-03-01 00:15	PST	Ice	A
+        USGS	11143000	2010-03-01 00:30	PST	*	A
+        USGS	11143000	2010-03-01 00:45	PST	*	A
+        USGS	11143000	2010-03-01 01:00	PST	50.0	A
+        """
+
 	
 # define a teardown function that runs AFTER every test method
 def teardown():
@@ -538,3 +650,92 @@ def test_data_instantaneous_multi_parameter():
     nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
          
     nose.tools.assert_equals(actual["timestep"], expected["timestep"]) 
+    
+    
+def test_bad_daily_single_parameter():
+    
+    data = np.array([171, 190, 164, 150, 125])
+    
+    expected = {
+        "parameters": [{
+            "code": "06_00060_00003",
+            "description": "Discharge, cubic feet per second (Mean)",
+            "index": 3,
+            "data": data,
+            "mean": np.mean(data),
+            "max": np.max(data),
+            "min": np.min(data),
+        }],
+    }  
+	
+    fileobj = StringIO(fixture["data_daily_single_parameter"])
+    actual = nwispy_filereader.read_file_in(filestream = fileobj)
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
+
+
+def test_bad_data_instantaneous_single_parameter1():
+   
+    data = np.array([5.0, 10.0, np.nan, np.nan, 5.5])
+    
+    expected = {
+        "parameters": [{
+            "code": "03_00065",
+            "description": "Gage height, feet",
+            "index": 4,
+            "data": data,
+            "mean": np.nanmean(data),
+            "max": np.nanmax(data),
+            "min": np.nanmin(data),
+        }] 
+    }  
+	
+    fileobj = StringIO(fixture["bad_data_instantaneous_single_parameter1"])
+    actual = nwispy_filereader.read_file_in(filestream = fileobj)
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
+    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][2]), np.isnan(expected["parameters"][0]["data"][2]))
+    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][3]), np.isnan(expected["parameters"][0]["data"][3]))
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
+
+def test_bad_data_instantaneous_single_parameter2():
+   
+    data = np.array([np.nan, np.nan, np.nan, np.nan, 50])
+    
+    expected = {
+        "parameters": [{
+            "code": "03_00065",
+            "description": "Gage height, feet",
+            "index": 4,
+            "data": data,
+            "mean": np.nanmean(data),
+            "max": np.nanmax(data),
+            "min": np.nanmin(data),
+        }] 
+    }  
+	
+    fileobj = StringIO(fixture["bad_data_instantaneous_single_parameter2"])
+    actual = nwispy_filereader.read_file_in(filestream = fileobj)
+    
+    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][0]), np.isnan(expected["parameters"][0]["data"][0]))
+    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][1]), np.isnan(expected["parameters"][0]["data"][1]))
+    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][2]), np.isnan(expected["parameters"][0]["data"][2]))
+    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][3]), np.isnan(expected["parameters"][0]["data"][3]))
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])    
