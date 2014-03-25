@@ -43,9 +43,44 @@ def read_file(filepath):
 
 def read_file_in(filestream):
     """    
-    Read and process a USGS NWIS file. Finds any parameter and its respective data. 
-    Relevant data is put into a dictionary (see Return section).  Missing data values
-    are replaced with a NAN value.  
+    Read and process an USGS NWIS data file. Find all parameters and their respective data. 
+    Missing data values are replaced with a NAN value. Relevant data found in the
+    data file is organized into a dictionary:    
+
+    data = {
+    
+        "date_retrieved": None,
+        
+        "gage_name": None,
+        
+        "column_names": None,
+        
+        "parameters": [],
+        
+        "dates": [],
+        
+        "timestep": None   
+    }      
+            
+    The "parameters" key in the data dictionary contains a list of dictionaries containing
+    the parameters found in the data file. For example:
+    
+    parameters[0] = {
+    
+        "code": string of NWIS code,
+        
+        "description": string of NWIS description,
+        
+        "index": integer of column index data is located,
+        
+        "data": numpy array of data values,
+        
+        "mean": mean of data values,
+        
+        "max": max of data values,
+        
+        "min": min of data values
+    }
     
     Parameters
     ----------
@@ -55,146 +90,111 @@ def read_file_in(filestream):
     ------
         **data** : dictionary holding data found in NWIS data file
         
-        data = {
-        
-            'date_retrieved': None,
-            
-            'gage_name': None,
-            
-            'column_names': None,
-            
-            'parameters': [],
-            
-            'dates': [],
-            
-            'timestep': None   
-        }      
-                
-        ** Note: The 'parameters' key contains a list of dictionaries containing
-        the parameters found in the data file; i.e.
-        
-        parameters[0] = {
-        
-            'code': string of NWIS code,
-            
-            'description': string of NWIS description,
-            
-            'index': integer of column index data is located,
-            
-            'data': numpy array of data values,
-            
-            'mean': mean of data values,
-            
-            'max': max of data values,
-            
-            'min': min of data values
-        }        
-        
     """  
     data_file = filestream.readlines()
-    
+    read_file_in()
     # regular expression patterns in data file 
     # column_names and data_row patterns have 5 groups which is used to 
     # distinguish a daily file from an instanteous file; if 4th group is None, 
     # then data file is daily, otherwise it is an instanteous file.
     patterns = {
-        'date_retrieved': '(.+): ([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2})(.+)',  
-        'gage_name': '(#.+)(USGS [0-9]+\s.+)',
-        'parameters': '(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)',
-        'column_names': '(agency_cd)\t(site_no)\t(datetime)\t(tz_cd)?(.+)',
-        'data_row': '(USGS)\t([0-9]+)\t([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s?([0-9]{2}:[0-9]{2}\t[A-Z]{3})?(.+)'
+        "date_retrieved": "(.+): ([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2})(.+)",  
+        "gage_name": "(#.+)(USGS [0-9]+\s.+)",
+        "parameters": "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)",
+        "column_names": "(agency_cd)\t(site_no)\t(datetime)\t(tz_cd)?(.+)",
+        "data_row": "(USGS)\t([0-9]+)\t([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s?([0-9]{2}:[0-9]{2}\t[A-Z]{3})?(.+)"
     }    
     
     # initialize a dictionary to hold all the data of interest
     data = {
-        'date_retrieved': None,
-        'gage_name': None,
-        'column_names': None,
-        'parameters': [],
-        'dates': [],
-        'timestep': None
+        "date_retrieved": None,
+        "gage_name": None,
+        "column_names": None,
+        "parameters": [],
+        "dates": [],
+        "timestep": None
     }      
     
     # process file; find matches and add to data dictionary
     for line in data_file: 
-        match_date_retrieved = re.search(pattern = patterns['date_retrieved'], string = line)
-        match_gage_name = re.search(pattern = patterns['gage_name'], string = line)
-        match_parameters = re.search(pattern = patterns['parameters'], string = line)
-        match_column_names = re.search(pattern = patterns['column_names'], string = line)
-        match_data_row = re.search(pattern = patterns['data_row'], string = line)
+        match_date_retrieved = re.search(pattern = patterns["date_retrieved"], string = line)
+        match_gage_name = re.search(pattern = patterns["gage_name"], string = line)
+        match_parameters = re.search(pattern = patterns["parameters"], string = line)
+        match_column_names = re.search(pattern = patterns["column_names"], string = line)
+        match_data_row = re.search(pattern = patterns["data_row"], string = line)
      
         # if match is found add it to data dictionary; date is in second group of the match
         if match_date_retrieved:
-            data['date_retrieved'] = match_date_retrieved.group(2)
+            data["date_retrieved"] = match_date_retrieved.group(2)
         
         # get the gage name which is the second group in the pattern
         if match_gage_name:
-            data['gage_name'] = match_gage_name.group(2)
+            data["gage_name"] = match_gage_name.group(2)
         
         # get the parameters available in the file and create a dictionary for each parameter
         if match_parameters:
             code, description = get_parameter_code(match = match_parameters)  
             
-            data['parameters'].append({ 
-                'code': code, 
-                'description': description,
-                'index': None,
-                'data': [],
-                'mean': None,
-                'max': None,
-                'min': None
+            data["parameters"].append({ 
+                "code": code, 
+                "description": description,
+                "index": None,
+                "data": [],
+                "mean": None,
+                "max": None,
+                "min": None
             })
             
         # get the column names and indices of existing parameter(s) 
         if match_column_names:
-            data['column_names'] = match_column_names.group(0).split('\t')
+            data["column_names"] = match_column_names.group(0).split("\t")
 
-            for parameter in data['parameters']:
-                parameter['index'] = data['column_names'].index(parameter['code'])           
+            for parameter in data["parameters"]:
+                parameter["index"] = data["column_names"].index(parameter["code"])           
 
          # get date; match_data_row.group(3) => daily match, match_data_row.group(4) => instantaneous match
         if match_data_row:
             date = get_date(daily = match_data_row.group(3), instantaneous = match_data_row.group(4))
-            data['dates'].append(date)
+            data["dates"].append(date)
             
-            for parameter in data['parameters']:
-                value = match_data_row.group(0).split('\t')[parameter['index']]
+            for parameter in data["parameters"]:
+                value = match_data_row.group(0).split("\t")[parameter["index"]]
                 
                 if not nwispy_helpers.isfloat(value):
                     if value == "":
-                        error_str = '**Missing value on ' + str(date) + ' *Filling with Not A Number (NAN)'
+                        error_str = "**Missing value on " + str(date) + " *Filling with Not A Number (NAN)"
                         logging.warn(error_str)
                         value = np.nan
                     
-                    elif '_' in value:
-                        error_str = '**Bad value with float on ' + str(date) + ' *Splitting on _ character'
+                    elif "_" in value:
+                        error_str = "**Bad value with float on " + str(date) + " *Splitting on _ character"
                         logging.warn(error_str)
-                        value = value.split('_')[0]
+                        value = value.split("_")[0]
                     
                     else:
-                        error_str = '**Bad value with float on ' + str(date) +' Value can not be converted to a float: ' + value + ' *Filling with Not A Number (NAN)'
+                        error_str = "**Bad value with float on " + str(date) +" Value can not be converted to a float: " + value + " *Filling with Not A Number (NAN)"
                         logging.warn(error_str)
                         value = np.nan
                         
-                parameter['data'].append(float(value))    
+                parameter["data"].append(float(value))    
     
     # convert the date list to a numpy array
-    data['dates'] = np.array(data['dates'])    
+    data["dates"] = np.array(data["dates"])    
 
     # find timestep of the data
-    timestep = data['dates'][1] - data['dates'][0]
+    timestep = data["dates"][1] - data["dates"][0]
     if timestep.days == 1:
-        data['timestep'] = 'daily'
+        data["timestep"] = "daily"
     else:
-        data['timestep'] = 'instantaneous'
+        data["timestep"] = "instantaneous"
     
-    # convert each parameter data list in data['parameter'] convert to a numpy array and
+    # convert each parameter data list in data["parameter"] convert to a numpy array and
     # compute mean, max, and min as well.
-    for parameter in data['parameters']:
-        parameter['data'] = np.array(parameter['data'])       
-        parameter['mean'] = np.nanmean(parameter['data'])
-        parameter['max'] = np.nanmax(parameter['data'])
-        parameter['min'] = np.nanmin(parameter['data'])
+    for parameter in data["parameters"]:
+        parameter["data"] = np.array(parameter["data"])       
+        parameter["mean"] = np.nanmean(parameter["data"])
+        parameter["max"] = np.nanmax(parameter["data"])
+        parameter["min"] = np.nanmin(parameter["data"])
 
     return data
 
@@ -212,19 +212,19 @@ def get_parameter_code(match):
     
     Example
     -------
-        string:  '#    06   00060     00003     Discharge, cubic feet per second (Mean)'
+        string:  "#    06   00060     00003     Discharge, cubic feet per second (Mean)"
         
-        match.groups(0):  ('#', '06', '00060', '00003', '     Discharge, cubic feet per second (Mean)')
+        match.groups(0):  ("#", "06", "00060", "00003", "     Discharge, cubic feet per second (Mean)")
         
-        match.group(1) = '#'
+        match.group(1) = "#"
         
-        match.group(2) = '06'
+        match.group(2) = "06"
         
-        match.group(3) = '00060'
+        match.group(3) = "00060"
         
-        match.group(4) = '00003'
+        match.group(4) = "00003"
         
-        match.group(5) = 'Discharge, cubic feet per second (Mean)'
+        match.group(5) = "Discharge, cubic feet per second (Mean)"
         
     """ 
     
@@ -232,8 +232,8 @@ def get_parameter_code(match):
     dd = match.group(2)
     param = match.group(3)
     
-    # concatenate dd and param using '_' as in the column names
-    code = '_'.join((dd, param))            
+    # concatenate dd and param using "_" as in the column names
+    code = "_".join((dd, param))            
     
     # get parameter description
     description = match.group(5).strip()    
@@ -241,7 +241,7 @@ def get_parameter_code(match):
     # if statistic exists, then add that to the string
     if match.group(4):
         statistic =  match.group(4).strip()
-        code = '_'.join((code, statistic)) 
+        code = "_".join((code, statistic)) 
    
     return (code, description)
 
@@ -261,17 +261,17 @@ def get_date(daily, instantaneous):
         
     """
     # get date from the data row
-    year = daily.split('-')[0]
-    month = daily.split('-')[1]
-    day = daily.split('-')[2]
+    year = daily.split("-")[0]
+    month = daily.split("-")[1]
+    day = daily.split("-")[2]
     hour = 0
     minute = 0
     
-    # if data row has a date in instantaneous format, then get hour and minute after removing the 'EDT'
+    # if data row has a date in instantaneous format, then get hour and minute after removing the "EDT"
     if instantaneous:
-        instantaneous = instantaneous.split('\t')[0]
-        hour = instantaneous.split(':')[0]
-        minute = instantaneous.split(':')[1]
+        instantaneous = instantaneous.split("\t")[0]
+        hour = instantaneous.split(":")[0]
+        minute = instantaneous.split(":")[1]
                 
     date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
     
@@ -326,7 +326,7 @@ def test_read_file_in():
         """
         # ---------------------------------- WARNING ----------------------------------------
         # The data you have obtained from this automated U.S. Geological Survey database
-        # have not received Director's approval and as such are provisional and subject to
+        # have not received Director"s approval and as such are provisional and subject to
         # revision.  The data are released on the condition that neither the USGS nor the
         # United States Government may be held liable for any damages resulting from its use.
         # Additional info: http://nwis.waterdata.usgs.gov/ky/nwis/?provisional
@@ -396,9 +396,9 @@ def test_read_file_in():
     print("    12 06_00095 Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius [2.0 1.0 0.0 -1.0 -2.0]  0.0 2.0 -2.0\n")      
     print("    14 07_63680 Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU) [8.25 8.25 3.5 2.5 2.5]  5.0 8.25 2.5\n")    
     
-    print('*Parameters* ACTUAL index, code, description, data, mean, max, min')
-    for parameter in data['parameters']:
-        print('    {} {} {} {} {} {} {}'.format(parameter["index"], parameter["code"], parameter["description"], parameter["data"], parameter["mean"], parameter["max"], parameter["min"]))    
+    print("*Parameters* ACTUAL index, code, description, data, mean, max, min")
+    for parameter in data["parameters"]:
+        print("    {} {} {} {} {} {} {}".format(parameter["index"], parameter["code"], parameter["description"], parameter["data"], parameter["mean"], parameter["max"], parameter["min"]))    
 
     print("")
 

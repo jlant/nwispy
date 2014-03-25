@@ -80,7 +80,7 @@ def remove_loggers():
 def test_logging():
     """ Test functionality of logging errors """
     
-    print("** Testing logging **")
+    print("--- Testing logging ---")
     # initialize error logging
     initialize_loggers(output_dir = os.getcwd())
     
@@ -96,8 +96,7 @@ def test_logging():
     # close error logging
     remove_loggers()
 
-    print("Logging finished. Check current working directory for warn.log")
-    
+    print("Logging finished. Check current working directory for warn.log")   
     print("")
 
 def main():

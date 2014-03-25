@@ -33,7 +33,7 @@ def print_info(nwis_data):
     """   
     
     # print relevant information
-    print('*** DATA FILE INFORMATION ***')
+    print('--- DATA FILE INFORMATION ---')
     print('Date retrieved: {0}'.format(nwis_data['date_retrieved']))
     print('Gage name: {0}'.format(nwis_data['gage_name']))
     print('Timestep: {0}'.format(nwis_data['timestep']))
@@ -171,7 +171,7 @@ def _create_testdata():
 def test_print():
     """ Test print output functionality """
     
-    print("** Testing print **")
+    print("---Testing print ---")
     
     data = _create_testdata()
     print_info(nwis_data = data)
@@ -181,7 +181,7 @@ def test_print():
 def test_plot():
     """ Test plotting functionality """
     
-    print("** Testing plot **")    
+    print("--- Testing plot ---")    
     
     data = _create_testdata()
     plot_data(nwis_data = data, is_visible = True, save_path = None)
