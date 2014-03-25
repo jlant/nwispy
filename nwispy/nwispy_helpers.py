@@ -192,11 +192,7 @@ def find_start_end_dates(dates1, dates2):
     # make sure that dates overlap
     date1_set = set(dates1)    
     date2_set = set(dates2)
-    
-#    # initialize to none in order to test
-#    start_date = None
-#    end_date = None
-    
+       
     if date1_set.intersection(date2_set):
         # pick later of two dates for start date; pick earlier of two dates for end date
         if dates2[0] > dates1[0]: 
@@ -212,69 +208,75 @@ def find_start_end_dates(dates1, dates2):
         return start_date, end_date
 
     else:
-       raise ValueError("Date lists do not have any matching dates.") 
+       raise ValueError("No matching dates for find_start_end_dates()") 
 
 
 def test_now():
     """ Test now() functionality """
 
-    print("** Testing now() **")    
+    print("--- Testing now() ---")    
     
     date_time_str = now()
-    print(date_time_str)
-    
+    print("Right now is: ")
+    print("    {}".format(date_time_str))
     print("")
 
 def test_get_filepaths():
     """ Test get_filepaths functionality """
     
-    print("** Testing get_filepaths() **")
+    print("--- Testing get_filepaths() ---")
     file_paths = get_file_paths(os.getcwd(), file_ext = ".py")
     
-    print(file_paths)
-    
+    print("File paths are:")
+    print("    {}".format(file_paths))
     print("")
 
 def test_get_file_info():
     """ Test get_file_info functionality """
 
-    print("** Testing get_file_info **")  
+    print("--- Testing get_file_info ---")  
     
     filedir, filename = get_file_info(path = os.path.join(os.getcwd(), "nwispy_helpers.py"))
 
-    print("File directory is: {}".format(filedir))
-    print("File name is: {}".format(filename))
-
+    print("File directory is:")
+    print("    {}".format(filedir))
+    print("File name is estimated : actual")
+    print("    nwispy_helpers.py : {}".format(filename))
     print("")
 
 def test_make_directory():
     """ Test make_directory() functionality"""
 
-    print("** Testing make_directory **")  
+    print("---- Testing make_directory ----")  
     
     directory_path = make_directory(path = os.getcwd(), directory_name = "Testing")
-    print("New directory path: {}".format(directory_path))
-
+    print("New directory path is:")
+    print("    {}".format(directory_path))
     print("")
 
 def test_isfloat():
     """ Test isfloat() functionality """
 
-    print("** Testing isfloat() **") 
+    print("--- Testing isfloat() ---") 
 
-    print("Floats like {} should be true: {}".format(2.5 ,isfloat(2.5)))
-    print("Ints like {} should be true: {}".format(2, isfloat(2)))
-    print("String floats like {} should be true: {}".format("2.5", isfloat("2.5")))
-    print("String ints like {} should be true: {}".format("2", isfloat("2")))
-    print("Regular strings like {} should be false: {}".format("hello world", isfloat("hello world")))
-    print("Characters mixed with floats like {} should be false: {}".format("2.5_", isfloat("2.5_")))
-
+    print("Floats like {} estimated : actual".format(2.5))
+    print("    True: {}".format(isfloat(2.5)))
+    print("Ints like {} estimated : actual".format(2))
+    print("    True: {}".format(isfloat(2)))
+    print("String floats like {} estimated : actual".format("2.5"))
+    print("    True: {}".format(isfloat("2.5")))
+    print("String ints like {} estimated : actual".format("2"))
+    print("    True: {}".format(isfloat("2")))
+    print("Regular strings like {} estimated : actual".format("hello world"))
+    print("    False: {}".format(isfloat("hello world")))
+    print("Characters mixed with floats like {} estimated : actual".format("2.5_"))
+    print("    False: {}".format(isfloat("2.5_")))
     print("")
 
 def test_subset_data():
     """ Test subset_data() functionality """
 
-    print("** Testing subset_data() for dates within start date and end date **")
+    print("--- Testing subset_data() for dates within start date and end date ---")
     
     year = 2014
     month = 01
@@ -288,29 +290,41 @@ def test_subset_data():
     
     subset_dates1, subset_values1 = subset_data(dates, values, start_date = start1, end_date = end1)
     
-    print("For a start date of {} and end date of {}".format(start1, end1))
-    print("Dates of subset 1 are: {}".format(subset_dates1))
-    print("Values of subset 1 are: {}".format(subset_values1))
-
+    print("*Dates* original")
+    print("    {}".format(dates))
+    print("*Values* original")
+    print("    {}".format(values))
+    print("*Start date* to *end date*")
+    print("    {} to {}".format(start1, end1))
+    print("*Dates* subset")
+    print("    {}".format(subset_dates1))
+    print("*Values* subset")
+    print("    {}".format(subset_values1))
     print("")
 
-    print("** Testing subset_data() for dates NOT within start date and end date **")
+    print("--- Testing subset_data() for dates NOT within start date and end date ---")
     
     start2 = datetime.datetime(2013, 12, 01)
     end2 = datetime.datetime(2014, 01, 20)
     
     subset_dates2, subset_values2 = subset_data(dates, values, start_date = start2, end_date = end2)
     
-    print("For a start date of {} and end date of {}".format(start2, end2))
-    print("Dates of subset 2 are: {}".format(subset_dates2))
-    print("Values of subset 2 are: {}".format(subset_values2))
-
+    print("*Dates* original")
+    print("    {}".format(dates))
+    print("*Values* original")
+    print("    {}".format(values))
+    print("*Start date* to *end date*")
+    print("    {} to {}".format(start2, end2))
+    print("*Dates* subset")
+    print("    {}".format(subset_dates2))
+    print("*Values* subset")
+    print("    {}".format(subset_values2))
     print("")
 
 def test_find_start_end_dates():
     """ Testing find_start_end_dates functionality """    
     
-    print("** Testing find_start_end_dates() for first element of dates2 being 2 days later than first element of dates1 **")   
+    print("--- Testing find_start_end_dates() for first element of dates2 being 2 days later than first element of dates1 ---")   
     year = 2014
     month = 01
     day1 = 01
@@ -320,12 +334,13 @@ def test_find_start_end_dates():
     dates2 = [datetime.datetime(int(year), int(month), int(day2)) + datetime.timedelta(i) for i in range(11)]
     
     start_date, end_date = find_start_end_dates(dates1, dates2)
-    print("Start date should be 2014-01-03: {}".format(start_date))
-    print("End date should be 2014-01-11: {}".format(end_date))
-
+    print("Start date* estimated : actual")
+    print("    2014-01-03: {}".format(start_date))
+    print("*End date* estimated : actual")
+    print("    2014-01-11: {}".format(end_date))
     print("")
 
-    print("** Testing find_start_end_dates() for first element of dates1 being 2 days later than first element of dates2 **")    
+    print("--- Testing find_start_end_dates() for first element of dates1 being 2 days later than first element of dates2 ---")    
     year = 2014
     month = 01
     day1 = 01
@@ -335,10 +350,14 @@ def test_find_start_end_dates():
     dates2 = [datetime.datetime(int(year), int(month), int(day1)) + datetime.timedelta(i) for i in range(11)]
     
     start_date, end_date = find_start_end_dates(dates1, dates2)
-    print("Start date should be 2014-01-03: {}".format(start_date))
-    print("End date should be 2014-01-11: {}".format(end_date))
+    print("*Start date* estimated : actual")
+    print("    2014-01-03: {}".format(start_date))
+    print("*End date* estimated : actual")
+    print("    2014-01-11: {}".format(end_date))
+    print("")
 
-    print("** Testing find_start_end_dates() for NO MATCHING elements between dates1 and dates2 **")
+    print("--- Testing find_start_end_dates() for NO MATCHING elements between dates1 and dates2 ---")
+
     try:
         year = 2014
         month1 = 01
@@ -352,10 +371,11 @@ def test_find_start_end_dates():
         dates2 = [datetime.datetime(int(year), int(month2), int(day2)) + datetime.timedelta(i) for i in range(11)]
     
         start_date, end_date = find_start_end_dates(dates1, dates2)
-        print("Start date should be None: {}".format(start_date))
-        print("End date should be None: {}".format(end_date))
+        print("    PROBLEM exception was not executed")
+        
     except ValueError as error:
-        print("Value error: {0}".format(error.message))
+        print("*Value Error* estimated : actual")
+        print("    No matching dates for find_start_end_dates() : {}".format(error.message))
         
     
 def main():

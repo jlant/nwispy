@@ -15,6 +15,7 @@ import re
 import numpy as np
 import datetime
 import logging
+from StringIO import StringIO
 
 # my modules
 import nwispy_helpers
@@ -97,8 +98,8 @@ def read_file_in(filestream):
     # distinguish a daily file from an instanteous file; if 4th group is None, 
     # then data file is daily, otherwise it is an instanteous file.
     patterns = {
-        'date_retrieved': '(.+): (.{4}-.{2}-.{2}) (.{2}:.{2}:.{2}) (.+)', 
-        'gage_name': '(#.+)(USGS [0-9]+.+)',
+        'date_retrieved': '(.+): ([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2})(.+)',  
+        'gage_name': '(#.+)(USGS [0-9]+\s.+)',
         'parameters': '(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)',
         'column_names': '(agency_cd)\t(site_no)\t(datetime)\t(tz_cd)?(.+)',
         'data_row': '(USGS)\t([0-9]+)\t([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})\s?([0-9]{2}:[0-9]{2}\t[A-Z]{3})?(.+)'
@@ -275,45 +276,140 @@ def get_date(daily, instantaneous):
     date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     return date
-
-
-def test_get_parameter_code():
-    """Test the get parameter code function """
     
-    print("**Testing get_parameter_code() **")
-    print("")
+    
+def test_get_parameter_code():
+    """ Test the get_parameter_code functionality """
+    
+    print("--- Testing get_parameter_code() ---")
     
     pattern = "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)"    
     code, description = get_parameter_code(match = re.search(pattern , "#    06   00060     00003     Discharge, cubic feet per second (Mean)"))
-    print("code: {}".format(code))
-    print("description: {}".format(description))
+    print("*Code* estimated : actual")
+    print("    06_00060_00003 : {}".format(code))
+    print("*Description* estimated : actual")
+    print("    Discharge, cubic feet per second (Mean) : {}".format(description))
 
     print("")
     
     code, description = get_parameter_code(match = re.search(pattern, "#    02   00065     Gage height, feet"))
-    print("code: {}".format(code))
-    print("description: {}".format(description))
+    print("*Code* estimated : actual")
+    print("    02_00065 : {}".format(code))
+    print("*Description* estimated : actual")
+    print("    Gage height, feet : {}".format(description))
 
+    print("")
 
 def test_get_date():
-    """ Test the get date function """
+    """ Test the get_date functionality """
     
-    print("**Testing get_date()**")
-    print("")
+    print("--- Testing get_date() ---")
     
     date1 = get_date(daily = "2014-03-12", instantaneous = "")
-    print(date1)
+    print("*Date* estimated : actual")
+    print("    2014-03-12 : {}".format(date1))
 
     date2 = get_date(daily = "2014-03-12", instantaneous = "01:15\tEDT")
-    print(date2)  
+    print("Date estimated : actual")
+    print("    2014-03-12 at 01:15:00 : {}".format(date2))  
     
     print("")    
 
+def test_read_file_in():
+    """ Test read_file_in() functionality"""
+
+    print("--- Testing read_file_in() ---")
+
+    fixture = {}
+    
+    fixture["data file"] = \
+        """
+        # ---------------------------------- WARNING ----------------------------------------
+        # The data you have obtained from this automated U.S. Geological Survey database
+        # have not received Director's approval and as such are provisional and subject to
+        # revision.  The data are released on the condition that neither the USGS nor the
+        # United States Government may be held liable for any damages resulting from its use.
+        # Additional info: http://nwis.waterdata.usgs.gov/ky/nwis/?provisional
+        #
+        # File-format description:  http://nwis.waterdata.usgs.gov/nwis/?tab_delimited_format_info
+        # Automated-retrieval info: http://nwis.waterdata.usgs.gov/nwis/?automated_retrieval_info
+        #
+        # Contact:   gs-w_support_nwisweb@usgs.gov
+        # retrieved: 2014-03-11 08:40:40 EDT       (nadww01)
+        #
+        # Data for the following 1 site(s) are contained in this file
+        #    USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY
+        # -----------------------------------------------------------------------------------
+        #
+        # Data provided for site 03401385
+        #    DD parameter   Description
+        #    02   00065     Gage height, feet
+        #    03   00010     Temperature, water, degrees Celsius
+        #    04   00300     Dissolved oxygen, water, unfiltered, milligrams per liter
+        #    05   00400     pH, water, unfiltered, field, standard units
+        #    06   00095     Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius
+        #    07   63680     Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU)
+        #
+        # Data-value qualification codes included in this output: 
+        #     Eqp  Equipment malfunction  
+        #     P  Provisional data subject to revision.  
+        #     ~  Value is a system interpolated value.  
+        # 
+        agency_cd	site_no	datetime	tz_cd	02_00065	02_00065_cd	03_00010	03_00010_cd	04_00300	04_00300_cd	05_00400	05_00400_cd	06_00095	06_00095_cd	07_63680	07_63680_cd
+        5s	15s	20d	6s	14n	10s	14n	10s	14n	10s	14n	10s	14n	10s	14n	10s
+        USGS	03401385	2013-06-06 00:00	EDT	1.0	P	5.0	P	2.0	P	-4.0	P	2.0	P	8.25	P
+        USGS	03401385	2013-06-06 00:15	EDT	2.0	P	10.0	P	1.25	P	4.0	P	1.0	P	8.25	P
+        USGS	03401385	2013-06-06 00:30	EDT	3.0	P	15.0	P	1.25	P	3.5	P	0.0	P	3.5	P
+        USGS	03401385	2013-06-06 00:45	EDT	4.0	P	20.0	P	0.25	P	3.5	P	-1.0	P	2.5	P
+        USGS	03401385	2013-06-06 01:00	EDT	5.0	P	25.0	P	0.25	P	3.0	P	-2.0	P	2.5	P
+        """
+
+    fileobj = StringIO(fixture["data file"])
+    
+    data = read_file_in(fileobj)   
+    print("*Date retrieved* estimated : actual")
+    print("    2014-03-11 08:40:40 : {}".format(data["date_retrieved"]))
+    print("")
+    print("*Gage name* estimated : actual")
+    print("    USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY : {}".format(data["gage_name"]))
+    print("")
+    print("*Column names* estimated : actual")
+    print("    [agency_cd, site_no, datetime, tz_cd, 02_00065, 02_00065_cd, 03_00010, 03_00010_cd, 04_00300, 04_00300_cd, 05_00400, 05_00400_cd, 06_00095, 06_00095_cd, 07_63680, 07_63680_cd] : \n{}".format(data["column_names"]))
+    print("")
+    print("*Timestep* estimated : actual")
+    print("    instantaneous : {}".format(data["timestep"]))
+    print("")
+    print("*Dates* type estimated : actual")
+    print("    numpy.ndarray : {}".format(type(data["dates"]))) 
+    print("")   
+    print("*Dates* estimated : actual")
+    print("    [datetime.datetime(2013, 6, 6, 0, 0) datetime.datetime(2013, 6, 6, 0, 15) datetime.datetime(2013, 6, 6, 0, 30)] datetime.datetime(2013, 6, 6, 0, 45) datetime.datetime(2013, 6, 6, 1, 0)] : \n{}".format(data["dates"]))
+    print("")
+    print("Data type estimated : actual")
+    print("    numpy.ndarray : {}".format(type(data["parameters"][0]["data"])))    
+    print("")
+    print("*Parameters* ESTIMATED index, code, description, data, mean, max, min")
+    print("    4 02_00065 Gage height, feet [1.0 2.0 3.0 4.0 5.0]  3.0 5.0 1.0\n")
+    print("    6 03_00010 Temperature, water, degrees Celsius [5.0 10.0 15.0 20.0 25.0]  15.0 25.0 5.0\n")   
+    print("    8 04_00300 Dissolved oxygen, water, unfiltered, milligrams per liter [2.0 1.25 1.25 0.25 0.25]  1.0 2.0 0.25\n")
+    print("    10 05_00400 pH, water, unfiltered, field, standard units [-4.0 4.0 3.5 3.5 3.0]  2.0 4.0 -4.0\n")
+    print("    12 06_00095 Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius [2.0 1.0 0.0 -1.0 -2.0]  0.0 2.0 -2.0\n")      
+    print("    14 07_63680 Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU) [8.25 8.25 3.5 2.5 2.5]  5.0 8.25 2.5\n")    
+    
+    print('*Parameters* ACTUAL index, code, description, data, mean, max, min')
+    for parameter in data['parameters']:
+        print('    {} {} {} {} {} {} {}'.format(parameter["index"], parameter["code"], parameter["description"], parameter["data"], parameter["mean"], parameter["max"], parameter["min"]))    
+
+    print("")
+
 def main():
     """ Test functionality of reading files """
-    test_get_date()
     
     test_get_parameter_code()
+    
+    test_get_date()
+    
+    test_read_file_in()
 
 if __name__ == "__main__":
     main()

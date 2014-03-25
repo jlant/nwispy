@@ -19,16 +19,16 @@ import nose
 from StringIO import StringIO
 
 # my module
-from nwispy import nwispy
+from nwispy import nwispy_filereader
 
 # define the global fixture to hold the data that goes into the functions you test
 fixture = {}
 
 # define a setup function that runs BEFORE every test method
 def setup():
-	
-    # this is how you print out to console
-    print >> sys.stderr, "SETUP!"
+    """ Setup fixture for testing """
+
+    print >> sys.stderr, "SETUP: nwispy_filereader tests"
    
     # set up fixture with possible date strings
     fixture['instantaneous_date'] = {'daily': '2013-06-25', 'instantaneous': '00:15\tEDT'}
@@ -46,7 +46,9 @@ def setup():
         'sediment_discharge': '#    09   80155     00003     Suspended sediment discharge, tons per day (Mean)'
     }
 
-    fixture['data_daily_single_parameter'] = '''
+    # set up fixture with sample data files
+    fixture['data_daily_single_parameter'] = \
+        """
         # ---------------------------------- WARNING ----------------------------------------
         # The data you have obtained from this automated U.S. Geological Survey database
         # have not received Director's approval and as such are provisional and subject to
@@ -78,11 +80,91 @@ def setup():
         USGS	03290500	2012-07-01	171	A
         USGS	03290500	2012-07-02	190	A
         USGS	03290500	2012-07-03	164	A
-        '''
+        """
+
+    # set up fixture with sample data files
+    fixture['data_instantaneous_single_parameter'] = \
+        """
+        # ---------------------------------- WARNING ----------------------------------------
+        # The data you have obtained from this automated U.S. Geological Survey database
+        # have not received Director's approval and as such are provisional and subject to
+        # revision.  The data are released on the condition that neither the USGS nor the
+        # United States Government may be held liable for any damages resulting from its use.
+        # Additional info: http://nwis.waterdata.usgs.gov/ca/nwis/?provisional
+        #
+        # File-format description:  http://nwis.waterdata.usgs.gov/nwis/?tab_delimited_format_info
+        # Automated-retrieval info: http://nwis.waterdata.usgs.gov/nwis/?automated_retrieval_info
+        #
+        # Contact:   gs-w_support_nwisweb@usgs.gov
+        # retrieved: 2014-03-13 17:19:26 EDT       (nadww01)
+        #
+        # Data for the following 1 site(s) are contained in this file
+        #    USGS 11143000 BIG SUR R NR BIG SUR CA
+        # -----------------------------------------------------------------------------------
+        #
+        # Data provided for site 11143000
+        #    DD parameter   Description
+        #    03   00065     Gage height, feet
+        #
+        # Data-value qualification codes included in this output: 
+        #     A  Approved for publication -- Processing and review completed.  
+        #     P  Provisional data subject to revision.  
+        # 
+        agency_cd	site_no	datetime	tz_cd	03_00065	03_00065_cd
+        5s	15s	20d	6s	14n	10s
+        USGS	11143000	2010-03-01 00:00	PST	6.26	A
+        USGS	11143000	2010-03-01 00:15	PST	6.26	A
+        USGS	11143000	2010-03-01 00:30	PST	6.26	A
+        USGS	11143000	2010-03-01 00:45	PST	6.26	A
+        USGS	11143000	2010-03-01 01:00	PST	6.26	A
+        """
+
+    # set up fixture with sample data files
+    fixture["data_instantaneous_multi_parameter"] = \
+        """
+        # ---------------------------------- WARNING ----------------------------------------
+        # The data you have obtained from this automated U.S. Geological Survey database
+        # have not received Director's approval and as such are provisional and subject to
+        # revision.  The data are released on the condition that neither the USGS nor the
+        # United States Government may be held liable for any damages resulting from its use.
+        # Additional info: http://nwis.waterdata.usgs.gov/ky/nwis/?provisional
+        #
+        # File-format description:  http://nwis.waterdata.usgs.gov/nwis/?tab_delimited_format_info
+        # Automated-retrieval info: http://nwis.waterdata.usgs.gov/nwis/?automated_retrieval_info
+        #
+        # Contact:   gs-w_support_nwisweb@usgs.gov
+        # retrieved: 2014-03-11 08:40:40 EDT       (nadww01)
+        #
+        # Data for the following 1 site(s) are contained in this file
+        #    USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY
+        # -----------------------------------------------------------------------------------
+        #
+        # Data provided for site 03401385
+        #    DD parameter   Description
+        #    02   00065     Gage height, feet
+        #    03   00010     Temperature, water, degrees Celsius
+        #    04   00300     Dissolved oxygen, water, unfiltered, milligrams per liter
+        #    05   00400     pH, water, unfiltered, field, standard units
+        #    06   00095     Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius
+        #    07   63680     Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU)
+        #
+        # Data-value qualification codes included in this output: 
+        #     Eqp  Equipment malfunction  
+        #     P  Provisional data subject to revision.  
+        #     ~  Value is a system interpolated value.  
+        # 
+        agency_cd	site_no	datetime	tz_cd	02_00065	02_00065_cd	03_00010	03_00010_cd	04_00300	04_00300_cd	05_00400	05_00400_cd	06_00095	06_00095_cd	07_63680	07_63680_cd
+        5s	15s	20d	6s	14n	10s	14n	10s	14n	10s	14n	10s	14n	10s	14n	10s
+        USGS	03401385	2013-06-06 00:00	EDT	0.38	P	21.2	P	6.0	P	6.9	P	66	P	8.2	P
+        USGS	03401385	2013-06-06 00:15	EDT	0.38	P	21.2	P	6.0	P	6.9	P	66	P	8.2	P
+        USGS	03401385	2013-06-06 00:30	EDT	0.38	P	21.2	P	6.0	P	6.9	P	67	P	8.2	P
+        USGS	03401385	2013-06-06 00:45	EDT	0.38	P	21.2	P	6.0	P	6.9	P	67	P	8.8	P
+        USGS	03401385	2013-06-06 01:00	EDT	0.38	P	21.1	P	6.0	P	6.9	P	67	P	8.3	P
+        """
 	
 # define a teardown function that runs AFTER every test method
 def teardown():
-    print >> sys.stderr, "TEAR DOWN!"
+    print >> sys.stderr, "TEARDOWN: nwispy_filereader tests"
 
     fixture = {}    
 
