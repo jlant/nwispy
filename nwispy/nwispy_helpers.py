@@ -240,7 +240,7 @@ def test_get_file_info():
 
     print("File directory is:")
     print("    {}".format(filedir))
-    print("File name is estimated : actual")
+    print("File name is expected : actual")
     print("    nwispy_helpers.py : {}".format(filename))
     print("")
 
@@ -259,17 +259,17 @@ def test_isfloat():
 
     print("--- Testing isfloat() ---") 
 
-    print("Floats like {} estimated : actual".format(2.5))
+    print("Floats like {} expected : actual".format(2.5))
     print("    True: {}".format(isfloat(2.5)))
-    print("Ints like {} estimated : actual".format(2))
+    print("Ints like {} expected : actual".format(2))
     print("    True: {}".format(isfloat(2)))
-    print("String floats like {} estimated : actual".format("2.5"))
+    print("String floats like {} expected : actual".format("2.5"))
     print("    True: {}".format(isfloat("2.5")))
-    print("String ints like {} estimated : actual".format("2"))
+    print("String ints like {} expected : actual".format("2"))
     print("    True: {}".format(isfloat("2")))
-    print("Regular strings like {} estimated : actual".format("hello world"))
+    print("Regular strings like {} expected : actual".format("hello world"))
     print("    False: {}".format(isfloat("hello world")))
-    print("Characters mixed with floats like {} estimated : actual".format("2.5_"))
+    print("Characters mixed with floats like {} expected : actual".format("2.5_"))
     print("    False: {}".format(isfloat("2.5_")))
     print("")
 
@@ -334,9 +334,9 @@ def test_find_start_end_dates():
     dates2 = [datetime.datetime(int(year), int(month), int(day2)) + datetime.timedelta(i) for i in range(11)]
     
     start_date, end_date = find_start_end_dates(dates1, dates2)
-    print("Start date* estimated : actual")
+    print("Start date* expected : actual")
     print("    2014-01-03: {}".format(start_date))
-    print("*End date* estimated : actual")
+    print("*End date* expected : actual")
     print("    2014-01-11: {}".format(end_date))
     print("")
 
@@ -350,9 +350,9 @@ def test_find_start_end_dates():
     dates2 = [datetime.datetime(int(year), int(month), int(day1)) + datetime.timedelta(i) for i in range(11)]
     
     start_date, end_date = find_start_end_dates(dates1, dates2)
-    print("*Start date* estimated : actual")
+    print("*Start date* expected : actual")
     print("    2014-01-03: {}".format(start_date))
-    print("*End date* estimated : actual")
+    print("*End date* expected : actual")
     print("    2014-01-11: {}".format(end_date))
     print("")
 
@@ -374,7 +374,7 @@ def test_find_start_end_dates():
         print("    PROBLEM exception was not executed")
         
     except ValueError as error:
-        print("*Value Error* estimated : actual")
+        print("*Value Error* expected : actual")
         print("    No matching dates for find_start_end_dates() : {}".format(error.message))
         
     

@@ -31,27 +31,27 @@ def setup():
     print >> sys.stderr, "SETUP: nwispy_filereader tests"
    
     # set up fixture with possible date strings
-    fixture['instantaneous_date'] = {'daily': '2013-06-25', 'instantaneous': '00:15\tEDT'}
-    fixture['daily_date'] = {'daily': '2013-06-25', 'instantaneous': None}
+    fixture["instantaneous_date"] = {"daily": "2013-06-25", "instantaneous": "00:15\tEDT"}
+    fixture["daily_date"] = {"daily": "2013-06-25", "instantaneous": None}
     
     # set up fixture with possible parameter codes
-    fixture['parameter_code'] = {   
-		'pattern': '(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)',
-        'discharge_daily': '#    06   00060     00003     Discharge, cubic feet per second (Mean)',
-        'discharge_instant': '#    02   00060     Discharge, cubic feet per second',
-        'gage_height': '#    01   00065     Gage height, feet',
-        'battery': '#    03   70969     DCP battery voltage, volts',
-        'precip': '#    03   00045     Precipitation, total, inches',
-        'sediment_concentration': '#    08   80154     00003     Suspended sediment concentration, milligrams per liter (Mean)',
-        'sediment_discharge': '#    09   80155     00003     Suspended sediment discharge, tons per day (Mean)'
+    fixture["parameter_code"] = {   
+		"pattern": "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)",
+        "discharge_daily": "#    06   00060     00003     Discharge, cubic feet per second (Mean)",
+        "discharge_instant": "#    02   00060     Discharge, cubic feet per second",
+        "gage_height": "#    01   00065     Gage height, feet",
+        "battery": "#    03   70969     DCP battery voltage, volts",
+        "precip": "#    03   00045     Precipitation, total, inches",
+        "sediment_concentration": "#    08   80154     00003     Suspended sediment concentration, milligrams per liter (Mean)",
+        "sediment_discharge": "#    09   80155     00003     Suspended sediment discharge, tons per day (Mean)"
     }
 
     # set up fixture with sample data files
-    fixture['data_daily_single_parameter'] = \
+    fixture["data_daily_single_parameter"] = \
         """
         # ---------------------------------- WARNING ----------------------------------------
         # The data you have obtained from this automated U.S. Geological Survey database
-        # have not received Director's approval and as such are provisional and subject to
+        # have not received Director"s approval and as such are provisional and subject to
         # revision.  The data are released on the condition that neither the USGS nor the
         # United States Government may be held liable for any damages resulting from its use.
         # Additional info: http://waterdata.usgs.gov/nwis/help/?provisional
@@ -80,14 +80,16 @@ def setup():
         USGS	03290500	2012-07-01	171	A
         USGS	03290500	2012-07-02	190	A
         USGS	03290500	2012-07-03	164	A
+        USGS	03290500	2012-07-04	150	A
+        USGS	03290500	2012-07-05	125	A
         """
 
     # set up fixture with sample data files
-    fixture['data_instantaneous_single_parameter'] = \
+    fixture["data_instantaneous_single_parameter"] = \
         """
         # ---------------------------------- WARNING ----------------------------------------
         # The data you have obtained from this automated U.S. Geological Survey database
-        # have not received Director's approval and as such are provisional and subject to
+        # have not received Director"s approval and as such are provisional and subject to
         # revision.  The data are released on the condition that neither the USGS nor the
         # United States Government may be held liable for any damages resulting from its use.
         # Additional info: http://nwis.waterdata.usgs.gov/ca/nwis/?provisional
@@ -112,11 +114,11 @@ def setup():
         # 
         agency_cd	site_no	datetime	tz_cd	03_00065	03_00065_cd
         5s	15s	20d	6s	14n	10s
-        USGS	11143000	2010-03-01 00:00	PST	6.26	A
-        USGS	11143000	2010-03-01 00:15	PST	6.26	A
-        USGS	11143000	2010-03-01 00:30	PST	6.26	A
-        USGS	11143000	2010-03-01 00:45	PST	6.26	A
-        USGS	11143000	2010-03-01 01:00	PST	6.26	A
+        USGS	11143000	2010-03-01 00:00	PST	5.0	A
+        USGS	11143000	2010-03-01 00:15	PST	10.0	A
+        USGS	11143000	2010-03-01 00:30	PST	15.0	A
+        USGS	11143000	2010-03-01 00:45	PST	4.5	A
+        USGS	11143000	2010-03-01 01:00	PST	5.5	A
         """
 
     # set up fixture with sample data files
@@ -124,7 +126,7 @@ def setup():
         """
         # ---------------------------------- WARNING ----------------------------------------
         # The data you have obtained from this automated U.S. Geological Survey database
-        # have not received Director's approval and as such are provisional and subject to
+        # have not received Director"s approval and as such are provisional and subject to
         # revision.  The data are released on the condition that neither the USGS nor the
         # United States Government may be held liable for any damages resulting from its use.
         # Additional info: http://nwis.waterdata.usgs.gov/ky/nwis/?provisional
@@ -155,65 +157,25 @@ def setup():
         # 
         agency_cd	site_no	datetime	tz_cd	02_00065	02_00065_cd	03_00010	03_00010_cd	04_00300	04_00300_cd	05_00400	05_00400_cd	06_00095	06_00095_cd	07_63680	07_63680_cd
         5s	15s	20d	6s	14n	10s	14n	10s	14n	10s	14n	10s	14n	10s	14n	10s
-        USGS	03401385	2013-06-06 00:00	EDT	0.38	P	21.2	P	6.0	P	6.9	P	66	P	8.2	P
-        USGS	03401385	2013-06-06 00:15	EDT	0.38	P	21.2	P	6.0	P	6.9	P	66	P	8.2	P
-        USGS	03401385	2013-06-06 00:30	EDT	0.38	P	21.2	P	6.0	P	6.9	P	67	P	8.2	P
-        USGS	03401385	2013-06-06 00:45	EDT	0.38	P	21.2	P	6.0	P	6.9	P	67	P	8.8	P
-        USGS	03401385	2013-06-06 01:00	EDT	0.38	P	21.1	P	6.0	P	6.9	P	67	P	8.3	P
+        USGS	03401385	2013-06-06 00:00	EDT	1.0	P	5.0	P	2.0	P	-4.0	P	2.0	P	8.25	P
+        USGS	03401385	2013-06-06 00:15	EDT	2.0	P	10.0	P	1.25	P	4.0	P	1.0	P	8.25	P
+        USGS	03401385	2013-06-06 00:30	EDT	3.0	P	15.0	P	1.25	P	3.5	P	0.0	P	3.5	P
+        USGS	03401385	2013-06-06 00:45	EDT	4.0	P	20.0	P	0.25	P	3.5	P	-1.0	P	2.5	P
+        USGS	03401385	2013-06-06 01:00	EDT	5.0	P	25.0	P	0.25	P	3.0	P	-2.0	P	2.5	P
         """
 	
 # define a teardown function that runs AFTER every test method
 def teardown():
-    print >> sys.stderr, "TEARDOWN: nwispy_filereader tests"
+    print >> sys.stderr, "TEARDOWN: nwispy_filereader tests"  
 
-    fixture = {}    
-
-def test_daily_single_parameter():
-    
-    expected = {
-        'date_retrieved': '2013-07-02',
-        'gage_name': 'USGS 03290500 KENTUCKY RIVER AT LOCK 2 AT LOCKPORT, KY',
-        'column_names': ['agency_cd', 'site_no', 'datetime', '06_00060_00003', '06_00060_00003_cd'],
-        'parameters': [{
-            'code': '06_00060_00003',
-            'description': 'Discharge, cubic feet per second (Mean)',
-            'index': 3,
-            'data': np.array([171, 190, 164]),
-            'mean': np.mean([171, 190, 164]),
-            'max': np.max([171, 190, 164]),
-            'min': np.min([171, 190, 164]),
-        }],
-        'dates': np.array([datetime.datetime(2012, 07, 01, 0, 0), datetime.datetime(2012, 07, 02, 0, 0), datetime.datetime(2012, 07, 03, 0, 0)]),    
-        'timestep': 'daily'   
-    }  
-	
-    fileobj = StringIO(fixture['data_daily_single_parameter'])
-    actual = nwispy.read_nwis_in(fileobj)
-	
-    nose.tools.assert_equals(actual['date_retrieved'], expected['date_retrieved'])
-    nose.tools.assert_equals(actual['gage_name'], expected['gage_name'])
-    nose.tools.assert_equals(actual['column_names'], expected['column_names'])
-    
-    nose.tools.assert_equals(actual['parameters'][0]['code'], expected['parameters'][0]['code'])
-    nose.tools.assert_equals(actual['parameters'][0]['description'], expected['parameters'][0]['description'])
-    nose.tools.assert_equals(actual['parameters'][0]['index'], expected['parameters'][0]['index'])
-    
-    nose.tools.assert_almost_equals(actual['parameters'][0]['data'][0], expected['parameters'][0]['data'][0])
-    nose.tools.assert_almost_equals(actual['parameters'][0]['data'][1], expected['parameters'][0]['data'][1])
-    nose.tools.assert_almost_equals(actual['parameters'][0]['data'][2], expected['parameters'][0]['data'][2])
-    
-    nose.tools.assert_almost_equals(actual['parameters'][0]['mean'], expected['parameters'][0]['mean'])
-    nose.tools.assert_almost_equals(actual['parameters'][0]['max'], expected['parameters'][0]['max'])
-    nose.tools.assert_almost_equals(actual['parameters'][0]['min'], expected['parameters'][0]['min'])
-        
-    nose.tools.assert_equals(actual['timestep'], expected['timestep'])
+    fixture = {}
 	
 #@with_setup(setup, teardown)
 def test_instantaneous_date():
     
     expected = datetime.datetime(2013, 6, 25, 0, 15)
     
-    actual = nwispy.get_date(daily = fixture['instantaneous_date']['daily'], instantaneous = fixture['instantaneous_date']['instantaneous'])
+    actual = nwispy_filereader.get_date(daily = fixture["instantaneous_date"]["daily"], instantaneous = fixture["instantaneous_date"]["instantaneous"])
 
     nose.tools.assert_equals(actual, expected)
 
@@ -222,83 +184,357 @@ def test_daily_date():
     
     expected = datetime.datetime(2013, 6, 25, 0, 0)
     
-    actual = nwispy.get_date(daily = fixture['daily_date']['daily'], instantaneous = fixture['daily_date']['instantaneous'])
+    actual = nwispy_filereader.get_date(daily = fixture["daily_date"]["daily"], instantaneous = fixture["daily_date"]["instantaneous"])
 
     nose.tools.assert_equals(actual, expected)
     
 def test_parameter_code_discharge_daily():
     
-    expected = ('06_00060_00003', 'Discharge, cubic feet per second (Mean)')    
+    expected = ("06_00060_00003", "Discharge, cubic feet per second (Mean)")    
     
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['discharge_daily'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["discharge_daily"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
     nose.tools.assert_equals(actual, expected)
     
 def test_parameter_code_discharge_instant():
     
-    expected = ('02_00060', 'Discharge, cubic feet per second')    
+    expected = ("02_00060", "Discharge, cubic feet per second")    
     
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['discharge_instant'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["discharge_instant"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
     nose.tools.assert_equals(actual, expected)
     
 def test_parameter_code_gage_height():
     
-    expected = ('01_00065', 'Gage height, feet')    
+    expected = ("01_00065", "Gage height, feet")    
     
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['gage_height'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["gage_height"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
     nose.tools.assert_equals(actual, expected)
 
 def test_parameter_code_battery():
     
-    expected = ('03_70969', 'DCP battery voltage, volts')    
+    expected = ("03_70969", "DCP battery voltage, volts")    
     
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['battery'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["battery"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
     nose.tools.assert_equals(actual, expected)
 
 def test_parameter_code_precip():
     
-    expected = ('03_00045', 'Precipitation, total, inches')    
+    expected = ("03_00045", "Precipitation, total, inches")    
     
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['precip'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["precip"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
     nose.tools.assert_equals(actual, expected)
 
 def test_parameter_code_sediment_concentration():
     
-    expected = ('08_80154_00003', 'Suspended sediment concentration, milligrams per liter (Mean)')    
+    expected = ("08_80154_00003", "Suspended sediment concentration, milligrams per liter (Mean)")    
     
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['sediment_concentration'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["sediment_concentration"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
     nose.tools.assert_equals(actual, expected)
     
 def test_parameter_code_sediment_discharge():
     
-    expected = ('09_80155_00003', 'Suspended sediment discharge, tons per day (Mean)')    
+    expected = ("09_80155_00003", "Suspended sediment discharge, tons per day (Mean)")    
 
-    pattern_object = re.compile(fixture['parameter_code']['pattern']) 
-    match = pattern_object.match(fixture['parameter_code']['sediment_discharge'])
+    pattern_object = re.compile(fixture["parameter_code"]["pattern"]) 
+    match = pattern_object.match(fixture["parameter_code"]["sediment_discharge"])
     
-    actual = nwispy.get_parameter_code(match)
+    actual = nwispy_filereader.get_parameter_code(match)
 
-    nose.tools.assert_equals(actual, expected)    
+    nose.tools.assert_equals(actual, expected)  
+
+
+def test_daily_single_parameter():
+
+    dates = np.array([datetime.datetime(2012, 07, 01, 0, 0), 
+                      datetime.datetime(2012, 07, 02, 0, 0), 
+                      datetime.datetime(2012, 07, 03, 0, 0),
+                      datetime.datetime(2012, 07, 04, 0, 0),
+                      datetime.datetime(2012, 07, 05, 0, 0),
+    ])
+    
+    data = np.array([171, 190, 164, 150, 125])
+    
+    expected = {
+        "date_retrieved": "2013-07-02 22:08:51",
+        "gage_name": "USGS 03290500 KENTUCKY RIVER AT LOCK 2 AT LOCKPORT, KY",
+        "column_names": ["agency_cd", "site_no", "datetime", "06_00060_00003", "06_00060_00003_cd"],
+        "parameters": [{
+            "code": "06_00060_00003",
+            "description": "Discharge, cubic feet per second (Mean)",
+            "index": 3,
+            "data": data,
+            "mean": np.mean(data),
+            "max": np.max(data),
+            "min": np.min(data),
+        }],
+        "dates": dates,    
+        "timestep": "daily"   
+    }  
+	
+    fileobj = StringIO(fixture["data_daily_single_parameter"])
+    actual = nwispy_filereader.read_file_in(filestream = fileobj)
+	
+    nose.tools.assert_equals(actual["date_retrieved"], expected["date_retrieved"])
+    nose.tools.assert_equals(actual["gage_name"], expected["gage_name"])
+    nose.tools.assert_equals(actual["column_names"], expected["column_names"])
+    
+    nose.tools.assert_equals(actual["parameters"][0]["code"], expected["parameters"][0]["code"])
+    nose.tools.assert_equals(actual["parameters"][0]["description"], expected["parameters"][0]["description"])
+    nose.tools.assert_equals(actual["parameters"][0]["index"], expected["parameters"][0]["index"])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
+
+    nose.tools.assert_equals(actual["dates"][0], expected["dates"][0])
+    nose.tools.assert_equals(actual["dates"][1], expected["dates"][1])
+    nose.tools.assert_equals(actual["dates"][2], expected["dates"][2])
+    nose.tools.assert_equals(actual["dates"][3], expected["dates"][3])
+    nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
+        
+    nose.tools.assert_equals(actual["timestep"], expected["timestep"])
+
+def test_data_instantaneous_single_parameter():
+
+    dates = np.array([datetime.datetime(2010, 03, 01, 0, 0), 
+                      datetime.datetime(2010, 03, 01, 0, 15), 
+                      datetime.datetime(2010, 03, 01, 0, 30),
+                      datetime.datetime(2010, 03, 01, 0, 45),
+                      datetime.datetime(2010, 03, 01, 1, 00),
+    ])
+    
+    data = np.array([5.0, 10.0, 15.0, 4.5, 5.5])
+    
+    expected = {
+        "date_retrieved": "2014-03-13 17:19:26",
+        "gage_name": "USGS 11143000 BIG SUR R NR BIG SUR CA",
+        "column_names": ["agency_cd", "site_no", "datetime", "tz_cd", "03_00065", "03_00065_cd"],
+        "parameters": [{
+            "code": "03_00065",
+            "description": "Gage height, feet",
+            "index": 4,
+            "data": data,
+            "mean": np.mean(data),
+            "max": np.max(data),
+            "min": np.min(data),
+        }],
+        "dates": dates,    
+        "timestep": "instantaneous"   
+    }  
+	
+    fileobj = StringIO(fixture["data_instantaneous_single_parameter"])
+    actual = nwispy_filereader.read_file_in(filestream = fileobj)
+	
+    nose.tools.assert_equals(actual["date_retrieved"], expected["date_retrieved"])
+    nose.tools.assert_equals(actual["gage_name"], expected["gage_name"])
+    nose.tools.assert_equals(actual["column_names"], expected["column_names"])
+    
+    nose.tools.assert_equals(actual["parameters"][0]["code"], expected["parameters"][0]["code"])
+    nose.tools.assert_equals(actual["parameters"][0]["description"], expected["parameters"][0]["description"])
+    nose.tools.assert_equals(actual["parameters"][0]["index"], expected["parameters"][0]["index"])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
+
+    nose.tools.assert_equals(actual["dates"][0], expected["dates"][0])
+    nose.tools.assert_equals(actual["dates"][1], expected["dates"][1])
+    nose.tools.assert_equals(actual["dates"][2], expected["dates"][2])
+    nose.tools.assert_equals(actual["dates"][3], expected["dates"][3])
+    nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
+        
+    nose.tools.assert_equals(actual["timestep"], expected["timestep"])    
+
+def test_data_instantaneous_multi_parameter():
+
+    dates = np.array([datetime.datetime(2013, 06, 06, 0, 0), 
+                      datetime.datetime(2013, 06, 06, 0, 15), 
+                      datetime.datetime(2013, 06, 06, 0, 30),
+                      datetime.datetime(2013, 06, 06, 0, 45),
+                      datetime.datetime(2013, 06, 06, 1, 00),
+    ])
+    
+    stage_data = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+    temperature_data = np.array([5.0, 10.0, 15.0, 20.0, 25.0])
+    dissolved_oxygen_data = np.array([2.0, 1.25, 1.25, 0.25, 0.25])
+    ph_data = np.array([-4.0, 4.0, 3.5, 3.5, 3.0])
+    conductance_data = np.array([2.0, 1.0, 0.0, -1.0, -2.0])
+    turbidity_data = np.array([8.25, 8.25, 3.5, 2.5, 2.5])
+    
+    expected = {
+        "date_retrieved": "2014-03-11 08:40:40",
+        "gage_name": "USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY",
+        "column_names": ["agency_cd", "site_no", "datetime", "tz_cd", "02_00065", "02_00065_cd", "03_00010", "03_00010_cd", "04_00300", "04_00300_cd", "05_00400", "05_00400_cd", "06_00095", "06_00095_cd", "07_63680", "07_63680_cd"],
+        "parameters": [
+            {
+            "code": "02_00065",
+            "description": "Gage height, feet",
+            "index": 4,
+            "data": stage_data,
+            "mean": np.mean(stage_data),
+            "max": np.max(stage_data),
+            "min": np.min(stage_data),
+            },
+            {
+            "code": "03_00010",
+            "description": "Temperature, water, degrees Celsius",
+            "index": 6,
+            "data": temperature_data,
+            "mean": np.mean(temperature_data),
+            "max": np.max(temperature_data),
+            "min": np.min(temperature_data),
+            },
+            {
+            "code": "04_00300",
+            "description": "Dissolved oxygen, water, unfiltered, milligrams per liter",
+            "index": 6,
+            "data": dissolved_oxygen_data,
+            "mean": np.mean(dissolved_oxygen_data),
+            "max": np.max(dissolved_oxygen_data),
+            "min": np.min(dissolved_oxygen_data),
+            },
+            {
+            "code": "05_00400",
+            "description": "pH, water, unfiltered, field, standard units",
+            "index": 8,
+            "data": ph_data,
+            "mean": np.mean(ph_data),
+            "max": np.max(ph_data),
+            "min": np.min(ph_data),
+            },
+            {
+            "code": "06_00095",
+            "description": "Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius",
+            "index": 10,
+            "data": conductance_data,
+            "mean": np.mean(conductance_data),
+            "max": np.max(conductance_data),
+            "min": np.min(conductance_data),
+            },
+            {
+            "code": "07_63680",
+            "description": "Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU)",
+            "index": 12,
+            "data": turbidity_data,
+            "mean": np.mean(turbidity_data),
+            "max": np.max(turbidity_data),
+            "min": np.min(turbidity_data),
+            },            
+        ],
+        "dates": dates,    
+        "timestep": "instantaneous"   
+    }  
+	
+    fileobj = StringIO(fixture["data_instantaneous_multi_parameter"])
+    actual = nwispy_filereader.read_file_in(filestream = fileobj)
+	
+    nose.tools.assert_equals(actual["date_retrieved"], expected["date_retrieved"])
+    nose.tools.assert_equals(actual["gage_name"], expected["gage_name"])
+    nose.tools.assert_equals(actual["column_names"], expected["column_names"])
+    
+    nose.tools.assert_equals(actual["parameters"][0]["code"], expected["parameters"][0]["code"])
+    nose.tools.assert_equals(actual["parameters"][0]["description"], expected["parameters"][0]["description"])
+    nose.tools.assert_equals(actual["parameters"][0]["index"], expected["parameters"][0]["index"])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
+
+    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][0], expected["parameters"][1]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][1], expected["parameters"][1]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][2], expected["parameters"][1]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][3], expected["parameters"][1]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][4], expected["parameters"][1]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][1]["mean"], expected["parameters"][1]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][1]["max"], expected["parameters"][1]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][1]["min"], expected["parameters"][1]["min"])
+
+    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][0], expected["parameters"][2]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][1], expected["parameters"][2]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][2], expected["parameters"][2]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][3], expected["parameters"][2]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][4], expected["parameters"][2]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][2]["mean"], expected["parameters"][2]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][2]["max"], expected["parameters"][2]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][2]["min"], expected["parameters"][2]["min"])
+
+    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][0], expected["parameters"][3]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][1], expected["parameters"][3]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][2], expected["parameters"][3]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][3], expected["parameters"][3]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][4], expected["parameters"][3]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][3]["mean"], expected["parameters"][3]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][3]["max"], expected["parameters"][3]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][3]["min"], expected["parameters"][3]["min"])
+
+    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][0], expected["parameters"][4]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][1], expected["parameters"][4]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][2], expected["parameters"][4]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][3], expected["parameters"][4]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][4], expected["parameters"][4]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][4]["mean"], expected["parameters"][4]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][4]["max"], expected["parameters"][4]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][4]["min"], expected["parameters"][4]["min"])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][0], expected["parameters"][5]["data"][0])
+    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][1], expected["parameters"][5]["data"][1])
+    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][2], expected["parameters"][5]["data"][2])
+    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][3], expected["parameters"][5]["data"][3])
+    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][4], expected["parameters"][5]["data"][4])
+    
+    nose.tools.assert_almost_equals(actual["parameters"][5]["mean"], expected["parameters"][5]["mean"])
+    nose.tools.assert_almost_equals(actual["parameters"][5]["max"], expected["parameters"][5]["max"])
+    nose.tools.assert_almost_equals(actual["parameters"][5]["min"], expected["parameters"][5]["min"])
+
+    nose.tools.assert_equals(actual["dates"][0], expected["dates"][0])
+    nose.tools.assert_equals(actual["dates"][1], expected["dates"][1])
+    nose.tools.assert_equals(actual["dates"][2], expected["dates"][2])
+    nose.tools.assert_equals(actual["dates"][3], expected["dates"][3])
+    nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
+         
+    nose.tools.assert_equals(actual["timestep"], expected["timestep"]) 

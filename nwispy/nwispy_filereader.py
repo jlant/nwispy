@@ -92,7 +92,7 @@ def read_file_in(filestream):
         
     """  
     data_file = filestream.readlines()
-    read_file_in()
+
     # regular expression patterns in data file 
     # column_names and data_row patterns have 5 groups which is used to 
     # distinguish a daily file from an instanteous file; if 4th group is None, 
@@ -285,17 +285,17 @@ def test_get_parameter_code():
     
     pattern = "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)"    
     code, description = get_parameter_code(match = re.search(pattern , "#    06   00060     00003     Discharge, cubic feet per second (Mean)"))
-    print("*Code* estimated : actual")
+    print("*Code* expected : actual")
     print("    06_00060_00003 : {}".format(code))
-    print("*Description* estimated : actual")
+    print("*Description* expected : actual")
     print("    Discharge, cubic feet per second (Mean) : {}".format(description))
 
     print("")
     
     code, description = get_parameter_code(match = re.search(pattern, "#    02   00065     Gage height, feet"))
-    print("*Code* estimated : actual")
+    print("*Code* expected : actual")
     print("    02_00065 : {}".format(code))
-    print("*Description* estimated : actual")
+    print("*Description* expected : actual")
     print("    Gage height, feet : {}".format(description))
 
     print("")
@@ -306,11 +306,11 @@ def test_get_date():
     print("--- Testing get_date() ---")
     
     date1 = get_date(daily = "2014-03-12", instantaneous = "")
-    print("*Date* estimated : actual")
+    print("*Date* expected : actual")
     print("    2014-03-12 : {}".format(date1))
 
     date2 = get_date(daily = "2014-03-12", instantaneous = "01:15\tEDT")
-    print("Date estimated : actual")
+    print("Date expected : actual")
     print("    2014-03-12 at 01:15:00 : {}".format(date2))  
     
     print("")    
@@ -367,28 +367,28 @@ def test_read_file_in():
     fileobj = StringIO(fixture["data file"])
     
     data = read_file_in(fileobj)   
-    print("*Date retrieved* estimated : actual")
+    print("*Date retrieved* expected : actual")
     print("    2014-03-11 08:40:40 : {}".format(data["date_retrieved"]))
     print("")
-    print("*Gage name* estimated : actual")
+    print("*Gage name* expected : actual")
     print("    USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY : {}".format(data["gage_name"]))
     print("")
-    print("*Column names* estimated : actual")
+    print("*Column names* expected : actual")
     print("    [agency_cd, site_no, datetime, tz_cd, 02_00065, 02_00065_cd, 03_00010, 03_00010_cd, 04_00300, 04_00300_cd, 05_00400, 05_00400_cd, 06_00095, 06_00095_cd, 07_63680, 07_63680_cd] : \n{}".format(data["column_names"]))
     print("")
-    print("*Timestep* estimated : actual")
+    print("*Timestep* expected : actual")
     print("    instantaneous : {}".format(data["timestep"]))
     print("")
-    print("*Dates* type estimated : actual")
+    print("*Dates* type expected : actual")
     print("    numpy.ndarray : {}".format(type(data["dates"]))) 
     print("")   
-    print("*Dates* estimated : actual")
+    print("*Dates* expected : actual")
     print("    [datetime.datetime(2013, 6, 6, 0, 0) datetime.datetime(2013, 6, 6, 0, 15) datetime.datetime(2013, 6, 6, 0, 30)] datetime.datetime(2013, 6, 6, 0, 45) datetime.datetime(2013, 6, 6, 1, 0)] : \n{}".format(data["dates"]))
     print("")
-    print("Data type estimated : actual")
+    print("Data type expected : actual")
     print("    numpy.ndarray : {}".format(type(data["parameters"][0]["data"])))    
     print("")
-    print("*Parameters* ESTIMATED index, code, description, data, mean, max, min")
+    print("*Parameters* expected index, code, description, data, mean, max, min")
     print("    4 02_00065 Gage height, feet [1.0 2.0 3.0 4.0 5.0]  3.0 5.0 1.0\n")
     print("    6 03_00010 Temperature, water, degrees Celsius [5.0 10.0 15.0 20.0 25.0]  15.0 25.0 5.0\n")   
     print("    8 04_00300 Dissolved oxygen, water, unfiltered, milligrams per liter [2.0 1.25 1.25 0.25 0.25]  1.0 2.0 0.25\n")
