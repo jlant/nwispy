@@ -10,7 +10,7 @@
 Read USGS National Water Information System (NWIS) data files.
 
 """
-import pdb
+
 import re
 import numpy as np
 import datetime

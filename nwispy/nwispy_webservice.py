@@ -219,6 +219,12 @@ def test_encode_url():
         {"end date": "2014-01-15", 
         "data type": "dv", 
         "start date": "2014-01-01", 
+        "parameters": ["00060"], 
+        "site number": "03284000"
+        }, 
+        {"end date": "2014-01-15", 
+        "data type": "dv", 
+        "start date": "2014-01-01", 
         "parameters": ["00060", "00065"], 
         "site number": "03284000"
         }, 
@@ -227,6 +233,12 @@ def test_encode_url():
         "start date": "2014-02-12", 
         "parameters": ["00060", "00065", "00045"], 
         "site number": "03284000"
+        },
+        {"data type": "",
+        "site number": "",
+        "start date": "",
+        "end date": "",
+        "parameters": "", 
         }
     ]
 
@@ -235,10 +247,14 @@ def test_encode_url():
         request_url.append(encode_url(request))
 
     print("*Encoded url 1* expected : actual")
-    print("    parameterCD=00060%2C00065&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[0]))
+    print("    parameterCD=00060&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[0]))
+    print("")
+    print("    parameterCD=00060%2C00065&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[1]))
     print("")
     print("*Encoded url 2* expected : actual")
-    print("    parameterCD=00060%2C00065%2C00045&endDt=2014-02-19&startDt=2014-02-12&site=03284000&format=rdb : \n    {}".format(request_url[1]))
+    print("    parameterCD=00060%2C00065%2C00045&endDt=2014-02-19&startDt=2014-02-12&site=03284000&format=rdb : \n    {}".format(request_url[2]))
+    print("")
+    print("    parameterCD=&endDt=&startDt=&site=&format=rdb : \n    {}".format(request_url[3]))
     print("")
            
 def main():
