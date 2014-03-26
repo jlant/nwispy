@@ -100,7 +100,6 @@ def make_directory(path, directory_name):
         **directory_path** : string path to directory 
         
     """    
-#    directory_path = '/'.join([path, directory_name])
     directory_path = os.path.join(path, directory_name)
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)         

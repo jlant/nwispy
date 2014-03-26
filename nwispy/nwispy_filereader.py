@@ -10,7 +10,7 @@
 Read USGS National Water Information System (NWIS) data files.
 
 """
-
+import pdb
 import re
 import numpy as np
 import datetime
@@ -152,7 +152,7 @@ def read_file_in(filestream):
             for parameter in data["parameters"]:
                 parameter["index"] = data["column_names"].index(parameter["code"])           
 
-         # get date; match_data_row.group(3) => daily match, match_data_row.group(4) => instantaneous match
+         # get date and float value
         if match_data_row:
             date = get_date(daily = match_data_row.group(3), instantaneous = match_data_row.group(4))
             data["dates"].append(date)
@@ -160,51 +160,98 @@ def read_file_in(filestream):
             for parameter in data["parameters"]:
                 value = match_data_row.group(0).split("\t")[parameter["index"]]
                 
-                if not nwispy_helpers.isfloat(value):
-                    if value == "":
-                        error_str = "*Missing value* on {}. *Solution* - Replacing with NaN value".format(date.strftime("%Y-%m-%d_%H.%M.%S.%f"))
-                        logging.warn(error_str)
-                        value = np.nan
-                    
-                    elif "_" in value:
-                        error_str = "*_ character* with float on {}. *Solution* - Splitting on _ character".format(date.strftime("%Y-%m-%d_%H.%M.%S.%f"))
-                        logging.warn(error_str)
-                        value = value.split("_")[0]
-                    
-                    else:
-                        error_str = "*Bad value* on {}. *Solution* - Replacing with NaN value".format(date.strftime("%Y-%m-%d_%H.%M.%S.%f"))
-                        logging.warn(error_str)
-                        value = np.nan
-                        
-                parameter["data"].append(float(value))    
+                value = convert_to_float(value = value, helper_str = date.strftime("%Y-%m-%d_%H.%M"))
+                                       
+                parameter["data"].append(value)
     
     # convert the date list to a numpy array
     data["dates"] = np.array(data["dates"])    
 
-    # find timestep of the data
+    # find timestep 
     timestep = data["dates"][1] - data["dates"][0]
     if timestep.days == 1:
         data["timestep"] = "daily"
     else:
         data["timestep"] = "instantaneous"
     
-    # convert each parameter data list in data["parameter"] convert to a numpy array and
-    # compute mean, max, and min as well.
+    # convert each parameter data list in data["parameter"] to a numpy array and
+    # compute mean, max, and min
     for parameter in data["parameters"]:
         parameter["data"] = np.array(parameter["data"])
         
-        # check if all values are nan
-        if not np.isnan(parameter["data"]).all():
-            parameter["mean"] = np.nanmean(parameter["data"])
-            parameter["max"] = np.nanmax(parameter["data"])
-            parameter["min"] = np.nanmin(parameter["data"])
-        else:
-            error_str = "*Bad data* All values are NaN. Please check data"
-            logging.warn(error_str)
-            
-            raise ValueError
+        param_mean, param_max, param_min = compute_simple_stats(data = parameter["data"])
+        
+        parameter["mean"] = param_mean
+        parameter["max"] = param_max
+        parameter["min"] = param_min
+
 
     return data
+
+def compute_simple_stats(data):
+    """   
+    Compute simple statistics (mean, max, min) on a data array. If entire 
+    data array consists of only nan values, then log a warning and raise a value error
+    
+    Parameters
+    ----------
+        **data** : numpy.array
+        
+    Return
+    ------
+        **(mean, max, min)** : tuple of floats
+        
+    """    
+    # check if all values are nan
+    if not np.isnan(data).all():
+        param_mean = np.nanmean(data)
+        param_max = np.nanmax(data)
+        param_min = np.nanmin(data)
+        
+        return param_mean, param_max, param_min
+    else:
+        error_str = "*Bad data* All values are NaN. Please check data"
+        logging.warn(error_str)
+        
+        raise ValueError
+
+def convert_to_float(value, helper_str = None):
+    """   
+    Convert a value to a float. If value is not a valid float, log as an error
+    with a helper_str (i.e. value's coorsponding date) to help locate the 
+    error and replace value with a NaN
+    
+    Parameters
+    ----------
+        **value** : string
+        **helper_str** : string
+        
+    Return
+    ------
+        **value** : float
+
+    """
+    if nwispy_helpers.isfloat(value):
+        value = float(value)
+    else:
+        if "_" in value:
+            error_str = "*_ character* with float *Helper message* {}. *Solution* - Splitting on _ character".format(helper_str)
+            logging.warn(error_str)
+            value = value.strip("_")
+            value = convert_to_float(value, helper_str)
+
+        elif value == "":
+            error_str = "*Missing value* on {}. *Solution* - Replacing with NaN value".format(helper_str)
+            logging.warn(error_str)
+            value = np.nan
+
+        else:
+            error_str = "*Bad value* on {}. *Solution* - Replacing with NaN value".format(helper_str)
+            logging.warn(error_str)
+            value = np.nan
+            
+    return value
+
 
 def get_parameter_code(match):
     """   
