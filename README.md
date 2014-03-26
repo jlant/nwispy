@@ -250,8 +250,8 @@ Return to [Contents](#contents).
 Testing
 -------
 
-Unit tests for *nwispy* were written using the nose library (https://nose.readthedocs.org/en/latest/), and test
-tests are contained in the directory *tests*.  *nwispy* can be unit tested by typing the following command at 
+Unit tests for *nwispy* were written using the nose library (https://nose.readthedocs.org/en/latest/), and 
+are contained in the *tests* directory.  *nwispy* can be unit tested by typing the following command at 
 the *nwispy* project level directory (one directory above the *tests* directory):
 	
 	$ nosetests
