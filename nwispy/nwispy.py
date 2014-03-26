@@ -17,6 +17,7 @@ import os
 import sys
 import argparse
 import Tkinter, tkFileDialog
+from PyQt4 import QtCore, QtGui
 from urllib2 import URLError, HTTPError
 import logging
 
@@ -42,6 +43,7 @@ def process_files(file_list, arguments):
         
     """
     for f in file_list:
+                
         filedir, filename = nwispy_helpers.get_file_info(f)
           
         # create output directory     
@@ -82,7 +84,7 @@ def process_webrequest(request_file, arguments):
     web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename.split(".txt")[0], "datafiles"]))
     
     # initialize error logging
-    nwispy_logging.initialize_loggers(output_dir = web_filedir, logging_type = "exception")                        
+    nwispy_logging.initialize_loggers(output_dir = web_filedir)                        
     
     # read the request data file
     request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
@@ -184,6 +186,7 @@ def main():
         
 if __name__ == "__main__":
     main()
+
     
 
   

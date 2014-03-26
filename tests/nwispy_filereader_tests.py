@@ -1,21 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jul 23 15:05:27 2013
-
-@author: jlant
-
-Author: Jeremiah Lant
-Email: jlant@usgs.gov
-"""
+import nose.tools
 
 import sys
-import nose.tools
-from nose import with_setup
-from nose.tools import *
 import numpy as np
 import datetime
 import re
-import nose
 from StringIO import StringIO
 
 # my module
@@ -24,9 +12,8 @@ from nwispy import nwispy_filereader
 # define the global fixture to hold the data that goes into the functions you test
 fixture = {}
 
-# define a setup function that runs BEFORE every test method
 def setup():
-    """ Setup fixture for testing """
+    """ Setup and initialize fixture for testing """
 
     print >> sys.stderr, "SETUP: nwispy_filereader tests"
    
@@ -275,14 +262,13 @@ def setup():
         USGS	11143000	2010-03-01 01:00	PST	50.0	A
         """
 
-	
-# define a teardown function that runs AFTER every test method
-def teardown():
-    print >> sys.stderr, "TEARDOWN: nwispy_filereader tests"  
 
-    fixture = {}
-	
-#@with_setup(setup, teardown)
+def teardown():
+    """ Print to standard error when all tests are finished """
+    
+    print >> sys.stderr, "TEARDOWN: nwispy_filereader tests"      
+
+
 def test_instantaneous_date():
     
     expected = datetime.datetime(2013, 6, 25, 0, 15)
@@ -291,7 +277,7 @@ def test_instantaneous_date():
 
     nose.tools.assert_equals(actual, expected)
 
-#@with_setup(setup, teardown)
+
 def test_daily_date():
     
     expected = datetime.datetime(2013, 6, 25, 0, 0)
@@ -416,23 +402,15 @@ def test_daily_single_parameter():
     nose.tools.assert_equals(actual["parameters"][0]["code"], expected["parameters"][0]["code"])
     nose.tools.assert_equals(actual["parameters"][0]["description"], expected["parameters"][0]["description"])
     nose.tools.assert_equals(actual["parameters"][0]["index"], expected["parameters"][0]["index"])
-    
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
-    
+
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())    
+       
     nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
 
-    nose.tools.assert_equals(actual["dates"][0], expected["dates"][0])
-    nose.tools.assert_equals(actual["dates"][1], expected["dates"][1])
-    nose.tools.assert_equals(actual["dates"][2], expected["dates"][2])
-    nose.tools.assert_equals(actual["dates"][3], expected["dates"][3])
-    nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
-        
+    nose.tools.assert_equals(actual["dates"].all(), expected["dates"].all())
+
     nose.tools.assert_equals(actual["timestep"], expected["timestep"])
 
 def test_data_instantaneous_single_parameter():
@@ -473,22 +451,14 @@ def test_data_instantaneous_single_parameter():
     nose.tools.assert_equals(actual["parameters"][0]["code"], expected["parameters"][0]["code"])
     nose.tools.assert_equals(actual["parameters"][0]["description"], expected["parameters"][0]["description"])
     nose.tools.assert_equals(actual["parameters"][0]["index"], expected["parameters"][0]["index"])
-    
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())
     
     nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
 
-    nose.tools.assert_equals(actual["dates"][0], expected["dates"][0])
-    nose.tools.assert_equals(actual["dates"][1], expected["dates"][1])
-    nose.tools.assert_equals(actual["dates"][2], expected["dates"][2])
-    nose.tools.assert_equals(actual["dates"][3], expected["dates"][3])
-    nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
+    nose.tools.assert_equals(actual["dates"].all(), expected["dates"].all())
         
     nose.tools.assert_equals(actual["timestep"], expected["timestep"])    
 
@@ -582,72 +552,40 @@ def test_data_instantaneous_multi_parameter():
     nose.tools.assert_equals(actual["parameters"][0]["code"], expected["parameters"][0]["code"])
     nose.tools.assert_equals(actual["parameters"][0]["description"], expected["parameters"][0]["description"])
     nose.tools.assert_equals(actual["parameters"][0]["index"], expected["parameters"][0]["index"])
-    
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
 
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())
+    nose.tools.assert_almost_equals(actual["parameters"][1]["data"].all(), expected["parameters"][1]["data"].all())
+    nose.tools.assert_almost_equals(actual["parameters"][2]["data"].all(), expected["parameters"][2]["data"].all())
+    nose.tools.assert_almost_equals(actual["parameters"][3]["data"].all(), expected["parameters"][3]["data"].all())
+    nose.tools.assert_almost_equals(actual["parameters"][4]["data"].all(), expected["parameters"][4]["data"].all())
+    nose.tools.assert_almost_equals(actual["parameters"][5]["data"].all(), expected["parameters"][5]["data"].all())
+        
+    
     nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
-
-    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][0], expected["parameters"][1]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][1], expected["parameters"][1]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][2], expected["parameters"][1]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][3], expected["parameters"][1]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][1]["data"][4], expected["parameters"][1]["data"][4])
 
     nose.tools.assert_almost_equals(actual["parameters"][1]["mean"], expected["parameters"][1]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][1]["max"], expected["parameters"][1]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][1]["min"], expected["parameters"][1]["min"])
 
-    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][0], expected["parameters"][2]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][1], expected["parameters"][2]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][2], expected["parameters"][2]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][3], expected["parameters"][2]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][2]["data"][4], expected["parameters"][2]["data"][4])
-
     nose.tools.assert_almost_equals(actual["parameters"][2]["mean"], expected["parameters"][2]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][2]["max"], expected["parameters"][2]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][2]["min"], expected["parameters"][2]["min"])
-
-    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][0], expected["parameters"][3]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][1], expected["parameters"][3]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][2], expected["parameters"][3]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][3], expected["parameters"][3]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][3]["data"][4], expected["parameters"][3]["data"][4])
 
     nose.tools.assert_almost_equals(actual["parameters"][3]["mean"], expected["parameters"][3]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][3]["max"], expected["parameters"][3]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][3]["min"], expected["parameters"][3]["min"])
 
-    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][0], expected["parameters"][4]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][1], expected["parameters"][4]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][2], expected["parameters"][4]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][3], expected["parameters"][4]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][4]["data"][4], expected["parameters"][4]["data"][4])
-
     nose.tools.assert_almost_equals(actual["parameters"][4]["mean"], expected["parameters"][4]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][4]["max"], expected["parameters"][4]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][4]["min"], expected["parameters"][4]["min"])
-    
-    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][0], expected["parameters"][5]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][1], expected["parameters"][5]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][2], expected["parameters"][5]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][3], expected["parameters"][5]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][5]["data"][4], expected["parameters"][5]["data"][4])
-    
+
     nose.tools.assert_almost_equals(actual["parameters"][5]["mean"], expected["parameters"][5]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][5]["max"], expected["parameters"][5]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][5]["min"], expected["parameters"][5]["min"])
 
-    nose.tools.assert_equals(actual["dates"][0], expected["dates"][0])
-    nose.tools.assert_equals(actual["dates"][1], expected["dates"][1])
-    nose.tools.assert_equals(actual["dates"][2], expected["dates"][2])
-    nose.tools.assert_equals(actual["dates"][3], expected["dates"][3])
-    nose.tools.assert_equals(actual["dates"][4], expected["dates"][4])
+    nose.tools.assert_equals(actual["dates"].all(), expected["dates"].all())
          
     nose.tools.assert_equals(actual["timestep"], expected["timestep"]) 
     
@@ -670,12 +608,8 @@ def test_bad_daily_single_parameter():
 	
     fileobj = StringIO(fixture["data_daily_single_parameter"])
     actual = nwispy_filereader.read_file_in(filestream = fileobj)
-    
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][2], expected["parameters"][0]["data"][2])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][3], expected["parameters"][0]["data"][3])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
+
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())
     
     nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
@@ -700,13 +634,9 @@ def test_bad_data_instantaneous_single_parameter1():
 	
     fileobj = StringIO(fixture["bad_data_instantaneous_single_parameter1"])
     actual = nwispy_filereader.read_file_in(filestream = fileobj)
-    
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][0], expected["parameters"][0]["data"][0])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][1], expected["parameters"][0]["data"][1])
-    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][2]), np.isnan(expected["parameters"][0]["data"][2]))
-    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][3]), np.isnan(expected["parameters"][0]["data"][3]))
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
-    
+
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())
+       
     nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])
@@ -729,13 +659,12 @@ def test_bad_data_instantaneous_single_parameter2():
 	
     fileobj = StringIO(fixture["bad_data_instantaneous_single_parameter2"])
     actual = nwispy_filereader.read_file_in(filestream = fileobj)
-    
-    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][0]), np.isnan(expected["parameters"][0]["data"][0]))
-    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][1]), np.isnan(expected["parameters"][0]["data"][1]))
-    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][2]), np.isnan(expected["parameters"][0]["data"][2]))
-    nose.tools.assert_equals(np.isnan(actual["parameters"][0]["data"][3]), np.isnan(expected["parameters"][0]["data"][3]))
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"][4], expected["parameters"][0]["data"][4])
 
+    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())
+    
     nose.tools.assert_almost_equals(actual["parameters"][0]["mean"], expected["parameters"][0]["mean"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
-    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"])    
+    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"]) 
+
+
+    
