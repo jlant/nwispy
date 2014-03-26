@@ -15,7 +15,7 @@ Log erroneous data values found in USGS NWIS files.
 import logging
 import os
 
-def initialize_loggers(output_dir, logging_type = "warn"):
+def initialize_loggers(output_dir):
     """    
     Initialize the error logging objects.
     
@@ -38,22 +38,13 @@ def initialize_loggers(output_dir, logging_type = "warn"):
     formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    
-    if logging_type == "warn":
-        # create file handler and set level to WARN - write to a file only if a message is sent to this handler
-        handler = logging.FileHandler(os.path.join(output_dir, "warn.log"), "w", encoding = None, delay = "true")
-        handler.setLevel(logging.WARN)
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-        
-    elif logging_type == "exception":
-        # create debug file handler and set level to debug - file will be created every run
-        handler = logging.FileHandler(os.path.join(output_dir, "exception.log"), "w", encoding = None, delay = "true")
-        handler.setLevel(logging.ERROR)
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)        
+
+    # create file handler and set level to WARN - write to a file only if a message is sent to this handler
+    handler = logging.FileHandler(os.path.join(output_dir, "error.log"), "w", encoding = None, delay = "true")
+    handler.setLevel(logging.WARN)
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)    
 
       
 def remove_loggers():
@@ -86,6 +77,12 @@ def test_logging():
     
     # creat a warning log
     logging.warn("my warning log")
+
+    # creat a warning log
+    logging.error("my error log")
+
+    # creat a warning log; will print and log None here because there is no real exception
+    logging.exception("my exception log")
     
     # try to add info log; info should NOT be added to warn.log since it is not setup for logging.info
     logging.info("my info log")
