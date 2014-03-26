@@ -18,6 +18,8 @@ Contents
 
 [General Instructions](#general-instructions)
 
+[Testing](#testing)
+
 [Requirements](#requirements)
 
 [Installation Instructions](#installation-instructions)
@@ -244,7 +246,16 @@ Example tab-delimited *requests.txt* files are shown below:
 
 
 Return to [Contents](#contents).
+
+Testing
+-------
+
+Unit tests for *nwispy* were written using the nose library (https://nose.readthedocs.org/en/latest/), and test
+tests are contained in the directory *tests*.  *nwispy* can be unit tested by typing the following command at 
+the *nwispy* project level directory (one directory above the *tests* directory):
 	
+	$ nosetests
+		
 Requirements
 ------------
 	python == 2.7.6
@@ -295,6 +306,7 @@ In the Works
 * Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
 *SpanSelector* mouse widget. A key press of 'A' or 'a' would active the slider and a key press of 
 'Q' or 'q' de-activates the slider.
+
 	
 Disclaimer and Notice
 ---------------------
