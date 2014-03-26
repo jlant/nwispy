@@ -17,6 +17,7 @@ import os
 import sys
 import argparse
 import Tkinter, tkFileDialog
+from PyQt4 import QtCore, QtGui
 from urllib2 import URLError, HTTPError
 import logging
 
@@ -42,6 +43,7 @@ def process_files(file_list, arguments):
         
     """
     for f in file_list:
+                
         filedir, filename = nwispy_helpers.get_file_info(f)
           
         # create output directory     
@@ -184,6 +186,7 @@ def main():
         
 if __name__ == "__main__":
     main()
+
     
 
   

@@ -262,42 +262,6 @@ def setup():
         USGS	11143000	2010-03-01 01:00	PST	50.0	A
         """
 
-    fixture["bad_data_instantaneous_single_parameter3"] = \
-        """
-        # ---------------------------------- WARNING ----------------------------------------
-        # The data you have obtained from this automated U.S. Geological Survey database
-        # have not received Director"s approval and as such are provisional and subject to
-        # revision.  The data are released on the condition that neither the USGS nor the
-        # United States Government may be held liable for any damages resulting from its use.
-        # Additional info: http://nwis.waterdata.usgs.gov/ca/nwis/?provisional
-        #
-        # File-format description:  http://nwis.waterdata.usgs.gov/nwis/?tab_delimited_format_info
-        # Automated-retrieval info: http://nwis.waterdata.usgs.gov/nwis/?automated_retrieval_info
-        #
-        # Contact:   gs-w_support_nwisweb@usgs.gov
-        # retrieved: 2014-03-13 17:19:26 EDT       (nadww01)
-        #
-        # Data for the following 1 site(s) are contained in this file
-        #    USGS 11143000 BIG SUR R NR BIG SUR CA
-        # -----------------------------------------------------------------------------------
-        #
-        # Data provided for site 11143000
-        #    DD parameter   Description
-        #    03   00065     Gage height, feet
-        #
-        # Data-value qualification codes included in this output: 
-        #     A  Approved for publication -- Processing and review completed.  
-        #     P  Provisional data subject to revision.  
-        # 
-        agency_cd	site_no	datetime	tz_cd	03_00065	03_00065_cd
-        5s	15s	20d	6s	14n	10s
-        USGS	11143000	2010-03-01 00:00	PST	Ice	A
-        USGS	11143000	2010-03-01 00:15	PST	Ice	A
-        USGS	11143000	2010-03-01 00:30	PST		A
-        USGS	11143000	2010-03-01 00:45	PST	*	A
-        USGS	11143000	2010-03-01 01:00	PST	*	A
-        """
-
 
 def teardown():
     """ Print to standard error when all tests are finished """
@@ -702,30 +666,5 @@ def test_bad_data_instantaneous_single_parameter2():
     nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
     nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"]) 
 
-def test_bad_data_instantaneous_single_parameter3():
-   
-    data = np.array([np.nan, np.nan, np.nan, np.nan, np.nan])
-    
-    expected = {
-        "parameters": [{
-            "code": "03_00065",
-            "description": "Gage height, feet",
-            "index": 4,
-            "data": data,
-            "mean": np.nanmean(data),
-            "max": np.nanmax(data),
-            "min": np.nanmin(data),
-        }] 
-    }  
-	
-    fileobj = StringIO(fixture["bad_data_instantaneous_single_parameter3"])
-    actual = nwispy_filereader.read_file_in(filestream = fileobj)
 
-    nose.tools.assert_almost_equals(actual["parameters"][0]["data"].all(), expected["parameters"][0]["data"].all())
-    
-    nose.tools.assert_almost_equals(np.isnan(actual["parameters"][0]["mean"]), np.isnan(expected["parameters"][0]["mean"]))
-    nose.tools.assert_almost_equals(np.isnan(actual["parameters"][0]["max"]), np.isnan(expected["parameters"][0]["max"]))
-    nose.tools.assert_almost_equals(np.isnan(actual["parameters"][0]["min"]), np.isnan(expected["parameters"][0]["min"]))    
-#    nose.tools.assert_almost_equals(actual["parameters"][0]["max"], expected["parameters"][0]["max"])
-#    nose.tools.assert_almost_equals(actual["parameters"][0]["min"], expected["parameters"][0]["min"]) 
     

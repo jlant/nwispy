@@ -96,7 +96,7 @@ def read_file_in(filestream):
     # regular expression patterns in data file 
     # column_names and data_row patterns have 5 groups which is used to 
     # distinguish a daily file from an instanteous file; if 4th group is None, 
-    # then data file is daily, otherwise it is an instanteous file.
+    # then data file is daily, otherwise it is an instantaneous file.
     patterns = {
         "date_retrieved": "(.+): ([0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2})(.+)",  
         "gage_name": "(#.+)(USGS [0-9]+\s.+)",
@@ -160,7 +160,7 @@ def read_file_in(filestream):
             for parameter in data["parameters"]:
                 value = match_data_row.group(0).split("\t")[parameter["index"]]
                 
-                value = convert_to_float(value = value, helper_str = date.strftime("%Y-%m-%d_%H.%M"))
+                value = convert_to_float(value = value, helper_str = "parameter {} on {}".format(parameter["code"], date.strftime("%Y-%m-%d_%H.%M")))
                                        
                 parameter["data"].append(value)
     
@@ -184,7 +184,6 @@ def read_file_in(filestream):
         parameter["mean"] = param_mean
         parameter["max"] = param_max
         parameter["min"] = param_min
-
 
     return data
 
@@ -238,15 +237,14 @@ def convert_to_float(value, helper_str = None):
             error_str = "*_ character* with float *Helper message* {}. *Solution* - Splitting on _ character".format(helper_str)
             logging.warn(error_str)
             value = value.strip("_")
-            value = convert_to_float(value, helper_str)
 
         elif value == "":
-            error_str = "*Missing value* on {}. *Solution* - Replacing with NaN value".format(helper_str)
+            error_str = "*Missing value* {}. *Solution* - Replacing with NaN value".format(helper_str)
             logging.warn(error_str)
             value = np.nan
 
         else:
-            error_str = "*Bad value* on {}. *Solution* - Replacing with NaN value".format(helper_str)
+            error_str = "*Bad value* {}. *Solution* - Replacing with NaN value".format(helper_str)
             logging.warn(error_str)
             value = np.nan
             
