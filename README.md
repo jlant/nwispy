@@ -251,7 +251,7 @@ Testing
 -------
 
 Unit tests for *nwispy* were written using the nose library (https://nose.readthedocs.org/en/latest/), and 
-are contained in the *tests* directory.  *nwispy* can be unit tested by typing the following command at 
+are contained in the *tests* directory.  *nwispy* can be unit tested by typing the **nosetests** command at 
 the *nwispy* project level directory (one directory above the *tests* directory):
 
 	$ pwd
