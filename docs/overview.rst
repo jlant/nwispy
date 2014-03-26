@@ -197,6 +197,19 @@ Example tab-delimited *requests.txt* files are shown below:
 
 .. image:: _static/request_multiple_gages.png
 
+Testing
+-------
+
+Unit tests for *nwispy* were written using the nose library (https://nose.readthedocs.org/en/latest/), and 
+are contained in the *tests* directory.  *nwispy* can be unit tested by typing the **nosetests** command at 
+the *nwispy* project level directory (one directory above the *tests* directory):
+::
+
+	$ pwd
+	/your-path/nwispy	
+
+	$ nosetests
+
 	
 Requirements
 ------------

@@ -65,6 +65,7 @@
 <li><a class="reference internal" href="#command-line-interface">Command line interface</a></li>
 <li><a class="reference internal" href="#simple-uml-diagram">Simple UML diagram</a></li>
 <li><a class="reference internal" href="#general-instructions">General Instructions</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#download">Download</a></li>
 <li><a class="reference internal" href="#installation-instructions">Installation Instructions</a></li>
@@ -110,13 +111,14 @@
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="author">
 <h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><pre>Jeremiah Lant
+<div class="highlight-python"><div class="highlight"><pre>Jeremiah Lant
 Hydrologist
 U.S. Geological Survey
 Kentucky Water Science Center
 Louisville, Kentucky 40299
 502-493-1949
-jlant@usgs.gov</pre>
+jlant@usgs.gov
+</pre></div>
 </div>
 </div>
 <div class="section" id="version">
@@ -182,49 +184,59 @@ generated and saved to the same directory that the plots are saved in.</p>
 <p><strong>File(s) -f flag</strong></p>
 <p>The -f flag specifies a file or files to process.</p>
 <p>To process a single NWIS data file the general syntax is:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -f path/to/file</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -f path/to/file
+</pre></div>
 </div>
 <p>The above commands will create an output directory with the following contents:</p>
-<div class="highlight-python"><pre>output-filename/
+<div class="highlight-python"><div class="highlight"><pre>output-filename/
                                 *.png           # plots of each parameter in the data file
                                 ...
-                                *.png</pre>
+                                *.png
+</pre></div>
 </div>
 <p>If the data file processed contains any missing or erroneous data values, then a file
 called <em>warn.log</em> is created and placed in the output-filename directory for the user
 to review.  The <em>warn.log</em> file specifies what issues were found in the file.</p>
 <p>For example, using data contained in this repository&#8217;s data directory:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -f ../data/datafiles/03290500_dv.txt</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -f ../data/datafiles/03290500_dv.txt
+</pre></div>
 </div>
 <p>will produce the following output directory:</p>
-<div class="highlight-python"><pre>output-03290500_dv/
-                                USGS 03290500 - Discharge, cubic feet per second (MEAN).png</pre>
+<div class="highlight-python"><div class="highlight"><pre>output-03290500_dv/
+                                USGS 03290500 - Discharge, cubic feet per second (MEAN).png
+</pre></div>
 </div>
 <p>and:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -f ../data/datafiles/03287500_dv.txt</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -f ../data/datafiles/03287500_dv.txt
+</pre></div>
 </div>
 <p>will produce the following output directory:</p>
-<div class="highlight-python"><pre>output-03287500_uv/
+<div class="highlight-python"><div class="highlight"><pre>output-03287500_uv/
                                 USGS 03287500 - Discharge, cubic feet per second (MEAN).png
                                 USGS 03287500 - Gage height, feet.png
                                 USGS 03287500 - Precipitation, total, inches.png
                                 USGS 03287500 - Temperature, water, degrees Celsius.png
-                                warn.log</pre>
+                                warn.log
+</pre></div>
 </div>
 <p>To process a multiple NWIS data files the general command syntax is:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -f file1 file2 file3</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -f file1 file2 file3
+</pre></div>
 </div>
 <p><strong>File Dialog -fd flag</strong></p>
 <p>The -fd flag spawns a file dialog box for users to choose files:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -fd</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -fd
+</pre></div>
 </div>
 <p>The above command syntax will create an output directory in the same manner as the -f flag.</p>
 <p><strong>Plot -p flag</strong></p>
 <p>The -p flag shows plots to the screen for the user to analyse and query:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -fd -p</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -fd -p
+</pre></div>
 </div>
 <p>OR:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -f file.txt -p</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -f file.txt -p
+</pre></div>
 </div>
 <p>The above command syntax will create an output directory in the same manner as the -f flag.</p>
 <p><strong>Verbose -v flag</strong></p>
@@ -234,14 +246,17 @@ to review.  The <em>warn.log</em> file specifies what issues were found in the f
 <p>The above command syntax will create an output directory in the same manner as the -f flag.</p>
 <p><strong>Unix Friendly</strong></p>
 <p>Users can place <em>nwispy</em> along a Unix pipeline.  For example, <em>nwispy</em> can accept standard input:</p>
-<div class="highlight-python"><pre>$ cat file.txt | nwispy.py</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ cat file.txt | nwispy.py
+</pre></div>
 </div>
 <p>OR:</p>
-<div class="highlight-python"><pre>$ cat file.txt | nwispy.py -p -v</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ cat file.txt | nwispy.py -p -v
+</pre></div>
 </div>
 <p><strong>Web Service -web flag</strong></p>
 <p>The -web flag retrieves data files through the USGS NWIS web service based upon a user created tab-delimited <em>requests.txt</em> file:</p>
-<div class="highlight-python"><pre>$ python nwispy.py -web path/to/requests-file.txt</pre>
+<div class="highlight-python"><div class="highlight"><pre>$ python nwispy.py -web path/to/requests-file.txt
+</pre></div>
 </div>
 <p>The above commands will create an output directory called <em>requests-file-datafiles</em> which will contain timestamped downloaded
 NWIS data file(s) and an output directory for each downloaded file containing the plots of each parameter requested and a
@@ -252,12 +267,25 @@ NWIS data file(s) and an output directory for each downloaded file containing th
 <p><em>request_multiple_gages.txt</em></p>
 <img alt="_images/request_multiple_gages.png" src="_images/request_multiple_gages.png" />
 </div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for <em>nwispy</em> were written using the nose library (<a class="reference external" href="https://nose.readthedocs.org/en/latest/">https://nose.readthedocs.org/en/latest/</a>), and
+are contained in the <em>tests</em> directory.  <em>nwispy</em> can be unit tested by typing the <strong>nosetests</strong> command at
+the <em>nwispy</em> project level directory (one directory above the <em>tests</em> directory):</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pwd
+/your-path/nwispy
+
+$ nosetests
+</pre></div>
+</div>
+</div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><pre>python == 2.7.5
+<div class="highlight-python"><div class="highlight"><pre>python == 2.7.5
 numpy == 1.7.1
 matplotlib == 1.2.1
-nose == 1.3.0</pre>
+nose == 1.3.0
+</pre></div>
 </div>
 </div>
 <div class="section" id="download">
@@ -317,7 +345,7 @@ distribution constitute any such warranty, and no responsibility is assumed by t
     </div>
     <div class="footer">
         &copy; Copyright 2013, Jeremiah Lant.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>
