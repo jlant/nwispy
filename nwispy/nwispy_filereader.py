@@ -162,17 +162,17 @@ def read_file_in(filestream):
                 
                 if not nwispy_helpers.isfloat(value):
                     if value == "":
-                        error_str = "**Missing value on " + str(date) + " *Filling with Not A Number (NAN)"
+                        error_str = "*Missing value* on {}. *Solution* - Replacing with NaN value".format(date.strftime("%Y-%m-%d_%H.%M.%S.%f"))
                         logging.warn(error_str)
                         value = np.nan
                     
                     elif "_" in value:
-                        error_str = "**Bad value with float on " + str(date) + " *Splitting on _ character"
+                        error_str = "*_ character* with float on {}. *Solution* - Splitting on _ character".format(date.strftime("%Y-%m-%d_%H.%M.%S.%f"))
                         logging.warn(error_str)
                         value = value.split("_")[0]
                     
                     else:
-                        error_str = "**Bad value with float on " + str(date) +" Value can not be converted to a float: " + value + " *Filling with Not A Number (NAN)"
+                        error_str = "*Bad value* on {}. *Solution* - Replacing with NaN value".format(date.strftime("%Y-%m-%d_%H.%M.%S.%f"))
                         logging.warn(error_str)
                         value = np.nan
                         
@@ -191,10 +191,18 @@ def read_file_in(filestream):
     # convert each parameter data list in data["parameter"] convert to a numpy array and
     # compute mean, max, and min as well.
     for parameter in data["parameters"]:
-        parameter["data"] = np.array(parameter["data"])       
-        parameter["mean"] = np.nanmean(parameter["data"])
-        parameter["max"] = np.nanmax(parameter["data"])
-        parameter["min"] = np.nanmin(parameter["data"])
+        parameter["data"] = np.array(parameter["data"])
+        
+        # check if all values are nan
+        if not np.isnan(parameter["data"]).all():
+            parameter["mean"] = np.nanmean(parameter["data"])
+            parameter["max"] = np.nanmax(parameter["data"])
+            parameter["min"] = np.nanmin(parameter["data"])
+        else:
+            error_str = "*Bad data* All values are NaN. Please check data"
+            logging.warn(error_str)
+            
+            raise ValueError
 
     return data
 

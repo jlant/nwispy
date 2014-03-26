@@ -82,7 +82,7 @@ def process_webrequest(request_file, arguments):
     web_filedir = nwispy_helpers.make_directory(path = request_filedir, directory_name = "-".join([request_filename.split(".txt")[0], "datafiles"]))
     
     # initialize error logging
-    nwispy_logging.initialize_loggers(output_dir = web_filedir, logging_type = "exception")                        
+    nwispy_logging.initialize_loggers(output_dir = web_filedir)                        
     
     # read the request data file
     request_data = nwispy_webservice.read_webrequest(filepath = request_file)                         
