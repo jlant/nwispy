@@ -20,6 +20,8 @@ Contents
 
 [Testing](#testing)
 
+[Code Documentation](#code-documentation)
+
 [Requirements](#requirements)
 
 [Installation Instructions](#installation-instructions)
@@ -93,7 +95,8 @@ passed to *nwispy*. At this time, users can run *nwispy* using a shell with the 
 files either stored locally on a user's machine or *nwispy* can retrieve and process files from the web based on 
 a user request file.  Please see [General Instructions](#general-instructions) for details on how to use nwispy. 
 
-For full code documentation and tutorial on how to use *nwispy*, please visit:
+For full code documentation and tutorial on how to use *nwispy*, please see [Code Documentation](#code-documentation) or
+use the following link:
 
 http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
@@ -259,6 +262,13 @@ the *nwispy* project level directory (one directory above the *tests* directory)
 
 	$ nosetests
 
+Code Documentation
+------------------
+
+Please visit the following web page for code documentation and tutorial on how to use *nwispy*:
+
+http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
+	
 Requirements
 ------------
 	python == 2.7.6
@@ -269,6 +279,8 @@ Requirements
 Installation Instructions
 -------------------------
 Instructions coming soon.
+
+Return to [Contents](#contents).
 
 Repository Layout
 -----------------
