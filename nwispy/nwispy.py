@@ -2,19 +2,18 @@
 """
 :Module: nwispy.py
 
-:Author: Jeremiah Lant
- 
-:Email: jlant@usgs.gov
+:Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
 
-:Purpose: 
-
-Main controller that controls user input options and calls the appropriate modules.
-
+:Synopsis: Main controller that handles user input options for processing U.S. Geological Survey (USGS) National Water Information System (NWIS) data files; http://waterdata.usgs.gov/nwis
 """
 
-import pdb
-import os
-import sys
+__version__   = "1.0.0"
+__author__   = "Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center."
+__copyright__ = "http://www.usgs.gov/visual-id/credit_usgs.html#copyright"
+__license__   = __copyright__
+__contact__   = __author__
+
+import os, sys
 import argparse
 import Tkinter, tkFileDialog
 from urllib2 import URLError, HTTPError
@@ -29,25 +28,14 @@ import nwispy_logging
 
 def process_files(file_list, arguments):
     """    
-    Process a list of files according to options contained in arguments.
+    Process a list of files according to options contained in arguments parameter.
 
     Parameters
     ----------
-        **file_list** : list of files to process
-        **arguments** : argparse object; created by parser.parse_args()          
-  
-    Return
-    ------
-        **no return**
-
-    file_list : list
-                list of files to process
+    file_list : list of str
+        List of files to parse, process, and plot.        
     arguments : argparse object
-                created by parser.parse_args()          
-    
-    Returns
-    -------
-    no return        
+        An argparse object containing user options.                    
     """
     for f in file_list:
                 
@@ -71,19 +59,17 @@ def process_files(file_list, arguments):
 
         # close error logging
         nwispy_logging.remove_loggers()
-process_files()
+
 def process_webrequest(request_file, arguments):
     """    
-    Process a web request file and process.
+    Process a web request file and download requests.
     
     Parameters
-    **********
-        **request_file** : string path to request file
-        **arguments** : argparse object; created by parser.parse_args()          
-    
-    Return
-    ******
-        **no return**
+    ----------
+    request_file : str 
+        String path to file.
+    arguments : argparse object
+        An argparse object containing user options.         
     """            
     request_filedir, request_filename = nwispy_helpers.get_file_info(path = request_file)            
     

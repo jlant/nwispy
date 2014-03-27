@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
 """
 :Module: nwis_viewer.py
 
-:Author: Jeremiah Lant
- 
-:Email: jlant@usgs.gov
+:Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
 
-:Purpose: 
-
-Plot and print information about nwis data files.
-
+:Synopsis: Handles views of the data, such as printing and plotting.
 """
+
+__author__   = "Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center."
+__copyright__ = "http://www.usgs.gov/visual-id/credit_usgs.html#copyright"
+__license__   = __copyright__
+__contact__   = __author__
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -20,16 +21,38 @@ import numpy as np
 
 def print_info(nwis_data):
     """   
-    Print relevant information and contained in the nwis data file. 
+    Print information contained in the data dictionary. 
     
     Parameter
     ---------
-        **nwis_data** : dictionary holding data from NWIS file
-        
-    Return
-    ------
-        **no return**
-        
+    nwis_data : dictionary 
+        A dictionary containing data found in data file.
+    
+    Examples
+    --------
+    >>> import nwispy_viewer
+    >>> import datetime
+    >>> import numpy as np
+    >>> start_date = datetime.datetime(2014, 03, 01, 8, 0)
+    >>> dates = [start_date + datetime.timedelta(i) for i in range(10)]
+    >>> temperature_data = np.array([0 + i for i in range(10)])
+    >>> stage_data = np.array([100 + i for i in range(10)])      
+    >>> parameters = [{"code": "00010", "description": "Temperature, water, degrees Celsius", "index": 0, 
+                   ... "data": temperature_data, "mean": np.mean(temperature_data), "max": np.max(temperature_data), 
+                   ... "min": np.min(temperature_data)}, 
+                      {"code": "00065", "description": "Gage height, feet", "index": 1, "data": stage_data, 
+                   ... "mean": np.mean(stage_data),"max": np.max(stage_data), "min": np.min(stage_data)}]
+    >>> data = {"date_retrieved": "2014-03-20 22:28:47","gage_name": "USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY", 
+            ... "column_names": ["03_00010", "03_00010_cd", "02_00065", "02_00065_cd"], "parameters": parameters, 
+            ... "dates": dates, "timestep": "instaneous"}
+    >>> nwispy_viewer.print_info(nwis_data = data)
+    --- DATA FILE INFORMATION ---
+    Date retrieved: 2014-03-20 22:28:47
+    Gage name: USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY
+    Timestep: instaneous
+    Parameters:
+      Temperature, water, degrees Celsius
+      Gage height, feet
     """   
     
     # print relevant information
@@ -49,13 +72,13 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
     
     Parameter
     ---------
-        **nwis_data** : dictionary holding data from NWIS file
+        nwis_data : dictionary holding data from NWIS file
         
-        **save_path** : string path to save plot(s) 
+        save_path : string path to save plot(s) 
         
     Return
     ------
-        **no return**
+        no return
         
     """
     
