@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
 """
 :Module: nwispy_webservice.py
 
-:Author: Jeremiah Lant
- 
-:Email: jlant@usgs.gov
+:Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
 
-:Purpose: 
-
-Retrieve nwis data files using USGS NWIS webservices
-
+:Synopsis: Handles webservices for U.S. Geological Survey (USGS) National Water Information System (NWIS) data files; http://waterdata.usgs.gov/nwis ; http://waterservices.usgs.gov/nwis/
 """
+
+__author__   = "Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center."
+__copyright__ = "http://www.usgs.gov/visual-id/credit_usgs.html#copyright"
+__license__   = __copyright__
+__contact__   = __author__
 
 import os
 import re
@@ -24,12 +25,17 @@ def read_webrequest(filepath):
     
     Parameters
     ----------
-        **filepath** : string path to file
+    filepath : str
+        String file path.
     
-    Return
-    ------
-        **data** : dictionary holding data found in file  
-        
+    Returns
+    -------
+    data : dictionary
+        A dictionary holding data found in file. 
+
+    See Also
+    --------
+    read_webrequest_in : Read data file object         
     """    
     with open(filepath, "r") as f:
         data = read_webrequest_in(f)
@@ -39,40 +45,25 @@ def read_webrequest(filepath):
 def read_webrequest_in(filestream):
     """    
     Read a webrequest file and put data into a dictionary.
-
-        data = {
-        
-            "column names": [],
-            
-            "requests": [],
-    }
-         
-            
-    The "requests" key in the data dictionary contains a list of dictionaries containing
-    the requests information found in the requests file. For example:
-    
-    requests[0] = {
-    
-        "data type": string of request type; dv or iv,
-        
-        "site number": string of usgs site number,
-        
-        "start date": string of date in yyyy-mm-dd format,
-        
-        "end date": string of in yyyy-mm-dd format,
-        
-        "parameters": list of parameter codes
-
-    }
    
     Parameters
     ----------
-        **filestream** : file object
+    filestream : file object
+        A file object that contains an open data file.
     
-    Return
-    ------
-        **data** : dictionary holding data found in file
-        
+    Returns
+    -------
+    data : dictionary
+        A dictionary holding data found in file. 
+
+    Notes
+    -----
+    data = {"column names": [], "requests": []}
+               
+    The "requests" key in the data dictionary contains a list of dictionaries containing
+    the requests information found in the requests file. For example:
+    
+    requests[0] = {"data type": str, "site number": str, "start date": str, "end date": str, "parameters": list of str}       
     """
     data_file = filestream.readlines()
 
@@ -122,11 +113,20 @@ def encode_url(data_request):
     
     Parameters
     ----------
-        **data_request** : dictionary containing a data request
+    data_request : dictionary
+        A dictionary containing data requests.
     
-    Return
-    ------
-        **request_url** : string encoded url
+    Returns
+    -------
+    request_url : str
+        String encoded url.
+        
+    Examples
+    --------
+    >>> import nwispy_webservice
+    >>> request = {"data type": "dv", "site number": "03284000", "start date": "2014-01-01", "end date": "2014-01-15", "parameters": ["00060"]}
+    >>> nwispy_webservice.encode_url(data_request = request)
+    'parameterCD=00060&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb'
     """
   
     user_parameters = {
@@ -143,21 +143,23 @@ def encode_url(data_request):
     
 def download_file(user_parameters_url, data_type, filename, file_destination):
     """    
-    Get data from the web and save files with provided filename to local machine.
-    
-    The base url for USGS NWIS Webservice is:
-        base_url = "http://waterservices.usgs.gov/nwis/
-    
+    Download data from the web and save files to a specified file destination 
+    with a specified filename.
+
     Parameters
     ----------
-        **user_parameters_url** : encoded url based on users request
-        **data_type** : string "iv" or "dv"
-        **filename** : string
-        **file_destination** : string path 
+    user_parameters_url : str
+        String encoded url based on user request file.
+    data_type : str
+        String of intantaneous data (iv) or daily data (dv).
+    filename : str
+        String filename.
+    file_destination : str
+        String path to save file to.
     
-    Return
-    ------
-        **no return**  
+    Notes
+    -----    
+    The base url for USGS NWIS Webservice - http://waterservices.usgs.gov/nwis/
     """    
     base_url = "http://waterservices.usgs.gov/nwis/" + data_type + "/?"    
 
@@ -219,6 +221,12 @@ def test_encode_url():
         {"end date": "2014-01-15", 
         "data type": "dv", 
         "start date": "2014-01-01", 
+        "parameters": ["00060"], 
+        "site number": "03284000"
+        }, 
+        {"end date": "2014-01-15", 
+        "data type": "dv", 
+        "start date": "2014-01-01", 
         "parameters": ["00060", "00065"], 
         "site number": "03284000"
         }, 
@@ -227,6 +235,12 @@ def test_encode_url():
         "start date": "2014-02-12", 
         "parameters": ["00060", "00065", "00045"], 
         "site number": "03284000"
+        },
+        {"data type": "",
+        "site number": "",
+        "start date": "",
+        "end date": "",
+        "parameters": "", 
         }
     ]
 
@@ -235,10 +249,14 @@ def test_encode_url():
         request_url.append(encode_url(request))
 
     print("*Encoded url 1* expected : actual")
-    print("    parameterCD=00060%2C00065&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[0]))
+    print("    parameterCD=00060&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[0]))
+    print("")
+    print("    parameterCD=00060%2C00065&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[1]))
     print("")
     print("*Encoded url 2* expected : actual")
-    print("    parameterCD=00060%2C00065%2C00045&endDt=2014-02-19&startDt=2014-02-12&site=03284000&format=rdb : \n    {}".format(request_url[1]))
+    print("    parameterCD=00060%2C00065%2C00045&endDt=2014-02-19&startDt=2014-02-12&site=03284000&format=rdb : \n    {}".format(request_url[2]))
+    print("")
+    print("    parameterCD=&endDt=&startDt=&site=&format=rdb : \n    {}".format(request_url[3]))
     print("")
            
 def main():

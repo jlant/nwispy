@@ -18,6 +18,10 @@ Contents
 
 [General Instructions](#general-instructions)
 
+[Testing](#testing)
+
+[Code Documentation](#code-documentation)
+
 [Requirements](#requirements)
 
 [Installation Instructions](#installation-instructions)
@@ -91,7 +95,8 @@ passed to *nwispy*. At this time, users can run *nwispy* using a shell with the 
 files either stored locally on a user's machine or *nwispy* can retrieve and process files from the web based on 
 a user request file.  Please see [General Instructions](#general-instructions) for details on how to use nwispy. 
 
-For full code documentation and tutorial on how to use *nwispy*, please visit:
+For full code documentation and tutorial on how to use *nwispy*, please see [Code Documentation](#code-documentation) or
+use the following link:
 
 http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 
@@ -244,6 +249,25 @@ Example tab-delimited *requests.txt* files are shown below:
 
 
 Return to [Contents](#contents).
+
+Testing
+-------
+
+Unit tests for *nwispy* were written using the nose library (https://nose.readthedocs.org/en/latest/), and 
+are contained in the *tests* directory.  *nwispy* can be unit tested by typing the **nosetests** command at 
+the *nwispy* project level directory (one directory above the *tests* directory):
+
+	$ pwd
+	/your-path/nwispy	
+
+	$ nosetests
+
+Code Documentation
+------------------
+
+Please visit the following web page for code documentation and tutorial on how to use *nwispy*:
+
+http://ky.water.usgs.gov/usgs/projects/jlant_program_code/nwispy/html/index.html
 	
 Requirements
 ------------
@@ -255,6 +279,8 @@ Requirements
 Installation Instructions
 -------------------------
 Instructions coming soon.
+
+Return to [Contents](#contents).
 
 Repository Layout
 -----------------
@@ -295,6 +321,7 @@ In the Works
 * Improvement to the *nwispygui.py* code to allow users to interact with plots using a 
 *SpanSelector* mouse widget. A key press of 'A' or 'a' would active the slider and a key press of 
 'Q' or 'q' de-activates the slider.
+
 	
 Disclaimer and Notice
 ---------------------

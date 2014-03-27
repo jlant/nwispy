@@ -1,32 +1,27 @@
 """
 :Module: nwispy_logging.py
 
-:Author: Jeremiah Lant
+:Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
  
-:Email: jlant@usgs.gov
-
-:Purpose: 
-
-Log erroneous data values found in USGS NWIS files.
-
+:Synopsis: Handles logging of errors.
 """
 
+__author__   = "Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center."
+__copyright__ = "http://www.usgs.gov/visual-id/credit_usgs.html#copyright"
+__license__   = __copyright__
+__contact__   = __author__
 
 import logging
 import os
 
 def initialize_loggers(output_dir):
     """    
-    Initialize the error logging objects.
+    Initialize logging objects.
     
     Parameters
     ----------        
-        **output_dir** : string directory path
-    
-    Return
-    ------
-        **logging_type** : string flag to specify a particular kind of log file  
-        
+    output_dir : str
+        String path 
     """ 
     # create main logger and set global log level to debug
     logger = logging.getLogger()
@@ -49,16 +44,7 @@ def initialize_loggers(output_dir):
       
 def remove_loggers():
     """    
-    Remove all the error logging objects that exist in the application.
-    
-    Parameters
-    ----------
-        **no parameters**
-    
-    Return
-    ------
-        **no return**  
-        
+    Remove all logging objects.       
     """     
     logger = logging.getLogger()
     handlers_list = list(logger.handlers)

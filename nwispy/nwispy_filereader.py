@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
 """
 :Module: nwispy_filereader.py
 
-:Author: Jeremiah Lant
- 
-:Email: jlant@usgs.gov
+:Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/  
 
-:Purpose: 
-
-Read USGS National Water Information System (NWIS) data files.
-
+:Synopsis: Handles reading, processing, and logging errors in U.S. Geological Survey (USGS) National Water Information System (NWIS) data files; http://waterdata.usgs.gov/nwis.
 """
-import pdb
+
+__author__   = "Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center."
+__copyright__ = "http://www.usgs.gov/visual-id/credit_usgs.html#copyright"
+__license__   = __copyright__
+__contact__   = __author__
+
 import re
 import numpy as np
 import datetime
@@ -28,13 +29,18 @@ def read_file(filepath):
     can be unit tested.
     
     Parameters
-    ----------   
-        **filepath** : string path to NWIS file
-    
-    Return
-    ------
-        **data** : dictionary holding data found in NWIS data file  
+    ----------
+    filestream : file object
+        A file object that contains an open data file.
         
+    Returns
+    -------
+    data : dictionary 
+        Returns a dictionary containing data found in data file. 
+
+    See Also
+    --------
+    read_file_in : Read data file object           
     """    
     with open(filepath, "r") as f:
         data = read_file_in(f)
@@ -44,9 +50,21 @@ def read_file(filepath):
 def read_file_in(filestream):
     """    
     Read and process an USGS NWIS data file. Find all parameters and their respective data. 
-    Missing data values are replaced with a NAN value. Relevant data found in the
-    data file is organized into a dictionary:    
+    Missing data values are replaced with a NAN value. A dictionary is returned
+    containing relevant data found in the data file.
+    
+    Parameters
+    ----------
+    filestream : file object
+        A python file object that contains an open data file.
+        
+    Returns
+    -------
+    data : dictionary 
+        Returns a dictionary containing data found in data file. 
 
+    Notes
+    -----
     data = {
     
         "date_retrieved": None,
@@ -80,16 +98,7 @@ def read_file_in(filestream):
         "max": max of data values,
         
         "min": min of data values
-    }
-    
-    Parameters
-    ----------
-        **filestream** : file object
-    
-    Return
-    ------
-        **data** : dictionary holding data found in NWIS data file
-        
+    }         
     """  
     data_file = filestream.readlines()
 
@@ -189,17 +198,33 @@ def read_file_in(filestream):
 
 def compute_simple_stats(data):
     """   
-    Compute simple statistics (mean, max, min) on a data array. If entire 
-    data array consists of only nan values, then log a warning and raise a value error
+    Compute simple statistics (mean, max, min) on a data array. Can handle nan values.
+    If the entire data array consists of only nan values, then log the error and raise a ValueError.
     
     Parameters
     ----------
-        **data** : numpy.array
+    data : array
+        An array of numbers to compute simple statistics on. 
         
-    Return
+    Returns
+    -------
+    (mean, max, min) : tuple 
+        Returns a tuple of mean, max, and min stats.        
+
+    Raises
     ------
-        **(mean, max, min)** : tuple of floats
-        
+    ValueError
+        If data array only contains nan values.
+
+    Examples
+    --------
+    >>> import nwispy_filereader
+    >>> import numpy as np
+    >>> nwispy_filereader.compute_simple_stats([1, 2, 3, 4])
+    (2.5, 4, 1)
+    
+    >>> nwispy_filereader.compute_simple_stats([2, np.nan, 6, 1])
+    (3.0, 6.0, 1.0)
     """    
     # check if all values are nan
     if not np.isnan(data).all():
@@ -218,17 +243,19 @@ def convert_to_float(value, helper_str = None):
     """   
     Convert a value to a float. If value is not a valid float, log as an error
     with a helper_str (i.e. value's coorsponding date) to help locate the 
-    error and replace value with a NaN
+    error and replace value with a nan.
     
     Parameters
     ----------
-        **value** : string
-        **helper_str** : string
+    value : str
+        String value to convert.
+    helper_str : str
+        String message to be placed in error log if value can not be converted to a float. i.e. value's corresponding date of occurance.
         
-    Return
-    ------
-        **value** : float
-
+    Returns
+    -------
+    value : {float, nan}
+        Float or numpy nan value 
     """
     if nwispy_helpers.isfloat(value):
         value = float(value)
@@ -253,32 +280,33 @@ def convert_to_float(value, helper_str = None):
 
 def get_parameter_code(match):
     """   
-    Get code and description from existing parameters.
+    Get code and description strings from regular expression match object.
     
     Parameters
     ----------
-        **match** : regular expression match object
+    match : re object
+        Regular expression match object.
         
-    Return
-    ------
-        **(code, description)** : tuple of code and description
-    
-    Example
+    Returns
     -------
-        string:  "#    06   00060     00003     Discharge, cubic feet per second (Mean)"
-        
-        match.groups(0):  ("#", "06", "00060", "00003", "     Discharge, cubic feet per second (Mean)")
-        
-        match.group(1) = "#"
-        
-        match.group(2) = "06"
-        
-        match.group(3) = "00060"
-        
-        match.group(4) = "00003"
-        
-        match.group(5) = "Discharge, cubic feet per second (Mean)"
-        
+    (code, description) : tuple of str
+        Tuple containing parameter code string and description string.
+    
+    Note
+    ----
+    string:  "#    06   00060     00003     Discharge, cubic feet per second (Mean)"
+    
+    match.groups(0):  ("#", "06", "00060", "00003", "     Discharge, cubic feet per second (Mean)")
+    
+    match.group(1) = "#"
+    
+    match.group(2) = "06"
+    
+    match.group(3) = "00060"
+    
+    match.group(4) = "00003"
+    
+    match.group(5) = "Discharge, cubic feet per second (Mean)"        
     """ 
     
     # get the proper information from each group
@@ -300,18 +328,18 @@ def get_parameter_code(match):
 
 def get_date(daily, instantaneous):
     """   
-    Parse the date strings from a data row.
+    Parse date strings and return a datetime object.
     
     Parameter
     ---------
-        **daily** : string of daily format; i.e. 2013-06-25
-        
-        **intantaneous** : string of intantaneous format; i.e. 00:15\tEDT
+    daily : str
+        String in a daily forma. i.e. 2013-06-25
+    intantaneous : str
+        String in an intantaneous format. i.e. 00:15\tEDT
     
-    Return
-    ------
-        **date** : datetime object   
-        
+    Returns
+    -------
+    date : datetime object           
     """
     # get date from the data row
     year = daily.split("-")[0]
@@ -463,6 +491,6 @@ def main():
     test_get_date()
     
     test_read_file_in()
-
+    
 if __name__ == "__main__":
     main()

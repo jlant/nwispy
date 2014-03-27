@@ -2,15 +2,16 @@
 """
 :Module: nwispy_helpers.py
 
-:Author: Jeremiah Lant
- 
-:Email: jlant@usgs.gov
+:Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
 
-:Purpose: 
-
-Collection of helper functions. 
-
+:Synopsis: Collection of helper functions.
 """
+
+__author__   = "Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center."
+__copyright__ = "http://www.usgs.gov/visual-id/credit_usgs.html#copyright"
+__license__   = __copyright__
+__contact__   = __author__
+
 import os
 import numpy as np
 import datetime
@@ -18,17 +19,16 @@ import datetime
 def now():
     """    
     Return current date and time in a format that can be used as a file name. 
-    Format: year-month-day_hour.minute.second.microsecond (microsecond is sliced to display 3 digits instead of 6)
-    Example 2014-03-18_15.51.46.252
-        
-    Parameters
-    ----------
-        **none**
+    Format: year-month-day_hour.minute.second.microsecond; i.e. 2014-03-18_15.51.46.25
       
-    Return
-    ------
-        **date_time** : string of date and time
+    Returns
+    -------
+    date_time : str
+        String of current date and time in %Y-%m-%d_%H.%M.%S.%f format.       
         
+    Notes
+    -----
+    The length of the microsecond string is trimed to 2 digits.
     """  
     date_time = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S.%f")[:-4]
     
@@ -40,12 +40,13 @@ def get_file_paths(directory, file_ext = None):
         
     Parameters
     ----------    
-        **directory** : string path 
+    directory : str
+        String path 
       
-    Return
-    ------
-        **file_paths** : list of full file paths from a directory
-        
+    Returns
+    -------
+    file_paths : list 
+        List of strings of full file paths from a directory.
     """     
     file_paths = []  
 
@@ -70,13 +71,15 @@ def get_file_info(path):
     
     Parameters
     ----------
-        **path** : string path name
+    path : str
+        String path
       
-    Return
-    ------
-        **filedir** : string file directory path
-        **filename** : string file name
-        
+    Returns
+    -------
+    filedir : str
+        String file directory path
+    filename : str
+        String file name    
     """ 
     filedir, filename = os.path.split(path)
     
@@ -88,17 +91,19 @@ def get_file_info(path):
 
 def make_directory(path, directory_name):
     """    
-    Make an output directory.
+    Make a directory if is does not exist.
     
     Parameters
     ----------
-        **path**: string path name
-        **directory_name** : string directory name
+    path: str
+        String path 
+    directory_name : str
+        String name
       
-    Return
-    ------
-        **directory_path** : string path to directory 
-        
+    Returns
+    -------
+    directory_path : str
+        String path to made directory.  
     """    
     directory_path = os.path.join(path, directory_name)
     if not os.path.exists(directory_path):
@@ -113,12 +118,22 @@ def isfloat(value):
     
     Parameters
     ----------
-        **value** : string
+    value : str
+        String value to try to convert to a float.
         
-    Return
-    ------
-        **boolean**
+    Returns
+    -------
+    bool : bool
         
+    Examples
+    --------
+    >>> import nwispy_helpers
+    >>> nwispy_helpers.isfloat(value = "2.5")
+    True
+    >>> nwispy_helpers.isfloat(value = "hello world")
+    False
+    >>> nwispy_helpers.isfloat(value = "5.5_")
+    False
     """
     
     try:
@@ -130,25 +145,26 @@ def isfloat(value):
 
 def subset_data(dates, values, start_date, end_date):
     """   
-    Subset the *dates* and *values* arrays to match the range of the *start_date*
-    and *end_date*. If *start_date* and *end_date* are not within the range of dates
-    specified in *dates*, then the *start_date* and *end_date* are set to the
-    first and last dates in the array *dates*.
+    Subset the dates and values arrays to match the range of the start_date
+    and end_date. If start_date and end_date are not within the range of dates
+    specified in dates, then the start_date and end_date are set to the
+    first and last dates in the array dates.
             
     Parameters 
     ----------
-        **dates** :  array of dates as datetime objects 
+    dates :  array 
+        Array of dates as datetime objects. 
+    data : array
+        Array of numbers.
+    start_date : datetime object
+        A date as a datetime object.
+    end_date : datetime object
+        A date as a datetime object.
         
-        **data** : array of data
-        
-        **start_date** : datetime object
-        
-        **end_date** : datetime object
-    
-    Return
-    ------
-        **(subset_dates, subset_values)** : tuple of arrays of subset dates and values 
-
+    Returns
+    -------
+    (subset_dates, subset_values) : tuple 
+        Tuple of arrays of dates and values that were subsetted.
     """ 
     if len(dates) != len(values):
         raise ValueError("Lengths of dates and values are not equal!")
@@ -179,14 +195,16 @@ def find_start_end_dates(dates1, dates2):
 
     Parameters 
     ----------
-        **dates1** : list of datetime objects
+    dates1 : list
+        List of datetime objects.
         
-        **dates2** : list of datetime objects
+    dates2 : list 
+        List of datetime objects.
     
-    Return
-    ------
-        **(start_date, end_date)** : tuple of datetimes
-
+    Returns
+    -------
+    (start_date, end_date) : tuple 
+        Tuple of datetime objects.
     """
     # make sure that dates overlap
     date1_set = set(dates1)    

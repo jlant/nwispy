@@ -65,7 +65,6 @@
 <li><a class="reference internal" href="#module-nwispy_viewer">nwispy_viewer</a></li>
 <li><a class="reference internal" href="#module-nwispy_logging">nwispy_logging</a></li>
 <li><a class="reference internal" href="#module-nwispy_helpers">nwispy_helpers</a></li>
-<li><a class="reference internal" href="#module-nwispygui">nwispygui</a></li>
 </ul>
 </li>
 </ul>
@@ -112,15 +111,12 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispy.py</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant, <a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a>, U.S. Geological Survey, Kentucky Water Science Center, <a class="reference external" href="http://www.usgs.gov/">http://www.usgs.gov/</a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">Main controller that handles user input options for processing U.S. Geological Survey (USGS) National Water Information System (NWIS) data files; <a class="reference external" href="http://waterdata.usgs.gov/nwis">http://waterdata.usgs.gov/nwis</a></td>
 </tr>
 </tbody>
 </table>
-<p>Main controller that controls user input options and calls the appropriate modules.</p>
 <dl class="function">
 <dt id="nwispy.main">
 <tt class="descclassname">nwispy.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy.main" title="Permalink to this definition">¶</a></dt>
@@ -132,27 +128,45 @@ a directory (tagged with &#8216;output&#8217;) at the same level as the supplied
 <dl class="function">
 <dt id="nwispy.process_files">
 <tt class="descclassname">nwispy.</tt><tt class="descname">process_files</tt><big>(</big><em>file_list</em>, <em>arguments</em><big>)</big><a class="headerlink" href="#nwispy.process_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Process a list of files according to options contained in arguments.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>file_list : list of files to process
-arguments : argparse object; created by parser.parse_args()</dd>
-<dt><em>Return:</em></dt>
-<dd>No return</dd>
-</dl>
+<dd><p>Process a list of files according to options contained in arguments parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file_list</strong> : list of str</p>
+<blockquote>
+<div><p>List of files to parse, process, and plot.</p>
+</div></blockquote>
+<p><strong>arguments</strong> : argparse object</p>
+<blockquote class="last">
+<div><p>An argparse object containing user options.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy.process_webrequest">
 <tt class="descclassname">nwispy.</tt><tt class="descname">process_webrequest</tt><big>(</big><em>request_file</em>, <em>arguments</em><big>)</big><a class="headerlink" href="#nwispy.process_webrequest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Process a web request file and process.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>request_file : string path to request file
-arguments : argparse object; created by parser.parse_args()</dd>
-<dt><em>Return:</em></dt>
-<dd>No return</dd>
-</dl>
+<dd><p>Process a web request file and download requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>request_file</strong> : str</p>
+<blockquote>
+<div><p>String path to file.</p>
+</div></blockquote>
+<p><strong>arguments</strong> : argparse object</p>
+<blockquote class="last">
+<div><p>An argparse object containing user options.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -164,48 +178,120 @@ arguments : argparse object; created by parser.parse_args()</dd>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispy_filereader.py</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant, <a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a>, U.S. Geological Survey, Kentucky Water Science Center, <a class="reference external" href="http://www.usgs.gov/">http://www.usgs.gov/</a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">Handles reading, processing, and logging errors in U.S. Geological Survey (USGS) National Water Information System (NWIS) data files; <a class="reference external" href="http://waterdata.usgs.gov/nwis">http://waterdata.usgs.gov/nwis</a>.</td>
 </tr>
 </tbody>
 </table>
-<p>Read USGS National Water Information System (NWIS) data files.</p>
+<dl class="function">
+<dt id="nwispy_filereader.compute_simple_stats">
+<tt class="descclassname">nwispy_filereader.</tt><tt class="descname">compute_simple_stats</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#nwispy_filereader.compute_simple_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute simple statistics (mean, max, min) on a data array. Can handle nan values.
+If the entire data array consists of only nan values, then log the error and raise a ValueError.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : array</p>
+<blockquote>
+<div><p>An array of numbers to compute simple statistics on.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(mean, max, min)</strong> : tuple</p>
+<blockquote>
+<div><p>Returns a tuple of mean, max, and min stats.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>If data array only contains nan values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">nwispy_filereader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_filereader</span><span class="o">.</span><span class="n">compute_simple_stats</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="go">(2.5, 4, 1)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_filereader</span><span class="o">.</span><span class="n">compute_simple_stats</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="go">(3.0, 6.0, 1.0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_filereader.convert_to_float">
+<tt class="descclassname">nwispy_filereader.</tt><tt class="descname">convert_to_float</tt><big>(</big><em>value</em>, <em>helper_str=None</em><big>)</big><a class="headerlink" href="#nwispy_filereader.convert_to_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value to a float. If value is not a valid float, log as an error
+with a helper_str (i.e. value&#8217;s coorsponding date) to help locate the 
+error and replace value with a nan.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>String value to convert.</p>
+</div></blockquote>
+<p><strong>helper_str</strong> : str</p>
+<blockquote>
+<div><p>String message to be placed in error log if value can not be converted to a float. i.e. value&#8217;s corresponding date of occurance.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>value</strong> : {float, nan}</p>
+<blockquote class="last">
+<div><p>Float or numpy nan value</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="function">
 <dt id="nwispy_filereader.get_date">
 <tt class="descclassname">nwispy_filereader.</tt><tt class="descname">get_date</tt><big>(</big><em>daily</em>, <em>instantaneous</em><big>)</big><a class="headerlink" href="#nwispy_filereader.get_date" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the date strings from a data row.</p>
-<dl class="docutils">
-<dt><em>Parameters</em>:</dt>
-<dd><p class="first">daily: string of daily format; i.e. 2013-06-25</p>
-<p class="last">intantaneous: string of intantaneous format; i.e. 00:15 EDT</p>
-</dd>
-<dt><em>Return</em>:</dt>
-<dd>date: datetime object</dd>
-</dl>
+<dd><p>Parse date strings and return a datetime object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>date</strong> : datetime object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_filereader.get_parameter_code">
 <tt class="descclassname">nwispy_filereader.</tt><tt class="descname">get_parameter_code</tt><big>(</big><em>match</em><big>)</big><a class="headerlink" href="#nwispy_filereader.get_parameter_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get code and description from existing parameters.</p>
-<dl class="docutils">
-<dt><em>Parameters</em>:</dt>
-<dd>match: regular expression match object</dd>
-<dt><em>Return</em>:</dt>
-<dd>(code, description): tuple of code and description</dd>
-<dt><em>Example</em>:</dt>
-<dd><p class="first">string:  &#8216;#    06   00060     00003     Discharge, cubic feet per second (Mean)&#8217;</p>
-<p>match.groups(0):  (&#8216;#&#8217;, &#8216;06&#8217;, &#8216;00060&#8217;, &#8216;00003&#8217;, &#8216;     Discharge, cubic feet per second (Mean)&#8217;)</p>
-<p>match.group(1) = &#8216;#&#8217;</p>
-<p>match.group(2) = &#8216;06&#8217;</p>
-<p>match.group(3) = &#8216;00060&#8217;</p>
-<p>match.group(4) = &#8216;00003&#8217;</p>
-<p class="last">match.group(5) = &#8216;Discharge, cubic feet per second (Mean)&#8217;</p>
-</dd>
-</dl>
+<dd><p>Get code and description strings from regular expression match object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>match</strong> : re object</p>
+<blockquote>
+<div><p>Regular expression match object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(code, description)</strong> : tuple of str</p>
+<blockquote class="last">
+<div><p>Tuple containing parameter code string and description string.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -221,62 +307,99 @@ arguments : argparse object; created by parser.parse_args()</dd>
 This function is responsible to opening the file, removing the file opening  
 responsibility from read_file_in(filestream) so that read_file_in(filestream)  
 can be unit tested.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>filepath : string path to NWIS file</dd>
-<dt><em>Return:</em></dt>
-<dd>data : dictionary holding data found in NWIS data file</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filestream</strong> : file object</p>
+<blockquote>
+<div><p>A file object that contains an open data file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>data</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>Returns a dictionary containing data found in data file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#nwispy_filereader.read_file_in" title="nwispy_filereader.read_file_in"><tt class="xref py py-obj docutils literal"><span class="pre">read_file_in</span></tt></a></dt>
+<dd>Read data file object</dd>
 </dl>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_filereader.read_file_in">
 <tt class="descclassname">nwispy_filereader.</tt><tt class="descname">read_file_in</tt><big>(</big><em>filestream</em><big>)</big><a class="headerlink" href="#nwispy_filereader.read_file_in" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read and process a USGS NWIS file. Finds any parameter and its respective data. 
-Relevant data is put into a dictionary (see Return section).  Missing data values
-are replaced with a NAN value.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>filestream: file object</dd>
-<dt><em>Return:</em></dt>
-<dd><p class="first">data: dictionary holding data found in NWIS data file</p>
+<dd><p>Read and process an USGS NWIS data file. Find all parameters and their respective data. 
+Missing data values are replaced with a NAN value. A dictionary is returned
+containing relevant data found in the data file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filestream</strong> : file object</p>
+<blockquote>
+<div><p>A python file object that contains an open data file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>data</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>Returns a dictionary containing data found in data file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
 <p>data = {</p>
 <blockquote>
-<div><p>&#8216;date_retrieved&#8217;: None,</p>
-<p>&#8216;gage_name&#8217;: None,</p>
-<p>&#8216;column_names&#8217;: None,</p>
-<p>&#8216;parameters&#8217;: [],</p>
-<p>&#8216;dates&#8217;: [],</p>
-<p>&#8216;timestep&#8217;: None</p>
+<div><p>&#8220;date_retrieved&#8221;: None,</p>
+<p>&#8220;gage_name&#8221;: None,</p>
+<p>&#8220;column_names&#8221;: None,</p>
+<p>&#8220;parameters&#8221;: [],</p>
+<p>&#8220;dates&#8221;: [],</p>
+<p>&#8220;timestep&#8221;: None</p>
 </div></blockquote>
 <p>}</p>
-<p>** Note: The &#8216;parameters&#8217; key contains a list of dictionaries containing
-the parameters found in the data file; i.e.</p>
+<p>The &#8220;parameters&#8221; key in the data dictionary contains a list of dictionaries containing
+the parameters found in the data file. For example:</p>
 <p>parameters[0] = {</p>
 <blockquote>
-<div><p>&#8216;code&#8217;: string of NWIS code,</p>
-<p>&#8216;description&#8217;: string of NWIS description,</p>
-<p>&#8216;index&#8217;: integer of column index data is located,</p>
-<p>&#8216;data&#8217;: numpy array of data values,</p>
-<p>&#8216;mean&#8217;: mean of data values,</p>
-<p>&#8216;max&#8217;: max of data values,</p>
-<p>&#8216;min&#8217;: min of data values</p>
+<div><p>&#8220;code&#8221;: string of NWIS code,</p>
+<p>&#8220;description&#8221;: string of NWIS description,</p>
+<p>&#8220;index&#8221;: integer of column index data is located,</p>
+<p>&#8220;data&#8221;: numpy array of data values,</p>
+<p>&#8220;mean&#8221;: mean of data values,</p>
+<p>&#8220;max&#8221;: max of data values,</p>
+<p>&#8220;min&#8221;: min of data values</p>
 </div></blockquote>
-<p class="last">}</p>
-</dd>
-</dl>
+<p>}</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_filereader.test_get_date">
 <tt class="descclassname">nwispy_filereader.</tt><tt class="descname">test_get_date</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_filereader.test_get_date" title="Permalink to this definition">¶</a></dt>
-<dd><p>test the get date function</p>
+<dd><p>Test the get_date functionality</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_filereader.test_get_parameter_code">
 <tt class="descclassname">nwispy_filereader.</tt><tt class="descname">test_get_parameter_code</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_filereader.test_get_parameter_code" title="Permalink to this definition">¶</a></dt>
-<dd><p>test the get parameter code function</p>
+<dd><p>Test the get_parameter_code functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_filereader.test_read_file_in">
+<tt class="descclassname">nwispy_filereader.</tt><tt class="descname">test_read_file_in</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_filereader.test_read_file_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test read_file_in() functionality</p>
 </dd></dl>
 
 </div>
@@ -288,39 +411,74 @@ the parameters found in the data file; i.e.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispy_webservice.py</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant, <a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a>, U.S. Geological Survey, Kentucky Water Science Center, <a class="reference external" href="http://www.usgs.gov/">http://www.usgs.gov/</a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">Handles webservices for U.S. Geological Survey (USGS) National Water Information System (NWIS) data files; <a class="reference external" href="http://waterdata.usgs.gov/nwis">http://waterdata.usgs.gov/nwis</a> ; <a class="reference external" href="http://waterservices.usgs.gov/nwis/">http://waterservices.usgs.gov/nwis/</a></td>
 </tr>
 </tbody>
 </table>
-<p>Retrieve nwis data files using USGS NWIS webservices</p>
 <dl class="function">
 <dt id="nwispy_webservice.download_file">
 <tt class="descclassname">nwispy_webservice.</tt><tt class="descname">download_file</tt><big>(</big><em>user_parameters_url</em>, <em>data_type</em>, <em>filename</em>, <em>file_destination</em><big>)</big><a class="headerlink" href="#nwispy_webservice.download_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get data from the web and save files to local machine.</p>
-<dl class="docutils">
-<dt>The base url for USGS NWIS Webservice is:</dt>
-<dd>base_url = &#8220;<a class="reference external" href="http://waterservices.usgs.gov/nwis/">http://waterservices.usgs.gov/nwis/</a></dd>
-<dt><em>Parameters:</em></dt>
-<dd>user_parameters_url: encoded url based on users request</dd>
-<dt><em>Return:</em></dt>
-<dd>data_file:</dd>
-</dl>
+<dd><p>Download data from the web and save files to a specified file destination 
+with a specified filename.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>user_parameters_url</strong> : str</p>
+<blockquote>
+<div><p>String encoded url based on user request file.</p>
+</div></blockquote>
+<p><strong>data_type</strong> : str</p>
+<blockquote>
+<div><p>String of intantaneous data (iv) or daily data (dv).</p>
+</div></blockquote>
+<p><strong>filename</strong> : str</p>
+<blockquote>
+<div><p>String filename.</p>
+</div></blockquote>
+<p><strong>file_destination</strong> : str</p>
+<blockquote class="last">
+<div><p>String path to save file to.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The base url for USGS NWIS Webservice - <a class="reference external" href="http://waterservices.usgs.gov/nwis/">http://waterservices.usgs.gov/nwis/</a></p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_webservice.encode_url">
 <tt class="descclassname">nwispy_webservice.</tt><tt class="descname">encode_url</tt><big>(</big><em>data_request</em><big>)</big><a class="headerlink" href="#nwispy_webservice.encode_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode the url needed for the USGS NWIS webservice based on users requests.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>data_request: dictionary containing a data request</dd>
-<dt><em>Return:</em></dt>
-<dd>request_url: string encoded url</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data_request</strong> : dictionary</p>
+<blockquote>
+<div><p>A dictionary containing data requests.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>request_url</strong> : str</p>
+<blockquote class="last">
+<div><p>String encoded url.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">nwispy_webservice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">request</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;data type&quot;</span><span class="p">:</span> <span class="s">&quot;dv&quot;</span><span class="p">,</span> <span class="s">&quot;site number&quot;</span><span class="p">:</span> <span class="s">&quot;03284000&quot;</span><span class="p">,</span> <span class="s">&quot;start date&quot;</span><span class="p">:</span> <span class="s">&quot;2014-01-01&quot;</span><span class="p">,</span> <span class="s">&quot;end date&quot;</span><span class="p">:</span> <span class="s">&quot;2014-01-15&quot;</span><span class="p">,</span> <span class="s">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;00060&quot;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_webservice</span><span class="o">.</span><span class="n">encode_url</span><span class="p">(</span><span class="n">data_request</span> <span class="o">=</span> <span class="n">request</span><span class="p">)</span>
+<span class="go">&#39;parameterCD=00060&amp;endDt=2014-01-15&amp;startDt=2014-01-01&amp;site=03284000&amp;format=rdb&#39;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -334,24 +492,60 @@ the parameters found in the data file; i.e.</p>
 <tt class="descclassname">nwispy_webservice.</tt><tt class="descname">read_webrequest</tt><big>(</big><em>filepath</em><big>)</big><a class="headerlink" href="#nwispy_webservice.read_webrequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open web request file, create a file object for read_webrequest_in(filestream) 
 to process.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>filepath : string path to file</dd>
-<dt><em>Return:</em></dt>
-<dd>data : dictionary holding data found in file</dd>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filepath</strong> : str</p>
+<blockquote>
+<div><p>String file path.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>data</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>A dictionary holding data found in file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#nwispy_webservice.read_webrequest_in" title="nwispy_webservice.read_webrequest_in"><tt class="xref py py-obj docutils literal"><span class="pre">read_webrequest_in</span></tt></a></dt>
+<dd>Read data file object</dd>
 </dl>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_webservice.read_webrequest_in">
 <tt class="descclassname">nwispy_webservice.</tt><tt class="descname">read_webrequest_in</tt><big>(</big><em>filestream</em><big>)</big><a class="headerlink" href="#nwispy_webservice.read_webrequest_in" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read a webrequest file and put data into a dictionary</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>filestream: file object</dd>
-<dt><em>Return:</em></dt>
-<dd>data: dictionary holding data found in file</dd>
-</dl>
+<dd><p>Read a webrequest file and put data into a dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filestream</strong> : file object</p>
+<blockquote>
+<div><p>A file object that contains an open data file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>data</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>A dictionary holding data found in file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>data = {&#8220;column names&#8221;: [], &#8220;requests&#8221;: []}</p>
+<p>The &#8220;requests&#8221; key in the data dictionary contains a list of dictionaries containing
+the requests information found in the requests file. For example:</p>
+<p>requests[0] = {&#8220;data type&#8221;: str, &#8220;site number&#8221;: str, &#8220;start date&#8221;: str, &#8220;end date&#8221;: str, &#8220;parameters&#8221;: list of str}</p>
 </dd></dl>
 
 <dl class="function">
@@ -375,15 +569,12 @@ to process.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwis_viewer.py</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant, <a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a>, U.S. Geological Survey, Kentucky Water Science Center, <a class="reference external" href="http://www.usgs.gov/">http://www.usgs.gov/</a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">Handles views of the data, such as printing and plotting.</td>
 </tr>
 </tbody>
 </table>
-<p>Plot and print information about nwis data files.</p>
 <dl class="function">
 <dt id="nwispy_viewer.main">
 <tt class="descclassname">nwispy_viewer.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_viewer.main" title="Permalink to this definition">¶</a></dt>
@@ -395,26 +586,50 @@ to process.</p>
 <tt class="descclassname">nwispy_viewer.</tt><tt class="descname">plot_data</tt><big>(</big><em>nwis_data</em>, <em>is_visible=True</em>, <em>save_path=None</em><big>)</big><a class="headerlink" href="#nwispy_viewer.plot_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot each parameter contained in the nwis data. Save plots to a particular
 path.</p>
-<dl class="docutils">
-<dt><em>Parameters</em>:</dt>
-<dd><p class="first">nwis_data: dictionary holding data from NWIS file</p>
-<p class="last">save_path: string path to save plot(s)</p>
-</dd>
-<dt><em>Return</em>:</dt>
-<dd>no return</dd>
-</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_viewer.print_info">
 <tt class="descclassname">nwispy_viewer.</tt><tt class="descname">print_info</tt><big>(</big><em>nwis_data</em><big>)</big><a class="headerlink" href="#nwispy_viewer.print_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print relevant information and contained in the nwis data file.</p>
-<dl class="docutils">
-<dt><em>Parameters</em>:</dt>
-<dd>nwis_data: dictionary holding data from NWIS file</dd>
-<dt><em>Return</em>:</dt>
-<dd>no return</dd>
-</dl>
+<dd><p>Print information contained in the data dictionary.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">nwispy_viewer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2014</span><span class="p">,</span> <span class="mo">03</span><span class="p">,</span> <span class="mo">01</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_date</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">temperature_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stage_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span> <span class="o">+</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>      
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s">&quot;code&quot;</span><span class="p">:</span> <span class="s">&quot;00010&quot;</span><span class="p">,</span> <span class="s">&quot;description&quot;</span><span class="p">:</span> <span class="s">&quot;Temperature, water, degrees Celsius&quot;</span><span class="p">,</span> <span class="s">&quot;index&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> 
+<span class="go">               ... &quot;data&quot;: temperature_data, &quot;mean&quot;: np.mean(temperature_data), &quot;max&quot;: np.max(temperature_data), </span>
+<span class="go">               ... &quot;min&quot;: np.min(temperature_data)}, </span>
+<span class="go">                  {&quot;code&quot;: &quot;00065&quot;, &quot;description&quot;: &quot;Gage height, feet&quot;, &quot;index&quot;: 1, &quot;data&quot;: stage_data, </span>
+<span class="go">               ... &quot;mean&quot;: np.mean(stage_data),&quot;max&quot;: np.max(stage_data), &quot;min&quot;: np.min(stage_data)}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;date_retrieved&quot;</span><span class="p">:</span> <span class="s">&quot;2014-03-20 22:28:47&quot;</span><span class="p">,</span><span class="s">&quot;gage_name&quot;</span><span class="p">:</span> <span class="s">&quot;USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY&quot;</span><span class="p">,</span> 
+<span class="go">        ... &quot;column_names&quot;: [&quot;03_00010&quot;, &quot;03_00010_cd&quot;, &quot;02_00065&quot;, &quot;02_00065_cd&quot;], &quot;parameters&quot;: parameters, </span>
+<span class="go">        ... &quot;dates&quot;: dates, &quot;timestep&quot;: &quot;instaneous&quot;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_viewer</span><span class="o">.</span><span class="n">print_info</span><span class="p">(</span><span class="n">nwis_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">)</span>
+<span class="go">--- DATA FILE INFORMATION ---</span>
+<span class="go">Date retrieved: 2014-03-20 22:28:47</span>
+<span class="go">Gage name: USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY</span>
+<span class="go">Timestep: instaneous</span>
+<span class="go">Parameters:</span>
+<span class="go">  Temperature, water, degrees Celsius</span>
+<span class="go">  Gage height, feet</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_viewer.test_plot">
+<tt class="descclassname">nwispy_viewer.</tt><tt class="descname">test_plot</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_viewer.test_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test plotting functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_viewer.test_print">
+<tt class="descclassname">nwispy_viewer.</tt><tt class="descname">test_print</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_viewer.test_print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test print output functionality</p>
 </dd></dl>
 
 </div>
@@ -426,37 +641,46 @@ path.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispy_logging.py</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant, <a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a>, U.S. Geological Survey, Kentucky Water Science Center, <a class="reference external" href="http://www.usgs.gov/">http://www.usgs.gov/</a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">Handles logging of errors.</td>
 </tr>
 </tbody>
 </table>
-<p>Log erroneous data values found in USGS NWIS files.</p>
 <dl class="function">
 <dt id="nwispy_logging.initialize_loggers">
-<tt class="descclassname">nwispy_logging.</tt><tt class="descname">initialize_loggers</tt><big>(</big><em>output_dir</em>, <em>logging_type='warn'</em><big>)</big><a class="headerlink" href="#nwispy_logging.initialize_loggers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the error logging objects.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>output_dir : string directory path</dd>
-<dt><em>Return:</em></dt>
-<dd>loggin_type : string flag to specify a particular kind of log file</dd>
-</dl>
+<tt class="descclassname">nwispy_logging.</tt><tt class="descname">initialize_loggers</tt><big>(</big><em>output_dir</em><big>)</big><a class="headerlink" href="#nwispy_logging.initialize_loggers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize logging objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output_dir</strong> : str</p>
+<blockquote class="last">
+<div><p>String path</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_logging.main">
+<tt class="descclassname">nwispy_logging.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_logging.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test functionality of logging errors</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_logging.remove_loggers">
 <tt class="descclassname">nwispy_logging.</tt><tt class="descname">remove_loggers</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_logging.remove_loggers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove all the error logging objects that exist in the application.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>no parameters</dd>
-<dt><em>Return:</em></dt>
-<dd>no return</dd>
-</dl>
+<dd><p>Remove all logging objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_logging.test_logging">
+<tt class="descclassname">nwispy_logging.</tt><tt class="descname">test_logging</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_logging.test_logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test functionality of logging errors</p>
 </dd></dl>
 
 </div>
@@ -468,147 +692,259 @@ path.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispy_helpers.py</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant, <a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a>, U.S. Geological Survey, Kentucky Water Science Center, <a class="reference external" href="http://www.usgs.gov/">http://www.usgs.gov/</a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Synopsis:</th><td class="field-body">Collection of helper functions.</td>
 </tr>
 </tbody>
 </table>
-<p>Collection of helper functions.</p>
 <dl class="function">
 <dt id="nwispy_helpers.find_start_end_dates">
-<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">find_start_end_dates</tt><big>(</big><em>model_dates</em>, <em>observed_dates</em><big>)</big><a class="headerlink" href="#nwispy_helpers.find_start_end_dates" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">find_start_end_dates</tt><big>(</big><em>dates1</em>, <em>dates2</em><big>)</big><a class="headerlink" href="#nwispy_helpers.find_start_end_dates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find start and end dates between two different sized arrays of datetime
 objects.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em>  </dt>
-<dd><p class="first">model_dates : array of datetime objects</p>
-<p class="last">observed_dates : array of datetime objects</p>
-</dd>
-<dt><em>Return:</em></dt>
-<dd>overlap_dates : array of datetime objects</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dates1</strong> : list</p>
+<blockquote>
+<div><p>List of datetime objects.</p>
+</div></blockquote>
+<p><strong>dates2</strong> : list</p>
+<blockquote>
+<div><p>List of datetime objects.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(start_date, end_date)</strong> : tuple</p>
+<blockquote class="last">
+<div><p>Tuple of datetime objects.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
-<dt id="nwispy_helpers.get_filedir_filename">
-<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">get_filedir_filename</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#nwispy_helpers.get_filedir_filename" title="Permalink to this definition">¶</a></dt>
+<dt id="nwispy_helpers.get_file_info">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">get_file_info</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#nwispy_helpers.get_file_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get file directory and name from a file path.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>path: string path name</dd>
-<dt><em>Return:</em></dt>
-<dd>filedir : string file directory path
-filename : string file name</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
+<blockquote>
+<div><p>String path</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filedir</strong> : str</p>
+<blockquote>
+<div><p>String file directory path</p>
+</div></blockquote>
+<p><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>String file name</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
-<dt id="nwispy_helpers.get_filepaths">
-<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">get_filepaths</tt><big>(</big><em>directory</em>, <em>file_ext=None</em><big>)</big><a class="headerlink" href="#nwispy_helpers.get_filepaths" title="Permalink to this definition">¶</a></dt>
+<dt id="nwispy_helpers.get_file_paths">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">get_file_paths</tt><big>(</big><em>directory</em>, <em>file_ext=None</em><big>)</big><a class="headerlink" href="#nwispy_helpers.get_file_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of full file paths from a directory including its subdirectories.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>directory : string path</dd>
-<dt><em>Return:</em></dt>
-<dd>file_paths : list of full file paths from a directory</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>directory</strong> : str</p>
+<blockquote>
+<div><p>String path</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>file_paths</strong> : list</p>
+<blockquote class="last">
+<div><p>List of strings of full file paths from a directory.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
-<dt id="nwispy_helpers.is_float">
-<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">is_float</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#nwispy_helpers.is_float" title="Permalink to this definition">¶</a></dt>
+<dt id="nwispy_helpers.isfloat">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">isfloat</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#nwispy_helpers.isfloat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine if string value can be converted to a float. Return True if
 value can be converted to a float and False otherwise.</p>
-<dl class="docutils">
-<dt><em>Parameters</em>:</dt>
-<dd>value: string</dd>
-<dt><em>Return</em>:</dt>
-<dd>boolean</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>String value to try to convert to a float.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>bool</strong> : bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">nwispy_helpers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_helpers</span><span class="o">.</span><span class="n">isfloat</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;2.5&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_helpers</span><span class="o">.</span><span class="n">isfloat</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;hello world&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwispy_helpers</span><span class="o">.</span><span class="n">isfloat</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;5.5_&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.main">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test functionality of helpers</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_helpers.make_directory">
 <tt class="descclassname">nwispy_helpers.</tt><tt class="descname">make_directory</tt><big>(</big><em>path</em>, <em>directory_name</em><big>)</big><a class="headerlink" href="#nwispy_helpers.make_directory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make an output directory.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>path: string path name
-directory_name : string directory name</dd>
-<dt><em>Return:</em></dt>
-<dd>directory_path : string path to directory</dd>
-</dl>
+<dd><p>Make a directory if is does not exist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path: str</strong> :</p>
+<blockquote>
+<div><p>String path</p>
+</div></blockquote>
+<p><strong>directory_name</strong> : str</p>
+<blockquote>
+<div><p>String name</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>directory_path</strong> : str</p>
+<blockquote class="last">
+<div><p>String path to made directory.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_helpers.now">
 <tt class="descclassname">nwispy_helpers.</tt><tt class="descname">now</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.now" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return current date and time in a format that can be used as a file name. 
-Format: year-month-day_hour.minute.second.microsecond (microsecond is sliced to display 3 digits instead of 6)
-Example 2014-03-18_15.51.46.252</p>
-<dl class="docutils">
-<dt><em>Parameters:</em></dt>
-<dd>none</dd>
-<dt><em>Return:</em></dt>
-<dd>date_time_str : string of date and time</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="nwispy_helpers.subset_data">
-<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">subset_data</tt><big>(</big><em>dates</em>, <em>data</em>, <em>start_date</em>, <em>end_date</em><big>)</big><a class="headerlink" href="#nwispy_helpers.subset_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Subset the <em>dates</em> and <em>data</em> arrays to match the range of the <em>start_date</em>
-and <em>end_date</em>. If <em>start_date</em> and <em>end_date</em> are not within the range of dates
-specified in <em>dates</em>, then the <em>start_date</em> and <em>end_date</em> are set to the
-first and last dates in the array <em>dates</em>.</p>
-<dl class="docutils">
-<dt><em>Parameters:</em>  </dt>
-<dd><p class="first">dates :  array of dates as datetime objects</p>
-<p>data : array of data</p>
-<p>start_date : datetime object</p>
-<p class="last">end_date : datetime object</p>
-</dd>
-<dt><em>Return:</em></dt>
-<dd>data : dictionary holding arrays of date and data subset</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-nwispygui">
-<span id="nwispygui"></span><h2>nwispygui<a class="headerlink" href="#module-nwispygui" title="Permalink to this headline">¶</a></h2>
+Format: year-month-day_hour.minute.second.microsecond; i.e. 2014-03-18_15.51.46.25</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Module:</th><td class="field-body">nwispygui.py</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jeremiah Lant</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:jlant&#37;&#52;&#48;usgs&#46;gov">jlant<span>&#64;</span>usgs<span>&#46;</span>gov</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Purpose:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>date_time</strong> : str</p>
+<blockquote class="last">
+<div><p>String of current date and time in %Y-%m-%d_%H.%M.%S.%f format.</p>
+</div></blockquote>
+</td>
 </tr>
 </tbody>
 </table>
-<p>Script that creates an interactive plot of an NWIS data file. User can 
-interact with the plot via a SpanSelector mouse widget. A toggle key event handler 
-exists for the matplotlib SpanSelector widget. A keypress of &#8216;A&#8217; or &#8216;a&#8217; actives the 
-slider and a keypress of &#8216;Q&#8217; or &#8216;q&#8217; de-activates the slider.</p>
-<dl class="function">
-<dt id="nwispygui.onselect">
-<tt class="descclassname">nwispygui.</tt><tt class="descname">onselect</tt><big>(</big><em>xmin</em>, <em>xmax</em><big>)</big><a class="headerlink" href="#nwispygui.onselect" title="Permalink to this definition">¶</a></dt>
-<dd><p>A select event handler for the matplotlib SpanSelector widget.
-Selects a min/max range of the x or y axes for a matplotlib Axes.</p>
+<p class="rubric">Notes</p>
+<p>The length of the microsecond string is trimed to 2 digits.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="nwispygui.toggle_selector">
-<tt class="descclassname">nwispygui.</tt><tt class="descname">toggle_selector</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#nwispygui.toggle_selector" title="Permalink to this definition">¶</a></dt>
-<dd><p>A toggle key event handler for the matplotlib SpanSelector widget. Keypress
-of &#8216;A&#8217; or &#8216;a&#8217; actives the slider; &#8216;Q&#8217; or &#8216;q&#8217; de-activates the slider</p>
+<dt id="nwispy_helpers.subset_data">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">subset_data</tt><big>(</big><em>dates</em>, <em>values</em>, <em>start_date</em>, <em>end_date</em><big>)</big><a class="headerlink" href="#nwispy_helpers.subset_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subset the dates and values arrays to match the range of the start_date
+and end_date. If start_date and end_date are not within the range of dates
+specified in dates, then the start_date and end_date are set to the
+first and last dates in the array dates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dates</strong> :  array</p>
+<blockquote>
+<div><p>Array of dates as datetime objects.</p>
+</div></blockquote>
+<p><strong>data</strong> : array</p>
+<blockquote>
+<div><p>Array of numbers.</p>
+</div></blockquote>
+<p><strong>start_date</strong> : datetime object</p>
+<blockquote>
+<div><p>A date as a datetime object.</p>
+</div></blockquote>
+<p><strong>end_date</strong> : datetime object</p>
+<blockquote>
+<div><p>A date as a datetime object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(subset_dates, subset_values)</strong> : tuple</p>
+<blockquote class="last">
+<div><p>Tuple of arrays of dates and values that were subsetted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_find_start_end_dates">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_find_start_end_dates</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_find_start_end_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Testing find_start_end_dates functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_get_file_info">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_get_file_info</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_get_file_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test get_file_info functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_get_filepaths">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_get_filepaths</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_get_filepaths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test get_filepaths functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_isfloat">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_isfloat</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_isfloat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test isfloat() functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_make_directory">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_make_directory</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_make_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test make_directory() functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_now">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_now</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test now() functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_subset_data">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_subset_data</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_subset_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test subset_data() functionality</p>
 </dd></dl>
 
 </div>
@@ -642,7 +978,7 @@ of &#8216;A&#8217; or &#8216;a&#8217; actives the slider; &#8216;Q&#8217; or &#8
     </div>
     <div class="footer">
         &copy; Copyright 2013, Jeremiah Lant.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>
