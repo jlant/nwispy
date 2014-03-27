@@ -17,7 +17,6 @@ import os
 import sys
 import argparse
 import Tkinter, tkFileDialog
-from PyQt4 import QtCore, QtGui
 from urllib2 import URLError, HTTPError
 import logging
 
@@ -34,12 +33,14 @@ def process_files(file_list, arguments):
     
     Parameters
     ----------
-        **file_list** : list of files to process
-        **arguments** : argparse object; created by parser.parse_args()          
+    file_list : list
+                list of files to process
+    arguments : argparse object
+                created by parser.parse_args()          
     
-    Return
-    ------
-        **no return**
+    Returns
+    -------
+    no return 
         
     """
     for f in file_list:
@@ -64,7 +65,7 @@ def process_files(file_list, arguments):
 
         # close error logging
         nwispy_logging.remove_loggers()
-
+process_files()
 def process_webrequest(request_file, arguments):
     """    
     Process a web request file and process.
