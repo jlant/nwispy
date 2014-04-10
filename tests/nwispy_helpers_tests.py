@@ -8,15 +8,13 @@ import datetime
 # my module
 from nwispy import nwispy_helpers
 
-
-
 # define the global fixture to hold the data that goes into the functions you test
 fixture = {}
 
 def setup():
     """ Setup fixture for testing """
 
-    print >> sys.stderr, "SETUP: nwispy_helpers tests"
+    print >> sys.stderr, "SETUP: nwispy_nwispy_helpers tests"
 
     fixture["dates"] = np.array([datetime.datetime(2014, 01, 01, 0, 0) + datetime.timedelta(i) for i in range(11)])
     fixture["values"] = np.array([i for i in range(11)])
@@ -27,7 +25,19 @@ def setup():
 def teardown():
     """ Print to standard error when all tests are finished """
     
-    print >> sys.stderr, "TEARDOWN: nwispy_helpers tests" 
+    print >> sys.stderr, "TEARDOWN: nwispy_nwispy_helpers tests" 
+
+def test_isfloat():
+    
+    nose.tools.assert_equals(True, nwispy_helpers.isfloat(6.25))
+    nose.tools.assert_equals(True, nwispy_helpers.isfloat("6.25"))
+    nose.tools.assert_equals(False, nwispy_helpers.isfloat("2.5_"))
+    nose.tools.assert_equals(False, nwispy_helpers.isfloat("hello"))
+   
+def test_rmspecialchars():
+    
+    nose.tools.assert_equals("6.5", nwispy_helpers.rmspecialchars("*6.5_"))
+    nose.tools.assert_equals("4.25", nwispy_helpers.rmspecialchars("*$^**(@4.25_+;"))
 
 def test_subset_data_dates_within_range():
     
