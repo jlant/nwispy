@@ -15,6 +15,7 @@ __contact__   = __author__
 import os
 import numpy as np
 import datetime
+import re
 
 def now():
     """    
@@ -143,6 +144,38 @@ def isfloat(value):
     except ValueError:
         return False
 
+def rmspecialchars(value):
+    """   
+    Remove any special characters except period (.) and negative (-) from numeric values
+    
+    Parameters
+    ----------
+    value : str
+        String value to remove any existing characters from
+        
+    Returns
+    -------
+    value : str
+        String value to without any special characters
+        
+    Examples
+    --------
+    >>> import helpers
+    >>> helpers.rmspecialchars(value = "*6.5_")
+    6.5
+    >>> helpers.rmspecialchars(value = "ICE")
+    ICE
+    >>> helpers.rmspecialchars(value = "-4.2")
+    -4.2
+    >>> helpers.rmspecialchars(value = "")
+    
+    >>> helpers.rmspecialchars(value = "%&!@#8.32&#*;")
+    8.32
+    """
+    value = re.sub("[^A-Za-z0-9.-]+", "", value)
+    
+    return value
+    
 def subset_data(dates, values, start_date, end_date):
     """   
     Subset the dates and values arrays to match the range of the start_date
@@ -290,6 +323,25 @@ def test_isfloat():
     print("    False: {}".format(isfloat("2.5_")))
     print("")
 
+def test_rmspecialchars():
+    """ Test rmspecialchars functionality """
+
+    print("--- Testing rmspecialchars() ---") 
+
+    print("Floats like {} expected : actual".format("*6.5_"))
+    print("    6.5 : {}".format(rmspecialchars("*6.5_")))
+
+    print("Empty strings like {} expected : actual".format(""))
+    print("    : {}".format(rmspecialchars("")))
+
+    print("Floats like {} expected : actual".format("*$^**(@4.2_+;"))
+    print("    4.2 : {}".format(rmspecialchars("*$^**(@4.2_+;")))
+
+    print("Floats like {} expected : actual".format("-3.6"))
+    print("    -3.6 : {}".format(rmspecialchars("-3.6")))
+    
+    print("")
+
 def test_subset_data():
     """ Test subset_data() functionality """
 
@@ -407,6 +459,8 @@ def main():
     test_make_directory()
     
     test_isfloat()
+
+    test_rmspecialchars()
     
     test_subset_data()
     
