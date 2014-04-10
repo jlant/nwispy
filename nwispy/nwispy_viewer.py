@@ -56,14 +56,17 @@ def print_info(nwis_data):
     """   
     
     # print relevant information
-    print('--- DATA FILE INFORMATION ---')
-    print('Date retrieved: {0}'.format(nwis_data['date_retrieved']))
-    print('Gage name: {0}'.format(nwis_data['gage_name']))
-    print('Timestep: {0}'.format(nwis_data['timestep']))
+    print("--- DATA FILE INFORMATION ---")
+    print("Date retrieved: {0}".format(nwis_data["date_retrieved"]))
+    print("Gage name: {0}".format(nwis_data["gage_name"]))
+    print("Timestep: {0}".format(nwis_data["timestep"]))
     
-    print('Parameters:')
-    for parameter in nwis_data['parameters']:
-        print('  {0}'.format(parameter['description']))
+    print("Parameters:")
+    for parameter in nwis_data["parameters"]:
+        print("  {0}".format(parameter["description"]))
+        print("      mean: {}".format(parameter["mean"]))
+        print("      max: {}".format(parameter["max"]))
+        print("      min: {}".format(parameter["min"]))
 
 def plot_data(nwis_data, is_visible = True, save_path = None):
     """   
@@ -82,31 +85,31 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         
     """
     
-    for parameter in nwis_data['parameters']:
+    for parameter in nwis_data["parameters"]:
         
         fig = plt.figure(figsize=(12,10))
         ax = fig.add_subplot(111)
         ax.grid(True)
-        ax.set_title(nwis_data['gage_name'] + ' (' + nwis_data['timestep'] + ')')
-        ax.set_xlabel('Date')
-        ylabel = '\n'.join(wrap(parameter['description'], 60))
+        ax.set_title(nwis_data["gage_name"] + " (" + nwis_data["timestep"] + ")")
+        ax.set_xlabel("Date")
+        ylabel = "\n".join(wrap(parameter["description"], 60))
         ax.set_ylabel(ylabel)
 
-        if "Discharge" in parameter['description']:
-            plt.plot(nwis_data['dates'], parameter['data'], color = 'b', label = ylabel)
-            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'b', alpha = 0.5)
-        elif "Gage height" in parameter['description']:
-            plt.plot(nwis_data['dates'], parameter['data'], color = 'g', label = ylabel)
-            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'g', alpha = 0.5)
-        elif "Precipitation" in parameter['description']:
-            plt.plot(nwis_data['dates'], parameter['data'], color = "DarkBlue", label = ylabel)  
-            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = "DarkBlue", alpha = 0.5)
-        elif "Temperature" in parameter['description']:
-            plt.plot(nwis_data['dates'], parameter['data'], color = 'orange', label = ylabel) 
-            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'orange', alpha = 0.5)
+        if "Discharge" in parameter["description"]:
+            plt.plot(nwis_data["dates"], parameter["data"], color = "b", label = ylabel)
+            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "b", alpha = 0.5)
+        elif "Gage height" in parameter["description"]:
+            plt.plot(nwis_data["dates"], parameter["data"], color = "g", label = ylabel)
+            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "g", alpha = 0.5)
+        elif "Precipitation" in parameter["description"]:
+            plt.plot(nwis_data["dates"], parameter["data"], color = "DarkBlue", label = ylabel)  
+            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "DarkBlue", alpha = 0.5)
+        elif "Temperature" in parameter["description"]:
+            plt.plot(nwis_data["dates"], parameter["data"], color = "orange", label = ylabel) 
+            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "orange", alpha = 0.5)
         else:
-            plt.plot(nwis_data['dates'], parameter['data'], color = 'k', label = ylabel) 
-            plt.fill_between(nwis_data['dates'], parameter['min'], parameter['data'], facecolor = 'k', alpha = 0.5)
+            plt.plot(nwis_data["dates"], parameter["data"], color = "k", label = ylabel) 
+            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "k", alpha = 0.5)
             
 
         # rotate and align the tick labels so they look better
@@ -114,7 +117,7 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         
         # use a more precise date string for the x axis locations in the
         # toolbar
-        ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
+        ax.fmt_xdata = mdates.DateFormatter("%Y-%m-%d")
      
         # legend; make it transparent    
         handles, labels = ax.get_legend_handles_labels()
@@ -123,14 +126,14 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         legend.draggable(state=True)
         
         # show text of mean, max, min values on graph; use matplotlib.patch.Patch properies and bbox
-        text = 'mean = %.2f\nmax = %.2f\nmin = %.2f' % (parameter['mean'], parameter['max'], parameter['min'])
-        patch_properties = {'boxstyle': 'round',
-                            'facecolor': 'wheat',
-                            'alpha': 0.5
+        text = "mean = %.2f\nmax = %.2f\nmin = %.2f" % (parameter["mean"], parameter["max"], parameter["min"])
+        patch_properties = {"boxstyle": "round",
+                            "facecolor": "wheat",
+                            "alpha": 0.5
                             }
                        
         ax.text(0.05, 0.95, text, transform = ax.transAxes, fontsize = 14, 
-                verticalalignment = 'top', horizontalalignment = 'left', bbox = patch_properties)
+                verticalalignment = "top", horizontalalignment = "left", bbox = patch_properties)
         
         # save plots
         if save_path:        
@@ -139,12 +142,12 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             curr_fig.set_size_inches(12, 10)
             
             # keep filename string short enough to be saved properly; keep only usgs gage number, description shortened if it exceeds 50 characters 
-            short_gage_name = " ".join(nwis_data['gage_name'].split()[0:2])            
-            if len(parameter['description']) > 50:
-                short_description = parameter['description'].split(',')[0] 
-                plt.savefig(save_path + '/' + short_gage_name + ' - ' + short_description  + '.png', dpi = 100)
+            short_gage_name = " ".join(nwis_data["gage_name"].split()[0:2])            
+            if len(parameter["description"]) > 50:
+                short_description = parameter["description"].split(",")[0] 
+                plt.savefig(save_path + "/" + short_gage_name + " - " + short_description  + ".png", dpi = 100)
             else:
-                plt.savefig(save_path + '/' + short_gage_name + ' - ' + parameter['description']  + '.png', dpi = 100)
+                plt.savefig(save_path + "/" + short_gage_name + " - " + parameter["description"]  + ".png", dpi = 100)
             
         # show plots
         if is_visible:
