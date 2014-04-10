@@ -257,15 +257,13 @@ def convert_to_float(value, helper_str = None):
     value : {float, nan}
         Float or numpy nan value 
     """
+    # remove any special characters present in string value except for period character
+    value = nwispy_helpers.rmspecialchars(value)    
+    
     if nwispy_helpers.isfloat(value):
         value = float(value)
-    else:
-        if "_" in value:
-            error_str = "*_ character* with float *Helper message* {}. *Solution* - Splitting on _ character".format(helper_str)
-            logging.warn(error_str)
-            value = value.strip("_")
-
-        elif value == "":
+    else:        
+        if value == "":
             error_str = "*Missing value* {}. *Solution* - Replacing with NaN value".format(helper_str)
             logging.warn(error_str)
             value = np.nan
