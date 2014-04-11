@@ -75,14 +75,14 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
     
     Parameter
     ---------
-        nwis_data : dictionary holding data from NWIS file
+    nwis_data : dictionary 
+        A dictionary containing data found in data file.
+
+    is_visible : bool
+        Boolean value to show plots 
         
-        save_path : string path to save plot(s) 
-        
-    Return
-    ------
-        no return
-        
+    save_path : string 
+        String path to save plot(s) 
     """
     
     for parameter in nwis_data["parameters"]:
@@ -96,22 +96,19 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
         ax.set_ylabel(ylabel)
 
         if "Discharge" in parameter["description"]:
-            plt.plot(nwis_data["dates"], parameter["data"], color = "b", label = ylabel)
-            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "b", alpha = 0.5)
+            color_str = "b"
         elif "Gage height" in parameter["description"]:
-            plt.plot(nwis_data["dates"], parameter["data"], color = "g", label = ylabel)
-            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "g", alpha = 0.5)
+            color_str = "g"
         elif "Precipitation" in parameter["description"]:
-            plt.plot(nwis_data["dates"], parameter["data"], color = "DarkBlue", label = ylabel)  
-            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "DarkBlue", alpha = 0.5)
+            color_str = "DarkBlue"
         elif "Temperature" in parameter["description"]:
-            plt.plot(nwis_data["dates"], parameter["data"], color = "orange", label = ylabel) 
-            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "orange", alpha = 0.5)
+            color_str = "orange"
         else:
-            plt.plot(nwis_data["dates"], parameter["data"], color = "k", label = ylabel) 
-            plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = "k", alpha = 0.5)
-            
+            color_str = "k"
 
+        plt.plot(nwis_data["dates"], parameter["data"], color = color_str, label = ylabel) 
+        plt.fill_between(nwis_data["dates"], parameter["min"], parameter["data"], facecolor = color_str, alpha = 0.5)
+            
         # rotate and align the tick labels so they look better
         fig.autofmt_xdate()
         
