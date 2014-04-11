@@ -30,13 +30,15 @@ def read_file(filepath):
     
     Parameters
     ----------
-    filestream : file object
+    filestream : file object        
         A file object that contains an open data file.
+        
         
     Returns
     -------
-    data : dictionary 
+    data : dictionary     
         Returns a dictionary containing data found in data file. 
+
 
     See Also
     --------

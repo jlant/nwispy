@@ -867,6 +867,45 @@ Format: year-month-day_hour.minute.second.microsecond; i.e. 2014-03-18_15.51.46.
 </dd></dl>
 
 <dl class="function">
+<dt id="nwispy_helpers.rmspecialchars">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">rmspecialchars</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#nwispy_helpers.rmspecialchars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove any special characters except period (.) and negative (-) from numeric values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>String value to remove any existing characters from</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote class="last">
+<div><p>String value to without any special characters</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">helpers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">helpers</span><span class="o">.</span><span class="n">rmspecialchars</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;*6.5_&quot;</span><span class="p">)</span>
+<span class="go">6.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">helpers</span><span class="o">.</span><span class="n">rmspecialchars</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;ICE&quot;</span><span class="p">)</span>
+<span class="go">ICE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">helpers</span><span class="o">.</span><span class="n">rmspecialchars</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;-4.2&quot;</span><span class="p">)</span>
+<span class="go">-4.2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">helpers</span><span class="o">.</span><span class="n">rmspecialchars</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">helpers</span><span class="o">.</span><span class="n">rmspecialchars</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;%&amp;!@#8.32&amp;#*;&quot;</span><span class="p">)</span>
+<span class="go">8.32</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="nwispy_helpers.subset_data">
 <tt class="descclassname">nwispy_helpers.</tt><tt class="descname">subset_data</tt><big>(</big><em>dates</em>, <em>values</em>, <em>start_date</em>, <em>end_date</em><big>)</big><a class="headerlink" href="#nwispy_helpers.subset_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subset the dates and values arrays to match the range of the start_date
@@ -939,6 +978,12 @@ first and last dates in the array dates.</p>
 <dt id="nwispy_helpers.test_now">
 <tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_now</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_now" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test now() functionality</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nwispy_helpers.test_rmspecialchars">
+<tt class="descclassname">nwispy_helpers.</tt><tt class="descname">test_rmspecialchars</tt><big>(</big><big>)</big><a class="headerlink" href="#nwispy_helpers.test_rmspecialchars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test rmspecialchars functionality</p>
 </dd></dl>
 
 <dl class="function">
