@@ -18,6 +18,7 @@ from textwrap import wrap
 
 import datetime
 import numpy as np
+import os
 
 def print_info(nwis_data):
     """   
@@ -142,9 +143,13 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
             short_gage_name = " ".join(nwis_data["gage_name"].split()[0:2])            
             if len(parameter["description"]) > 50:
                 short_description = parameter["description"].split(",")[0] 
-                plt.savefig(save_path + "/" + short_gage_name + " - " + short_description  + ".png", dpi = 100)
+                filename = " - ".join([short_gage_name, short_description])  + ".png"           
+                filepath = os.path.join(save_path, filename)
+                plt.savefig(filepath, dpi = 100)
             else:
-                plt.savefig(save_path + "/" + short_gage_name + " - " + parameter["description"]  + ".png", dpi = 100)
+                filename = " - ".join([short_gage_name, parameter["description"]])  + ".png"           
+                filepath = os.path.join(save_path, filename)
+                plt.savefig(filepath, dpi = 100)
             
         # show plots
         if is_visible:
