@@ -24,8 +24,8 @@ def print_info(nwis_data):
     """   
     Print information contained in the data dictionary. 
     
-    Parameter
-    ---------
+    Parameters
+    ----------
     nwis_data : dictionary 
         A dictionary containing data found in data file.
     
@@ -74,8 +74,8 @@ def plot_data(nwis_data, is_visible = True, save_path = None):
     Plot each parameter contained in the nwis data. Save plots to a particular
     path.
     
-    Parameter
-    ---------
+    Parameters
+    ----------
     nwis_data : dictionary 
         A dictionary containing data found in data file.
 
