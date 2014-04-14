@@ -32,8 +32,7 @@ def read_file(filepath):
     ----------
     filestream : file object        
         A file object that contains an open data file.
-        
-        
+                
     Returns
     -------
     data : dictionary     
