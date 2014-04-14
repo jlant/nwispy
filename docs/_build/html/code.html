@@ -586,12 +586,44 @@ the requests information found in the requests file. For example:</p>
 <tt class="descclassname">nwispy_viewer.</tt><tt class="descname">plot_data</tt><big>(</big><em>nwis_data</em>, <em>is_visible=True</em>, <em>save_path=None</em><big>)</big><a class="headerlink" href="#nwispy_viewer.plot_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot each parameter contained in the nwis data. Save plots to a particular
 path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nwis_data</strong> : dictionary</p>
+<blockquote>
+<div><p>A dictionary containing data found in data file.</p>
+</div></blockquote>
+<p><strong>is_visible</strong> : bool</p>
+<blockquote>
+<div><p>Boolean value to show plots</p>
+</div></blockquote>
+<p><strong>save_path</strong> : string</p>
+<blockquote class="last">
+<div><p>String path to save plot(s)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="nwispy_viewer.print_info">
 <tt class="descclassname">nwispy_viewer.</tt><tt class="descname">print_info</tt><big>(</big><em>nwis_data</em><big>)</big><a class="headerlink" href="#nwispy_viewer.print_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print information contained in the data dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nwis_data</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>A dictionary containing data found in data file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Examples</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">nwispy_viewer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
