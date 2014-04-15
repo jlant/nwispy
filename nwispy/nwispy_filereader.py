@@ -145,14 +145,8 @@ def read_file_in(filestream):
         if match_parameters:
             code, description = get_parameter_code(match = match_parameters)  
             
-            data["parameters"].append({ 
-                "code": code, 
-                "description": description,
-                "index": None,
-                "data": [],
-                "mean": None,
-                "max": None,
-                "min": None
+            data["parameters"].append({"code": code, "description": description, "index": None, "data": [],
+                                       "mean": None, "max": None, "min": None
             })
             
         # get the column names and indices of existing parameter(s) 
@@ -365,17 +359,17 @@ def test_get_parameter_code():
     
     pattern = "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)"    
     code, description = get_parameter_code(match = re.search(pattern , "#    06   00060     00003     Discharge, cubic feet per second (Mean)"))
-    print("*Code* expected : actual")
+    print("*Code*\n    expected : actual")
     print("    06_00060_00003 : {}".format(code))
-    print("*Description* expected : actual")
+    print("*Description*\n    expected : actual")
     print("    Discharge, cubic feet per second (Mean) : {}".format(description))
 
     print("")
     
     code, description = get_parameter_code(match = re.search(pattern, "#    02   00065     Gage height, feet"))
-    print("*Code* expected : actual")
+    print("*Code*\n    expected : actual")
     print("    02_00065 : {}".format(code))
-    print("*Description* expected : actual")
+    print("*Description*\n    expected : actual")
     print("    Gage height, feet : {}".format(description))
 
     print("")
@@ -386,11 +380,11 @@ def test_get_date():
     print("--- Testing get_date() ---")
     
     date1 = get_date(daily = "2014-03-12", instantaneous = "")
-    print("*Date* expected : actual")
+    print("*Date*\n    expected : actual")
     print("    2014-03-12 : {}".format(date1))
 
     date2 = get_date(daily = "2014-03-12", instantaneous = "01:15\tEDT")
-    print("Date expected : actual")
+    print("*Date*\n    expected : actual")
     print("    2014-03-12 at 01:15:00 : {}".format(date2))  
     
     print("")    
@@ -447,28 +441,28 @@ def test_read_file_in():
     fileobj = StringIO(fixture["data file"])
     
     data = read_file_in(fileobj)   
-    print("*Date retrieved* expected : actual")
+    print("*Date retrieved*\n    expected : actual")
     print("    2014-03-11 08:40:40 : {}".format(data["date_retrieved"]))
     print("")
-    print("*Gage name* expected : actual")
+    print("*Gage name*\n    expected : actual")
     print("    USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY : {}".format(data["gage_name"]))
     print("")
-    print("*Column names* expected : actual")
+    print("*Column names*\n    expected : actual")
     print("    [agency_cd, site_no, datetime, tz_cd, 02_00065, 02_00065_cd, 03_00010, 03_00010_cd, 04_00300, 04_00300_cd, 05_00400, 05_00400_cd, 06_00095, 06_00095_cd, 07_63680, 07_63680_cd] : \n{}".format(data["column_names"]))
     print("")
-    print("*Timestep* expected : actual")
+    print("*Timestep*\n    expected : actual")
     print("    instantaneous : {}".format(data["timestep"]))
     print("")
-    print("*Dates* type expected : actual")
+    print("*Dates type*\n    expected : actual")
     print("    numpy.ndarray : {}".format(type(data["dates"]))) 
     print("")   
-    print("*Dates* expected : actual")
+    print("*Dates*\n    expected : actual")
     print("    [datetime.datetime(2013, 6, 6, 0, 0) datetime.datetime(2013, 6, 6, 0, 15) datetime.datetime(2013, 6, 6, 0, 30)] datetime.datetime(2013, 6, 6, 0, 45) datetime.datetime(2013, 6, 6, 1, 0)] : \n{}".format(data["dates"]))
     print("")
-    print("Data type expected : actual")
+    print("*Data type*\n    expected : actual")
     print("    numpy.ndarray : {}".format(type(data["parameters"][0]["data"])))    
     print("")
-    print("*Parameters* expected index, code, description, data, mean, max, min")
+    print("*Parameters*\n    expected index, code, description, data, mean, max, min")
     print("    4 02_00065 Gage height, feet [1.0 2.0 3.0 4.0 5.0]  3.0 5.0 1.0\n")
     print("    6 03_00010 Temperature, water, degrees Celsius [5.0 10.0 15.0 20.0 25.0]  15.0 25.0 5.0\n")   
     print("    8 04_00300 Dissolved oxygen, water, unfiltered, milligrams per liter [2.0 1.25 1.25 0.25 0.25]  1.0 2.0 0.25\n")
@@ -476,7 +470,7 @@ def test_read_file_in():
     print("    12 06_00095 Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius [2.0 1.0 0.0 -1.0 -2.0]  0.0 2.0 -2.0\n")      
     print("    14 07_63680 Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU) [8.25 8.25 3.5 2.5 2.5]  5.0 8.25 2.5\n")    
     
-    print("*Parameters* ACTUAL index, code, description, data, mean, max, min")
+    print("*Parameters*\n    actual index, code, description, data, mean, max, min")
     for parameter in data["parameters"]:
         print("    {} {} {} {} {} {} {}".format(parameter["index"], parameter["code"], parameter["description"], parameter["data"], parameter["mean"], parameter["max"], parameter["min"]))    
 
@@ -484,6 +478,10 @@ def test_read_file_in():
 
 def main():
     """ Test functionality of reading files """
+
+    print("")
+    print("RUNNING TESTS ...")
+    print("")
     
     test_get_parameter_code()
     
