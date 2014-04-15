@@ -590,7 +590,7 @@ def test_data_instantaneous_multi_parameter():
     nose.tools.assert_equals(actual["timestep"], expected["timestep"]) 
     
     
-def test_bad_daily_single_parameter():
+def test_bad_data_daily_single_parameter():
     
     data = np.array([171, 190, 164, 150, 125])
     
