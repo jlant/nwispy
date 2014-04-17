@@ -1,4 +1,5 @@
 import nose.tools
+from nose import with_setup
 
 import sys
 import numpy as np
@@ -32,7 +33,14 @@ def test_isfloat():
     nose.tools.assert_equals(True, helpers.isfloat("6.25"))
     nose.tools.assert_equals(False, helpers.isfloat("2.5_"))
     nose.tools.assert_equals(False, helpers.isfloat("hello"))
-   
+
+def test_convert_to_float():
+    
+    nose.tools.assert_equals(6.25, helpers.convert_to_float("6.25", helper_str = "My help message"))
+    nose.tools.assert_equals(2.5, helpers.convert_to_float("2.5_", helper_str = "My help message"))
+    nose.tools.assert_almost_equals(np.array(np.nan).all(), np.array(helpers.convert_to_float("", helper_str = "My help message")).all())
+    nose.tools.assert_almost_equals(np.array(np.nan).all(), np.array(helpers.convert_to_float("hello", helper_str = "My help message")).all())
+
 def test_rmspecialchars():
     
     nose.tools.assert_equals("6.5", helpers.rmspecialchars("*6.5_"))
