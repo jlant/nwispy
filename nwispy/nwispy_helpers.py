@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:Module: nwispy_helpers.py
+:Module: helpers.py
 
 :Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
 
@@ -177,40 +177,6 @@ def rmspecialchars(value):
     
     return value
 
-def create_monthly_dict():
-    """
-    Create a dictionary containing monthly keys and empty lists as initial values
-    
-    Returns
-    -------
-    values_dict : dictionary
-        Dictionary containing monthly keys with corresponding values.
-    
-    Notes
-    -----
-    {"January": [],
-     "February": [],
-     "March": [],
-     "April": [],
-     "May": [],
-     "June": [],
-     "July": [],
-     "August": [],
-     "September": [],
-     "October": [],
-     "November": [],
-     "December": []
-    }
-    """
-    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]       
-
-    # initialize dictionary
-    monthly_dict = {}
-    for month in months:
-        monthly_dict[month] = []
-
-    return monthly_dict
-
 def convert_to_float(value, helper_str = None):
     """   
     Convert a value to a float. If value is not a valid float, log as an error
@@ -246,6 +212,40 @@ def convert_to_float(value, helper_str = None):
             value = np.nan
             
     return value
+
+def create_monthly_dict():
+    """
+    Create a dictionary containing monthly keys and empty lists as initial values
+    
+    Returns
+    -------
+    values_dict : dictionary
+        Dictionary containing monthly keys with corresponding values.
+    
+    Notes
+    -----
+    {"January": [],
+     "February": [],
+     "March": [],
+     "April": [],
+     "May": [],
+     "June": [],
+     "July": [],
+     "August": [],
+     "September": [],
+     "October": [],
+     "November": [],
+     "December": []
+    }
+    """
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]       
+
+    # initialize dictionary
+    monthly_dict = {}
+    for month in months:
+        monthly_dict[month] = []
+
+    return monthly_dict
 
 def compute_simple_stats(data):
     """   
@@ -438,6 +438,19 @@ def test_isfloat():
     print("    False: {}".format(isfloat("2.5_")))
     print("")
 
+def test_convert_to_float():
+    """ Test convert_to_float """
+
+    print("--- Testing convert_to_float ---")
+
+    print("Floats like {}\n    expected : actual".format("4.2"))
+    print("    4.2 : {}".format(convert_to_float(value = "4.2", helper_str = "My help message")))
+
+    print("Floats like {}\n    expected : actual".format(""))
+    print("    nan : {}".format(convert_to_float(value = "", helper_str = "My help message")))
+
+    print("")
+    
 def test_rmspecialchars():
     """ Test rmspecialchars functionality """
 
@@ -469,7 +482,7 @@ def test_create_monthly_dict():
     print("    {}".format(monthly_dict))
     
     print("")
-
+    
 def test_subset_data():
     """ Test subset_data() functionality """
 
@@ -587,6 +600,8 @@ def main():
     test_make_directory()
     
     test_isfloat()
+
+    test_convert_to_float()
 
     test_rmspecialchars()
     
