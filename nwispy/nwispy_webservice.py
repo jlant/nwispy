@@ -161,8 +161,7 @@ def download_file(user_parameters_url, data_type, filename, file_destination):
     -----    
     The base url for USGS NWIS Webservice - http://waterservices.usgs.gov/nwis/
     """    
-    base_url = "http://waterservices.usgs.gov/nwis/" + data_type + "/?"    
-
+    base_url = "http://waterservices.usgs.gov/nwis/" + data_type + "/?" 
     request = urllib2.Request(base_url, user_parameters_url)
     response = urllib2.urlopen(request)  
 

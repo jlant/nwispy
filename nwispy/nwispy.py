@@ -98,6 +98,7 @@ def process_webrequest(request_file, arguments):
 
     # close error logging
     nwispy_logging.remove_loggers()
+    
 
     # process the downloaded file(s)
     file_list = nwispy_helpers.get_file_paths(directory = web_filedir, file_ext = ".txt")
