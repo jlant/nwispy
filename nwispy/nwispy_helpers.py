@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:Module: helpers.py
+:Module: nwispy_helpers.py
 
 :Author: Jeremiah Lant, jlant@usgs.gov, U.S. Geological Survey, Kentucky Water Science Center, http://www.usgs.gov/ 
 
@@ -21,11 +21,11 @@ import logging
 def now():
     """    
     Return current date and time in a format that can be used as a file name. 
-    Format: year-month-day_hour.minute.second.microsecond; i.e. 2014-03-18_15.51.46.25
+    Format: year-month-day_hour.minute.second.microsecond; e.g. 2014-03-18_15.51.46.25
       
     Returns
     -------
-    date_time : str
+    date_time : string
         String of current date and time in %Y-%m-%d_%H.%M.%S.%f format.       
         
     Notes
@@ -39,12 +39,14 @@ def now():
 def get_file_paths(directory, file_ext = None):
     """    
     Return a list of full file paths from a directory including its subdirectories.
-        
+    Filter fil    
+    
     Parameters
     ----------    
-    directory : str
+    directory : string
         String path 
-      
+    file_ext : string
+        String file extention; e.g. ".txt" 
     Returns
     -------
     file_paths : list 
@@ -55,15 +57,9 @@ def get_file_paths(directory, file_ext = None):
     # Walk the tree.
     for root, directories, files in os.walk(directory):
         for filename in files:
-            # Join the two strings in order to form the full filepath.
             filepath = os.path.join(root, filename)
-            file_paths.append(filepath) 
-
-    # if user wants on certain file extentions then only include those paths by removing unwanted paths
-    if file_ext:
-        for f in file_paths:
-            if not f.endswith(file_ext):
-                file_paths.remove(f)
+            if file_ext and filepath.endswith(file_ext):
+                file_paths.append(filepath) 
 
     return file_paths
 
@@ -73,14 +69,14 @@ def get_file_info(path):
     
     Parameters
     ----------
-    path : str
+    path : string
         String path
       
     Returns
     -------
-    filedir : str
+    filedir : string
         String file directory path
-    filename : str
+    filename : string
         String file name    
     """ 
     filedir, filename = os.path.split(path)
@@ -97,14 +93,14 @@ def make_directory(path, directory_name):
     
     Parameters
     ----------
-    path: str
+    path: string
         String path 
-    directory_name : str
+    directory_name : string
         String name
       
     Returns
     -------
-    directory_path : str
+    directory_path : string
         String path to made directory.  
     """    
     directory_path = os.path.join(path, directory_name)
@@ -120,7 +116,7 @@ def isfloat(value):
     
     Parameters
     ----------
-    value : str
+    value : string
         String value to try to convert to a float.
         
     Returns
@@ -151,12 +147,12 @@ def rmspecialchars(value):
     
     Parameters
     ----------
-    value : str
+    value : string
         String value to remove any existing characters from
         
     Returns
     -------
-    value : str
+    value : string
         String value to without any special characters
         
     Examples
@@ -180,15 +176,15 @@ def rmspecialchars(value):
 def convert_to_float(value, helper_str = None):
     """   
     Convert a value to a float. If value is not a valid float, log as an error
-    with a helper_str (i.e. value"s coorsponding date) to help locate the 
+    with a helper_str (e.g. value"s coorsponding date) to help locate the 
     error and replace value with a nan.
     
     Parameters
     ----------
-    value : str
+    value : string
         String value to convert.
-    helper_str : str
-        String message to be placed in error log if value can not be converted to a float. i.e. value"s corresponding date of occurance.
+    helper_str : string
+        String message to be placed in error log if value can not be converted to a float. e.g. value"s corresponding date of occurance.
         
     Returns
     -------
@@ -300,7 +296,7 @@ def subset_data(dates, values, start_date, end_date):
             
     Parameters 
     ----------
-    dates :  array 
+    dates : array 
         Array of dates as datetime objects. 
     data : array
         Array of numbers.
@@ -376,8 +372,29 @@ def find_start_end_dates(dates1, dates2):
        raise ValueError("No matching dates for find_start_end_dates()") 
 
 
+def _print_test_info(expected, actual):
+    """   
+    For testing purposes, assert that all expected values and actual values match. 
+    Prints assertion error when there is no match.  Prints values to user to scan
+    if interested. Helps a lot for debugging. This function mirrors what is done
+    in nosetests.
+    
+    Parameters
+    ----------
+    expected : dictionary  
+        Dictionary holding expected data values
+    actual : dictionary
+        Dictionary holding expected data values
+    """
+    for key in actual.keys():
+        np.testing.assert_equal(actual[key], expected[key], err_msg = "For key * {} *, actual value(s) * {} * do not equal expected value(s) * {} *".format(key, actual[key], expected[key]))        
+
+        print("*{}*".format(key))                     
+        print("    actual:   {}".format(actual[key]))  
+        print("    expected: {}\n".format(expected[key])) 
+
 def test_now():
-    """ Test now() functionality """
+    """ Test now() """
 
     print("--- Testing now() ---")    
     
@@ -387,10 +404,11 @@ def test_now():
     print("")
 
 def test_get_filepaths():
-    """ Test get_filepaths functionality """
+    """ Test get_filepaths() """
     
-    print("--- Testing get_filepaths() ---")
-    file_paths = get_file_paths(os.getcwd(), file_ext = ".py")
+    print("--- Testing get_filepaths() ---")   
+    
+    file_paths = get_file_paths(os.getcwd(), file_ext = "py")
     
     print("File paths are:")
     print("    {}".format(file_paths))
@@ -400,193 +418,166 @@ def test_get_file_info():
     """ Test get_file_info functionality """
 
     print("--- Testing get_file_info ---")  
-    
-    filedir, filename = get_file_info(path = os.path.join(os.getcwd(), "nwispy_helpers.py"))
 
-    print("File directory is:")
-    print("    {}".format(filedir))
-    print("File name is expected : actual")
-    print("    nwispy_helpers.py : {}".format(filename))
-    print("")
+    # expected values
+    expected = {}
+    expected["filedir"] = "C:\Users\jlant\jeremiah\projects\python-projects\waterapputils\waterapputils"
+    expected["filename"] = "helpers.py"
+
+    # actual values
+    actual = {}    
+    actual["filedir"], actual["filename"] = get_file_info(path = os.path.join(os.getcwd(), "helpers.py"))
+
+    # print results
+    _print_test_info(actual, expected)
 
 def test_make_directory():
-    """ Test make_directory() functionality"""
+    """ Test make_directory() """
 
-    print("---- Testing make_directory ----")  
-    
-    directory_path = make_directory(path = os.getcwd(), directory_name = "Testing")
-    print("New directory path is:")
-    print("    {}".format(directory_path))
-    print("")
+    print("---- Testing make_directory() ----")  
+
+    # expected values
+    expected = {"directory_path" : "C:\Users\jlant\jeremiah\projects\python-projects\waterapputils\waterapputils\Testing"}
+
+    # actual values    
+    actual = {"directory_path": make_directory(path = os.getcwd(), directory_name = "Testing")}
+
+    # print results
+    _print_test_info(actual, expected)
 
 def test_isfloat():
-    """ Test isfloat() functionality """
+    """ Test isfloat() """
 
     print("--- Testing isfloat() ---") 
 
-    print("Floats like {}\n    expected : actual".format(2.5))
-    print("    True: {}".format(isfloat(2.5)))
-    print("Ints like {}\n    expected : actual".format(2))
-    print("    True: {}".format(isfloat(2)))
-    print("String floats like {}\n    expected : actual".format("2.5"))
-    print("    True: {}".format(isfloat("2.5")))
-    print("String ints like {}\n    expected : actual".format("2"))
-    print("    True: {}".format(isfloat("2")))
-    print("Regular strings like {}\n    expected : actual".format("hello world"))
-    print("    False: {}".format(isfloat("hello world")))
-    print("Characters mixed with floats like {}\n    expected : actual".format("2.5_"))
-    print("    False: {}".format(isfloat("2.5_")))
-    print("")
+    # expected values
+    expected = {"2.5": True, "2": True, "string 2.5": True, "hello world": False, "2.5_": False}
+
+    # actual values
+    actual = {"2.5": isfloat(2.5), "2": isfloat(2), "string 2.5": isfloat("2.5"), "hello world": isfloat("hello world"), "2.5_": isfloat("2.5_")}
+
+    # print results
+    _print_test_info(actual, expected)
 
 def test_convert_to_float():
-    """ Test convert_to_float """
+    """ Test convert_to_float() """
 
-    print("--- Testing convert_to_float ---")
+    print("--- Testing convert_to_float() ---")
 
-    print("Floats like {}\n    expected : actual".format("4.2"))
-    print("    4.2 : {}".format(convert_to_float(value = "4.2", helper_str = "My help message")))
+    # expected values
+    expected = {"4.2": 4.2, "blanks": np.nan}
 
-    print("Floats like {}\n    expected : actual".format(""))
-    print("    nan : {}".format(convert_to_float(value = "", helper_str = "My help message")))
+    # actual values
+    actual = {"4.2": convert_to_float(value = "4.2", helper_str = "My help message"), "blanks": convert_to_float(value = "", helper_str = "My help message")}
 
-    print("")
+    # print results
+    _print_test_info(actual, expected)
     
 def test_rmspecialchars():
-    """ Test rmspecialchars functionality """
+    """ Test rmspecialchars() """
 
     print("--- Testing rmspecialchars() ---") 
 
-    print("Floats like {}\n    expected : actual".format("*6.5_"))
-    print("    6.5 : {}".format(rmspecialchars("*6.5_")))
+    # expected values
+    expected = {"*6.5_": "6.5", "blanks": "", "*$^**(@4.2_+;": "4.2", "-3.6": "-3.6"}
 
-    print("Empty strings like {}\n    expected : actual".format(""))
-    print("    : {}".format(rmspecialchars("")))
+    # actual values
+    actual = {"*6.5_": rmspecialchars("*6.5_"), "blanks": rmspecialchars(""), "*$^**(@4.2_+;": rmspecialchars("*$^**(@4.2_+;"), "-3.6": rmspecialchars("-3.6")}
 
-    print("Floats like {}\n    expected : actual".format("*$^**(@4.2_+;"))
-    print("    4.2 : {}".format(rmspecialchars("*$^**(@4.2_+;")))
+    # print results
+    _print_test_info(actual, expected)
 
-    print("Floats like {}\n    expected : actual".format("-3.6"))
-    print("    -3.6 : {}".format(rmspecialchars("-3.6")))
-    
-    print("")
 
 def test_create_monthly_dict():
     """ Test create_monthly_dict """
 
     print("--- Testing create_monthly_dict ---")
 
-    monthly_dict = create_monthly_dict()
+    # expected values
+    expected = {"January": [], "February": [], "March": [], "April": [], "May": [], "June": [], "July": [], "August": [], "September": [], "October": [], "November": [], "December": []}
 
-    print("*Values*\n    expected : actual")
-    print("    {'January': [], 'February': [], 'March': [], 'April': [], 'May': [], 'June': [], 'July': [], 'August': [], 'September': [], 'October': [], 'November': [], 'December': []} : \n")
-    print("    {}".format(monthly_dict))
-    
-    print("")
+    # actual values
+    actual = create_monthly_dict()
+
+    # print results
+    _print_test_info(actual, expected)
+
     
 def test_subset_data():
-    """ Test subset_data() functionality """
+    """ Test subset_data() """
 
     print("--- Testing subset_data() for dates within start date and end date ---")
-    
-    year = 2014
-    month = 01
-    day = 01
-    dates = np.array([datetime.datetime(int(year), int(month), int(day)) + datetime.timedelta(i) for i in range(11)])
+
+    # expected values
+    expected = {"dates_within_range": [datetime.datetime(2014, 1, 4, 0, 0), datetime.datetime(2014, 1, 5, 0, 0),
+                                       datetime.datetime(2014, 1, 6, 0, 0), datetime.datetime(2014, 1, 7, 0, 0),
+                                       datetime.datetime(2014, 1, 8, 0, 0), datetime.datetime(2014, 1, 9, 0, 0), 
+                                       datetime.datetime(2014, 1, 10, 0, 0)],
+                "values_within_range": np.array([3, 4, 5, 6, 7, 8, 9]),
+  
+                "dates_outside_range": [datetime.datetime(2014, 1, 1, 0, 0), datetime.datetime(2014, 1, 2, 0, 0), datetime.datetime(2014, 1, 3, 0, 0),
+                                        datetime.datetime(2014, 1, 4, 0, 0), datetime.datetime(2014, 1, 5, 0, 0),
+                                        datetime.datetime(2014, 1, 6, 0, 0), datetime.datetime(2014, 1, 7, 0, 0),
+                                        datetime.datetime(2014, 1, 8, 0, 0), datetime.datetime(2014, 1, 9, 0, 0), 
+                                        datetime.datetime(2014, 1, 10, 0, 0), datetime.datetime(2014, 1, 11, 0, 0)],
+                "values_outside_range": np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    } 
+
+    # data for subset_data function
+    dates = np.array([datetime.datetime(2014, 01, 01) + datetime.timedelta(i) for i in range(11)])
     
     values = np.array([i for i in range(11)])    
-    
-    start1 = datetime.datetime(2014, 01, 04)
-    end1 = datetime.datetime(2014, 01, 10)
-    
-    subset_dates1, subset_values1 = subset_data(dates, values, start_date = start1, end_date = end1)
-    
-    print("*Dates* original")
-    print("    {}".format(dates))
-    print("*Values* original")
-    print("    {}".format(values))
-    print("*Start date* to *end date*")
-    print("    {} to {}".format(start1, end1))
-    print("*Dates* subset")
-    print("    {}".format(subset_dates1))
-    print("*Values* subset")
-    print("    {}".format(subset_values1))
-    print("")
 
-    print("--- Testing subset_data() for dates NOT within start date and end date ---")
-    
-    start2 = datetime.datetime(2013, 12, 01)
-    end2 = datetime.datetime(2014, 01, 20)
-    
-    subset_dates2, subset_values2 = subset_data(dates, values, start_date = start2, end_date = end2)
-    
-    print("*Dates* original")
-    print("    {}".format(dates))
-    print("*Values* original")
-    print("    {}".format(values))
-    print("*Start date* to *end date*")
-    print("    {} to {}".format(start2, end2))
-    print("*Dates* subset")
-    print("    {}".format(subset_dates2))
-    print("*Values* subset")
-    print("    {}".format(subset_values2))
-    print("")
+    # actual values
+    actual = {}    
+    actual["dates_within_range"], actual["values_within_range"] = subset_data(dates, values, start_date = datetime.datetime(2014, 01, 04), end_date = datetime.datetime(2014, 01, 10))
 
-def test_find_start_end_dates():
-    """ Testing find_start_end_dates functionality """    
-    
-    print("--- Testing find_start_end_dates() for first element of dates2 being 2 days later than first element of dates1 ---")   
-    year = 2014
-    month = 01
-    day1 = 01
-    day2 = 03
-    
-    dates1 = [datetime.datetime(int(year), int(month), int(day1)) + datetime.timedelta(i) for i in range(11)]
-    dates2 = [datetime.datetime(int(year), int(month), int(day2)) + datetime.timedelta(i) for i in range(11)]
-    
-    start_date, end_date = find_start_end_dates(dates1, dates2)
-    print("Start date*\n    expected : actual")
-    print("    2014-01-03: {}".format(start_date))
-    print("*End date*\n    expected : actual")
-    print("    2014-01-11: {}".format(end_date))
-    print("")
+    actual["dates_outside_range"], actual["values_outside_range"] = subset_data(dates, values, start_date = datetime.datetime(2013, 12, 01), end_date = datetime.datetime(2014, 01, 20))
 
-    print("--- Testing find_start_end_dates() for first element of dates1 being 2 days later than first element of dates2 ---")    
-    year = 2014
-    month = 01
-    day1 = 01
-    day2 = 03
-    
-    dates1 = [datetime.datetime(int(year), int(month), int(day2)) + datetime.timedelta(i) for i in range(11)]
-    dates2 = [datetime.datetime(int(year), int(month), int(day1)) + datetime.timedelta(i) for i in range(11)]
-    
-    start_date, end_date = find_start_end_dates(dates1, dates2)
-    print("*Start date*\n    expected : actual")
-    print("    2014-01-03: {}".format(start_date))
-    print("*End date*\n    expected : actual")
-    print("    2014-01-11: {}".format(end_date))
-    print("")
+    # print results
+    _print_test_info(actual, expected)
+  
 
-    print("--- Testing find_start_end_dates() for NO MATCHING elements between dates1 and dates2 ---")
-
-    try:
-        year = 2014
-        month1 = 01
-        day1 = 01
-        
-        year = 2014
-        month2 = 02
-        day2 = 03
-        
-        dates1 = [datetime.datetime(int(year), int(month1), int(day1)) + datetime.timedelta(i) for i in range(11)]
-        dates2 = [datetime.datetime(int(year), int(month2), int(day2)) + datetime.timedelta(i) for i in range(11)]
+def test_find_start_end_dates1():
+    """ Testing find_start_end_dates() """    
     
-        start_date, end_date = find_start_end_dates(dates1, dates2)
-        print("    PROBLEM exception was not executed")
-        
-    except ValueError as error:
-        print("*Value Error*\n    expected : actual")
-        print("    No matching dates for find_start_end_dates() : {}".format(error.message))
-        
+    print("--- Testing find_start_end_dates() part 1 ---")    
+
+    # expected values
+    expected = {"start_date": datetime.datetime(2014, 01, 03), "end_date": datetime.datetime(2014, 01, 11)} 
+
+
+    # first element of dates2 being 2 days later than first element of dates1")   
+    dates1 = [datetime.datetime(2014, 01, 01) + datetime.timedelta(i) for i in range(11)]
+    dates2 = [datetime.datetime(2014, 01, 03)+ datetime.timedelta(i) for i in range(11)]
+
+    # actual values
+    actual = {}    
+    actual["start_date"], actual["end_date"] = find_start_end_dates(dates1, dates2)
+
+    # print results
+    _print_test_info(actual, expected)
+
+def test_find_start_end_dates2():
+    """ Testing find_start_end_dates() """    
+    
+    print("--- Testing find_start_end_dates() part 2 ---")    
+
+    # expected values
+    expected = {"start_date": datetime.datetime(2014, 01, 04), "end_date": datetime.datetime(2014, 01, 12)} 
+
+
+    # first element of dates1 being 2 days later than first element of dates1")   
+    dates1 = [datetime.datetime(2014, 01, 04) + datetime.timedelta(i) for i in range(11)]
+    dates2 = [datetime.datetime(2014, 01, 02)+ datetime.timedelta(i) for i in range(11)]
+
+    # actual values
+    actual = {}    
+    actual["start_date"], actual["end_date"] = find_start_end_dates(dates1, dates2)
+
+    # print results
+    _print_test_info(actual, expected)
+       
     
 def main():
     """ Test functionality of helpers """
@@ -604,10 +595,14 @@ def main():
     test_convert_to_float()
 
     test_rmspecialchars()
+
+    test_create_monthly_dict()
     
     test_subset_data()
     
-    test_find_start_end_dates()
+    test_find_start_end_dates1()
+
+    test_find_start_end_dates2()
     
 if __name__ == "__main__":
     main()        
