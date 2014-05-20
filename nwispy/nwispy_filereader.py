@@ -270,53 +270,14 @@ def get_date(daily, instantaneous):
     date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     return date
-    
-    
-def test_get_parameter_code():
-    """ Test the get_parameter_code functionality """
-    
-    print("--- Testing get_parameter_code() ---")
-    
-    pattern = "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)"    
-    code, description = get_parameter_code(match = re.search(pattern , "#    06   00060     00003     Discharge, cubic feet per second (Mean)"))
-    print("*Code*\n    expected : actual")
-    print("    06_00060_00003 : {}".format(code))
-    print("*Description*\n    expected : actual")
-    print("    Discharge, cubic feet per second (Mean) : {}".format(description))
 
-    print("")
-    
-    code, description = get_parameter_code(match = re.search(pattern, "#    02   00065     Gage height, feet"))
-    print("*Code*\n    expected : actual")
-    print("    02_00065 : {}".format(code))
-    print("*Description*\n    expected : actual")
-    print("    Gage height, feet : {}".format(description))
-
-    print("")
-
-def test_get_date():
-    """ Test the get_date functionality """
-    
-    print("--- Testing get_date() ---")
-    
-    date1 = get_date(daily = "2014-03-12", instantaneous = "")
-    print("*Date*\n    expected : actual")
-    print("    2014-03-12 : {}".format(date1))
-
-    date2 = get_date(daily = "2014-03-12", instantaneous = "01:15\tEDT")
-    print("*Date*\n    expected : actual")
-    print("    2014-03-12 at 01:15:00 : {}".format(date2))  
-    
-    print("")    
-
-def test_read_file_in():
-    """ Test read_file_in() functionality"""
-
-    print("--- Testing read_file_in() ---")
+def _create_test_data():
+    """ Create test data for tests """
 
     fixture = {}
+    fixture["code_pattern"] = "(#)\D+([0-9]{2})\D+([0-9]{5})(\D+[0-9]{5})?(.+)" 
     
-    fixture["data file"] = \
+    fixture["data_file"] = \
         """
         # ---------------------------------- WARNING ----------------------------------------
         # The data you have obtained from this automated U.S. Geological Survey database
@@ -358,43 +319,139 @@ def test_read_file_in():
         USGS	03401385	2013-06-06 01:00	EDT	5.0	P	25.0	P	0.25	P	3.0	P	-2.0	P	2.5	P
         """
 
-    fileobj = StringIO(fixture["data file"])
-    
-    data = read_file_in(fileobj)   
-    print("*Date retrieved*\n    expected : actual")
-    print("    2014-03-11 08:40:40 : {}".format(data["date_retrieved"]))
-    print("")
-    print("*Gage name*\n    expected : actual")
-    print("    USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY : {}".format(data["gage_name"]))
-    print("")
-    print("*Column names*\n    expected : actual")
-    print("    [agency_cd, site_no, datetime, tz_cd, 02_00065, 02_00065_cd, 03_00010, 03_00010_cd, 04_00300, 04_00300_cd, 05_00400, 05_00400_cd, 06_00095, 06_00095_cd, 07_63680, 07_63680_cd] : \n{}".format(data["column_names"]))
-    print("")
-    print("*Timestep*\n    expected : actual")
-    print("    instantaneous : {}".format(data["timestep"]))
-    print("")
-    print("*Dates type*\n    expected : actual")
-    print("    numpy.ndarray : {}".format(type(data["dates"]))) 
-    print("")   
-    print("*Dates*\n    expected : actual")
-    print("    [datetime.datetime(2013, 6, 6, 0, 0) datetime.datetime(2013, 6, 6, 0, 15) datetime.datetime(2013, 6, 6, 0, 30)] datetime.datetime(2013, 6, 6, 0, 45) datetime.datetime(2013, 6, 6, 1, 0)] : \n{}".format(data["dates"]))
-    print("")
-    print("*Data type*\n    expected : actual")
-    print("    numpy.ndarray : {}".format(type(data["parameters"][0]["data"])))    
-    print("")
-    print("*Parameters*\n    expected index, code, description, data, mean, max, min")
-    print("    4 02_00065 Gage height, feet [1.0 2.0 3.0 4.0 5.0]  3.0 5.0 1.0\n")
-    print("    6 03_00010 Temperature, water, degrees Celsius [5.0 10.0 15.0 20.0 25.0]  15.0 25.0 5.0\n")   
-    print("    8 04_00300 Dissolved oxygen, water, unfiltered, milligrams per liter [2.0 1.25 1.25 0.25 0.25]  1.0 2.0 0.25\n")
-    print("    10 05_00400 pH, water, unfiltered, field, standard units [-4.0 4.0 3.5 3.5 3.0]  2.0 4.0 -4.0\n")
-    print("    12 06_00095 Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius [2.0 1.0 0.0 -1.0 -2.0]  0.0 2.0 -2.0\n")      
-    print("    14 07_63680 Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU) [8.25 8.25 3.5 2.5 2.5]  5.0 8.25 2.5\n")    
-    
-    print("*Parameters*\n    actual index, code, description, data, mean, max, min")
-    for parameter in data["parameters"]:
-        print("    {} {} {} {} {} {} {}".format(parameter["index"], parameter["code"], parameter["description"], parameter["data"], parameter["mean"], parameter["max"], parameter["min"]))    
+    stage_data = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+    temperature_data = np.array([5.0, 10.0, 15.0, 20.0, 25.0])    
+    dissolvedoxygen_data = np.array([2.0, 1.25, 1.25, 0.25, 0.25])
+    ph_data = np.array([-4.0, 4.0, 3.5, 3.5, 3.0])
+    conductance_data = np.array([2.0, 1.0, 0.0, -1.0, -2.0])
+    turbidity_data = np.array([8.25, 8.25, 3.5, 2.5, 2.5])
 
-    print("")
+    fixture["parameters"] = [{"description": "Gage height, feet", "code": "02_00065", "index": 4, "data": stage_data,
+                               "mean": np.mean(stage_data), "max": np.max(stage_data), "min": np.min(stage_data)},
+ 
+                              {"description": "Temperature, water, degrees Celsius", "code": "03_00010", "index": 6, "data": temperature_data,
+                               "mean": np.mean(temperature_data), "max": np.max(temperature_data), "min": np.min(temperature_data)}, 
+
+                              {"description": "Dissolved oxygen, water, unfiltered, milligrams per liter", "code": "04_00300", "index": 8, "data": dissolvedoxygen_data,
+                               "mean": np.mean(dissolvedoxygen_data), "max": np.max(dissolvedoxygen_data), "min": np.min(dissolvedoxygen_data)}, 
+
+                              {"description": "pH, water, unfiltered, field, standard units", "code": "05_00400", "index": 10, "data": ph_data,
+                               "mean": np.mean(ph_data), "max": np.max(ph_data), "min": np.min(ph_data)}, 
+
+                              {"description": "Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius", "code": "06_00095", "index": 12, "data": conductance_data,
+                               "mean": np.mean(conductance_data), "max": np.max(conductance_data), "min": np.min(conductance_data)}, 
+
+                              {"description": "Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units (FNU)", "code": "07_63680", "index": 14, "data": turbidity_data,
+                               "mean": np.mean(turbidity_data), "max": np.max(turbidity_data), "min": np.min(turbidity_data)}
+    ]
+
+    return fixture
+    
+def _print_test_info(expected, actual):
+    """   
+    For testing purposes, assert that all expected values and actual values match. 
+    Prints assertion error when there is no match.  Prints values to user to scan
+    if interested. Helps a lot for debugging. This function mirrors what is done
+    in nosetests.
+    
+    Parameters
+    ----------
+    expected : dictionary  
+        Dictionary holding expected data values
+    actual : dictionary
+        Dictionary holding expected data values
+    """
+    for key in actual.keys():
+        np.testing.assert_equal(actual[key], expected[key], err_msg = "For key * {} *, actual value(s) * {} * do not equal expected value(s) * {} *".format(key, actual[key], expected[key]))        
+
+        print("*{}*".format(key))                     
+        print("    actual:   {}".format(actual[key]))  
+        print("    expected: {}\n".format(expected[key]))
+        
+def test_get_parameter_code():
+    """ Test get_parameter_code() """
+    
+    print("--- Testing get_parameter_code() ---")
+    
+    # expected values
+    expected = {}
+    expected["discharge_code"] = "06_00060_00003"
+    expected["discharge_description"] = "Discharge, cubic feet per second (Mean)"
+    expected["stage_code"] = "02_00065"
+    expected["stage_description"] = "Gage height, feet"
+
+    # create test data
+    fixture = _create_test_data()
+
+    # actual values
+    actual = {}
+    actual["discharge_code"], actual["discharge_description"] = get_parameter_code(match = re.search(fixture["code_pattern"], "#    06   00060     00003     Discharge, cubic feet per second (Mean)"))
+    actual["stage_code"], actual["stage_description"] = get_parameter_code(match = re.search(fixture["code_pattern"], "#    02   00065     Gage height, feet"))
+        
+    # print results
+    _print_test_info(actual, expected)
+
+def test_get_date():
+    """ Test the get_date functionality """
+    
+    print("--- Testing get_date() ---")
+
+    # expected values
+    expected = {}
+    expected["daily_date"] = datetime.datetime(2014, 03, 12, 0, 0)
+    expected["instantaneous_date"] = datetime.datetime(2014, 03, 12, 1, 15)
+
+    # actual values
+    actual = {}
+    actual["daily_date"] = get_date(daily = "2014-03-12", instantaneous = "")
+    actual["instantaneous_date"] = get_date(daily = "2014-03-12", instantaneous = "01:15\tEDT")
+
+    # print results
+    _print_test_info(actual, expected)
+
+def test_read_file_in():
+    """ Test read_file_in() functionality"""
+
+    print("--- Testing read_file_in() ---")
+
+    # create test data
+    fixture = _create_test_data()
+
+    # expected values
+    expected = {"date_retrieved": "2014-03-11 08:40:40",
+                "gage_name": "USGS 03401385 DAVIS BRANCH AT HIGHWAY 988 NEAR MIDDLESBORO, KY",
+                "column_names": ["agency_cd", "site_no", "datetime", "tz_cd", "02_00065", "02_00065_cd", "03_00010", "03_00010_cd", "04_00300", "04_00300_cd", "05_00400", "05_00400_cd", "06_00095", "06_00095_cd", "07_63680", "07_63680_cd"],
+                "timestep": "instantaneous",
+                "dates": [datetime.datetime(2013, 6, 6, 0, 0), datetime.datetime(2013, 6, 6, 0, 15), datetime.datetime(2013, 6, 6, 0, 30),
+                          datetime.datetime(2013, 6, 6, 0, 45), datetime.datetime(2013, 6, 6, 1, 0)],
+                "stage_data": fixture["parameters"][0],
+                "temperature_data": fixture["parameters"][1],
+                "dissolvedoxygen_data": fixture["parameters"][2],
+                "ph_data": fixture["parameters"][3],
+                "conductance_data": fixture["parameters"][4],
+                "turbidity_data": fixture["parameters"][5]
+    }
+    
+    # read file to get actual values
+    fileobj = StringIO(fixture["data_file"])
+    data = read_file_in(fileobj)
+    
+    # actual data
+    actual = {"date_retrieved": data["date_retrieved"],
+              "gage_name": data["gage_name"],
+              "column_names": data["column_names"],
+              "timestep": data["timestep"],
+              "dates": data["dates"],
+              "stage_data": data["parameters"][0],
+              "temperature_data": data["parameters"][1],
+              "dissolvedoxygen_data": data["parameters"][2],
+              "ph_data": data["parameters"][3],
+              "conductance_data": data["parameters"][4],
+              "turbidity_data": data["parameters"][5]
+    }
+
+    # print results
+    _print_test_info(actual, expected)
 
 def main():
     """ Test functionality of reading files """
