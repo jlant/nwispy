@@ -17,6 +17,8 @@ import re
 import urllib
 import urllib2
 from StringIO import StringIO
+import numpy as np
+import datetime
 
 def read_webrequest(filepath):
     """    
@@ -168,95 +170,123 @@ def download_file(user_parameters_url, data_type, filename, file_destination):
     outputfile = os.path.join(file_destination, filename)        
     with open(outputfile, "wb") as f:
         f.write(response.read())        
-        
-def test_read_webrequest_in():
-    """ Test functionality of read_webrequest_in"""
-    
-    print("--- Testing read_webrequest_in() ---")    
-    
+
+def _create_test_data():
+    """ Create test data for tests """
+
     fixture = {}
     fixture["data file"] = \
     """    
         # data_type	site_num	start_date	end_date	parameters
         dv	03284000	2014-01-01	2014-03-10	00060	00065  
         iv	03375000	2014-02-12	2014-02-19	00010	00045	00060  
-    """       
+    """ 
 
+    fixture["request_0"] = {"end date": "2014-01-15", 
+                            "data type": "dv", 
+                            "start date": "2014-01-01", 
+                            "parameters": ["00060"], 
+                            "site number": "03284000"}
+
+    fixture["request_1"] = {"end date": "2014-01-15", 
+                            "data type": "dv", 
+                            "start date": "2014-01-01", 
+                            "parameters": ["00060", "00065"], 
+                            "site number": "03284000"}
+
+    fixture["request_2"] = {"end date": "2014-02-19", 
+                            "data type": "dv", 
+                            "start date": "2014-02-12", 
+                            "parameters": ["00060", "00065", "00045"], 
+                            "site number": "03284000"}
+                          
+    fixture["request_3"] = {"data type": "",
+                            "site number": "",
+                            "start date": "",
+                            "end date": "",
+                            "parameters": "",
+                            "site number": ""} 
+
+    return fixture
+
+def _print_test_info(expected, actual):
+    """   
+    For testing purposes, assert that all expected values and actual values match. 
+    Prints assertion error when there is no match.  Prints values to user to scan
+    if interested. Helps a lot for debugging. This function mirrors what is done
+    in nosetests.
+    
+    Parameters
+    ----------
+    expected : dictionary  
+        Dictionary holding expected data values
+    actual : dictionary
+        Dictionary holding expected data values
+    """
+    for key in actual.keys():
+        np.testing.assert_equal(actual[key], expected[key], err_msg = "For key * {} *, actual value(s) * {} * do not equal expected value(s) * {} *".format(key, actual[key], expected[key]))        
+
+        print("*{}*".format(key))                     
+        print("    actual:   {}".format(actual[key]))  
+        print("    expected: {}\n".format(expected[key]))
+        
+def test_read_webrequest_in():
+    """ Test read_webrequest_in() """
+    
+    print("--- Testing read_webrequest_in() ---")          
+
+    # expected data
+    expected = {"dv": {"data type": "dv",
+                       "site number": "03284000",
+                       "start date": "2014-01-01",
+                       "end date": "2014-03-10",
+                       "parameters": ["00060", "00065"]},
+    
+                "iv": {"data type": "iv",
+                       "site number": "03375000",
+                       "start date": "2014-02-12",
+                       "end date": "2014-02-19",
+                       "parameters": ["00010", "00045", "00060"]},    
+    }
+
+    # create test data
+    fixture = _create_test_data()
+    
     fileobj = StringIO(fixture["data file"])
     
     data = read_webrequest_in(fileobj)
 
-    print("*Number of requests*\n    expected : actual")
-    print("    2 : {}".format(len(data["requests"])))
-    print("")
-    
-    print("*Data type*\n    expected : actual")
-    print("    dv : {}".format(data["requests"][0]["data type"]))
-    print("    iv : {}".format(data["requests"][1]["data type"]))
-    print("")
-    print("*Site number*\n    expected : actual")
-    print("    03284000 : {}".format(data["requests"][0]["site number"]))
-    print("    03375000 : {}".format(data["requests"][1]["site number"]))       
-    print("")
-    print("*Start date*\n    expected : actual")
-    print("    2014-01-01 : {}".format(data["requests"][0]["start date"]))
-    print("    2014-02-12 : {}".format(data["requests"][1]["start date"]))       
-    print("")    
-    print("*End date*\n    expected : actual")
-    print("    2014-03-10 : {}".format(data["requests"][0]["end date"]))
-    print("    2014-02-19 : {}".format(data["requests"][1]["end date"]))       
-    print("") 
-    print("*Parameters*\n    expected : actual")
-    print("    ['00060', '00065'] : {}".format(data["requests"][0]["parameters"]))
-    print("    ['00010', '00045', '00060'] : {}".format(data["requests"][1]["parameters"]))       
-    print("") 
+    # actual data
+    actual = {"dv": data["requests"][0], "iv": data["requests"][1]}
+
+    # print results
+    _print_test_info(actual, expected)
     
 def test_encode_url():
-    """ Test functionality of encode_url """
+    """ Test encode_url() """
     
     print("--- Testing encode_url() ---")  
-        
-    data_requests = [
-        {"end date": "2014-01-15", 
-        "data type": "dv", 
-        "start date": "2014-01-01", 
-        "parameters": ["00060"], 
-        "site number": "03284000"
-        }, 
-        {"end date": "2014-01-15", 
-        "data type": "dv", 
-        "start date": "2014-01-01", 
-        "parameters": ["00060", "00065"], 
-        "site number": "03284000"
-        }, 
-        {"end date": "2014-02-19", 
-        "data type": "iv", 
-        "start date": "2014-02-12", 
-        "parameters": ["00060", "00065", "00045"], 
-        "site number": "03284000"
-        },
-        {"data type": "",
-        "site number": "",
-        "start date": "",
-        "end date": "",
-        "parameters": "", 
-        }
-    ]
 
-    request_url = []    
-    for request in data_requests:    
-        request_url.append(encode_url(request))
+    # expected data
+    expected = {}
+    expected["request_0"] = "parameterCD=00060&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb"
+    expected["request_1"] = "parameterCD=00060%2C00065&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb"
+    expected["request_2"] = "parameterCD=00060%2C00065%2C00045&endDt=2014-02-19&startDt=2014-02-12&site=03284000&format=rdb"
+    expected["request_3"] = "parameterCD=&endDt=&startDt=&site=&format=rdb"
 
-    print("*Encoded url 1*\n    expected : actual")
-    print("    parameterCD=00060&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[0]))
-    print("")
-    print("    parameterCD=00060%2C00065&endDt=2014-01-15&startDt=2014-01-01&site=03284000&format=rdb : \n    {}".format(request_url[1]))
-    print("")
-    print("*Encoded url 2*\n    expected : actual")
-    print("    parameterCD=00060%2C00065%2C00045&endDt=2014-02-19&startDt=2014-02-12&site=03284000&format=rdb : \n    {}".format(request_url[2]))
-    print("")
-    print("    parameterCD=&endDt=&startDt=&site=&format=rdb : \n    {}".format(request_url[3]))
-    print("")
+    # create test data        
+    fixture = _create_test_data()
+
+    # actual data
+    actual = {}
+    actual["request_0"] = encode_url(fixture["request_0"])
+    actual["request_1"] = encode_url(fixture["request_1"])
+    actual["request_2"] = encode_url(fixture["request_2"])
+    actual["request_3"] = encode_url(fixture["request_3"])
+    
+    # print results
+    _print_test_info(actual, expected)
+
            
 def main():
     """ Test nwispy_webservice """
